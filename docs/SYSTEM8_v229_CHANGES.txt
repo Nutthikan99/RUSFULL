@@ -1,0 +1,6 @@
+SYSTEM 8 v229
+- STEP 4 reduced/aligned to 3 user views: รายการสอบ, ตารางสอบ, ผลการสอบ.
+- STEP 4 detail keeps full granular flow in tabs: eligibility, committee, schedule, documents, result, history.
+- STEP 5 reduced from 4 sidebar items to 2: แก้ไขและตรวจสอบ, รับรองฉบับสมบูรณ์.
+- STEP 5 list/detail made clickable and functional; old 9051/9052 redirect to consolidated workflow.
+- Added shared system8-v229.css for workflow card/menu consistency.

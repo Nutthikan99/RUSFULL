@@ -1,0 +1,20 @@
+SYSTEM 2 v62 - STEP 1 + MASTER FIX
+=====================================
+STEP 1:
+- หน้าแรกเป็นรายการขอบเขตที่สร้างแล้ว
+- เพิ่ม Filter คณะ / สาขา / หลักสูตร-Version
+- แสดงแผน/กลุ่มในรายการ
+- สถานะใช้เฉพาะ ใช้งาน / ปิดการใช้งาน
+- สร้าง Scope แบบ Cascading
+- Preview Course Offering / Section / Instructor / Registration Roster จาก SYSTEM 1
+- ข้อมูล Transaction จาก SYSTEM 1 เป็น Read-only ใน SYSTEM 2
+- แก้ได้เฉพาะสถานะการใช้งานและหมายเหตุ Scope
+- เพิ่มประวัติ Sync/การเปลี่ยนแปลง
+- ตัด Generic Modal/ปุ่มที่ไม่เกี่ยวข้องออกจาก STEP 1
+
+MASTER:
+- Master ประจำระบบ = เฉพาะ Rule/Configuration ของ SYSTEM 2
+- Master ส่วนกลาง = ใช้กลุ่มกลางเพียง 1 ชุดจาก /master/
+- ตัด Master ส่วนกลางที่อ้างผิดไป system1/master ออกจาก SYSTEM 2
+- การตั้งค่าระบบแยกออกจาก Master
+- Workflow อนุมัติไม่ Hard-code ตำแหน่ง

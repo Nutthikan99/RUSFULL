@@ -1,0 +1,9 @@
+SYSTEM 7 v196 — ระบบสหกิจศึกษา
+
+- ปรับโครง 14 STEP → 8 STEP ตาม Pattern SYSTEM 1–6/9
+- เพิ่มเมนูสอบสัมภาษณ์แยกชัดเจน และผลสัมภาษณ์+การจับคู่
+- สถานประกอบการกำหนดคุณสมบัตินักศึกษา/ตำแหน่ง/จำนวนรับได้
+- รองรับรับนักศึกษาเกินจำนวนประกาศ โดยเก็บ Original quota, Actual accepted, Reason, Actor, Timestamp/Audit
+- เพิ่มประวัติสหกิจศึกษาแบบ End-to-End
+- ใช้ List/Work Queue → Detail → Action → Result/History
+- Dashboard STEP 8 เพิ่ม KPI/Visualization/Drill-down concept

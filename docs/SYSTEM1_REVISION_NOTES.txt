@@ -1,0 +1,23 @@
+SYSTEM 1 — Prototype Revision
+Date: 2026-08-11
+
+หลักการที่แก้ไข:
+1) Master หลักสูตรกลาง รองรับหลายระดับ หลายคณะ หลายสาขา หลายศูนย์ หลาย Version และภาคปกติ/สมทบ
+2) แยก Course Master ออกจาก Course-in-Curriculum / Course Offering
+3) เพิ่ม Curriculum Version, Master รูปแบบเกรด, Curriculum Mapping / Learning Outcome
+4) Study Plan ผูกกับ Curriculum Version
+5) Section รองรับรายวิชาเดียวเปิดหลายศูนย์/หลาย Section
+6) ปฏิทินการศึกษาและค่าใช้จ่ายเป็น Rule กลาง
+7) QR/Pay-In มีวันหมดอายุ สร้างใหม่พร้อมคำนวณสิทธิ์/ค่าปรับใหม่ และเก็บ Audit Trail
+8) Validation เชื่อม Curriculum, Prerequisite, Calendar, Capacity และสถานะนักศึกษา
+
+ไฟล์เพิ่ม: 2028.html, 2029.html
+ไฟล์ปรับหลัก: 2000, 2010, 2012, 2020-2027, 2030, 2080, 2100_reissue, 2120, rus-nav.js
+
+
+V3 MENU ORDER REVISION (ตามคำสั่งกรรมการ/ผู้ใช้)
+- Workflow หลัก SYSTEM 1 ใช้ STEP 1–14 เท่านั้น
+- รวมปฏิทินการศึกษาและปฏิทินค่าใช้จ่ายไว้ภายใต้ STEP 1
+- MASTER DATA ย้ายไปอยู่หลัง STEP 14 ใน Sidebar
+- รายงานและ Dashboard แยกออกจากลำดับ STEP (ไม่ใช่ STEP 15)
+- คงรายละเอียด Prototype ที่แก้ตาม Comment ก่อนหน้าไว้

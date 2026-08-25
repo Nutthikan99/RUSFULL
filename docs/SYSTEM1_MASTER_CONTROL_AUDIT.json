@@ -1,0 +1,464 @@
+[
+  {
+    "file": "2010_activities.html",
+    "control": "select",
+    "label": "ประเภทกิจกรรม * MASTER",
+    "id": "aName"
+  },
+  {
+    "file": "2010_add.html",
+    "control": "select",
+    "label": "ปีการศึกษา *",
+    "id": "academicYear"
+  },
+  {
+    "file": "2010_add.html",
+    "control": "select",
+    "label": "ภาคการศึกษา *",
+    "id": "semester"
+  },
+  {
+    "file": "2010_add.html",
+    "control": "select",
+    "label": "กลุ่มนักศึกษา",
+    "id": "studentGroup"
+  },
+  {
+    "file": "2010_add.html",
+    "control": "select",
+    "label": "คณะ",
+    "id": "faculty"
+  },
+  {
+    "file": "2010_add.html",
+    "control": "select",
+    "label": "ศูนย์การศึกษา",
+    "id": "campus"
+  },
+  {
+    "file": "2010_add.html",
+    "control": "select",
+    "label": "สถานะปฏิทิน *",
+    "id": "calendarStatus"
+  },
+  {
+    "file": "2010_add.html",
+    "control": "select",
+    "label": "ประเภทกิจกรรม * MASTER",
+    "id": "actType"
+  },
+  {
+    "file": "2010_info_edit.html",
+    "control": "select",
+    "label": "ปีการศึกษา *",
+    "id": "iYear"
+  },
+  {
+    "file": "2010_info_edit.html",
+    "control": "select",
+    "label": "ภาคการศึกษา *",
+    "id": "iSem"
+  },
+  {
+    "file": "2010_info_edit.html",
+    "control": "select",
+    "label": "กลุ่มนักศึกษา",
+    "id": "iGroup"
+  },
+  {
+    "file": "2010_info_edit.html",
+    "control": "select",
+    "label": "คณะ",
+    "id": "iFaculty"
+  },
+  {
+    "file": "2010_info_edit.html",
+    "control": "select",
+    "label": "ศูนย์การศึกษา",
+    "id": "iCampus"
+  },
+  {
+    "file": "2010_info_edit.html",
+    "control": "select",
+    "label": "สถานะปฏิทิน",
+    "id": "iStatus"
+  },
+  {
+    "file": "2012.html",
+    "control": "select",
+    "label": "ปีการศึกษา",
+    "id": ""
+  },
+  {
+    "file": "2012.html",
+    "control": "select",
+    "label": "ภาคการศึกษา",
+    "id": ""
+  },
+  {
+    "file": "2012_add.html",
+    "control": "select",
+    "label": "ปีการศึกษา",
+    "id": ""
+  },
+  {
+    "file": "2012_add.html",
+    "control": "select",
+    "label": "ภาคการศึกษา",
+    "id": ""
+  },
+  {
+    "file": "2012_edit.html",
+    "control": "select",
+    "label": "สถานะ",
+    "id": ""
+  },
+  {
+    "file": "2020_add.html",
+    "control": "select",
+    "label": "คณะ",
+    "id": "faculty"
+  },
+  {
+    "file": "2020_add.html",
+    "control": "select",
+    "label": "สาขาวิชา/ภาควิชา",
+    "id": "dept"
+  },
+  {
+    "file": "2020_edit.html",
+    "control": "select",
+    "label": "สถานะ *",
+    "id": "status"
+  },
+  {
+    "file": "2020_edit.html",
+    "control": "text",
+    "label": "ชื่อโครงสร้างหลักสูตร *",
+    "id": "name"
+  },
+  {
+    "file": "2020_edit.html",
+    "control": "select",
+    "label": "หลักสูตร *",
+    "id": "program"
+  },
+  {
+    "file": "2021.html",
+    "control": "text",
+    "label": "รหัสหลักสูตร",
+    "id": "pcode"
+  },
+  {
+    "file": "2021.html",
+    "control": "text",
+    "label": "ชื่อหลักสูตร",
+    "id": "pname"
+  },
+  {
+    "file": "2021.html",
+    "control": "select",
+    "label": "สาขาวิชา",
+    "id": ""
+  },
+  {
+    "file": "2021.html",
+    "control": "select",
+    "label": "ระดับ",
+    "id": ""
+  },
+  {
+    "file": "2021.html",
+    "control": "number",
+    "label": "ฉบับหลักสูตร พ.ศ.",
+    "id": ""
+  },
+  {
+    "file": "2021.html",
+    "control": "select",
+    "label": "ศูนย์ที่เปิดสอน",
+    "id": ""
+  },
+  {
+    "file": "2021.html",
+    "control": "select",
+    "label": "ภาคการศึกษา",
+    "id": ""
+  },
+  {
+    "file": "2022.html",
+    "control": "select",
+    "label": "หลักสูตร",
+    "id": ""
+  },
+  {
+    "file": "2022.html",
+    "control": "select",
+    "label": "ฉบับหลักสูตร (พ.ศ.)",
+    "id": ""
+  },
+  {
+    "file": "2022.html",
+    "control": "select",
+    "label": "ศูนย์",
+    "id": ""
+  },
+  {
+    "file": "2022.html",
+    "control": "select",
+    "label": "หลักสูตร",
+    "id": ""
+  },
+  {
+    "file": "2023.html",
+    "control": "text",
+    "label": "รหัสกลุ่มวิชา *",
+    "id": "gCode"
+  },
+  {
+    "file": "2023.html",
+    "control": "select",
+    "label": "หมวดวิชา *",
+    "id": "gCategory"
+  },
+  {
+    "file": "2023.html",
+    "control": "text",
+    "label": "ชื่อกลุ่มวิชา (ไทย) *",
+    "id": "gNameTh"
+  },
+  {
+    "file": "2023.html",
+    "control": "text",
+    "label": "ชื่อกลุ่มวิชา (อังกฤษ)",
+    "id": "gNameEn"
+  },
+  {
+    "file": "2023.html",
+    "control": "select",
+    "label": "สถานะ *",
+    "id": "gStatus"
+  },
+  {
+    "file": "2024.html",
+    "control": "select",
+    "label": "กลุ่มวิชา *",
+    "id": "tGroup"
+  },
+  {
+    "file": "2024.html",
+    "control": "select",
+    "label": "สถานะ",
+    "id": "tStatus"
+  },
+  {
+    "file": "2025.html",
+    "control": "select",
+    "label": "สถานะ *",
+    "id": "sStatus"
+  },
+  {
+    "file": "2025.html",
+    "control": "select",
+    "label": "หมวดวิชา *",
+    "id": "sCategory"
+  },
+  {
+    "file": "2025.html",
+    "control": "select",
+    "label": "กลุ่มวิชา *",
+    "id": "sGroup"
+  },
+  {
+    "file": "2025.html",
+    "control": "select",
+    "label": "ประเภทวิชา *",
+    "id": "sType"
+  },
+  {
+    "file": "2025.html",
+    "control": "select",
+    "label": "รูปแบบการให้เกรด",
+    "id": "sGrade"
+  },
+  {
+    "file": "2026.html",
+    "control": "select",
+    "label": "หลักสูตร / Version",
+    "id": ""
+  },
+  {
+    "file": "2026.html",
+    "control": "select",
+    "label": "ศูนย์ / ภาค",
+    "id": ""
+  },
+  {
+    "file": "2026.html",
+    "control": "select",
+    "label": "สถานะ",
+    "id": ""
+  },
+  {
+    "file": "2027.html",
+    "control": "select",
+    "label": "คณะ",
+    "id": "faculty"
+  },
+  {
+    "file": "2027.html",
+    "control": "select",
+    "label": "หลักสูตร",
+    "id": "program"
+  },
+  {
+    "file": "2027.html",
+    "control": "select",
+    "label": "ฉบับหลักสูตร พ.ศ.",
+    "id": "version"
+  },
+  {
+    "file": "2027.html",
+    "control": "select",
+    "label": "ชั้นปีที่กำลังจัด",
+    "id": "year"
+  },
+  {
+    "file": "2029.html",
+    "control": "select",
+    "label": "หลักสูตร / Version",
+    "id": ""
+  },
+  {
+    "file": "2030_add.html",
+    "control": "select",
+    "label": "อาจารย์ผู้สอน *",
+    "id": ""
+  },
+  {
+    "file": "2030_add.html",
+    "control": "text",
+    "label": "ห้องเรียน",
+    "id": ""
+  },
+  {
+    "file": "2030_add.html",
+    "control": "select",
+    "label": "ศูนย์พื้นที่",
+    "id": ""
+  },
+  {
+    "file": "2030_edit.html",
+    "control": "select",
+    "label": "อาจารย์ผู้สอน *",
+    "id": ""
+  },
+  {
+    "file": "2030_edit.html",
+    "control": "text",
+    "label": "ห้องเรียน",
+    "id": ""
+  },
+  {
+    "file": "2030_edit.html",
+    "control": "select",
+    "label": "ศูนย์พื้นที่",
+    "id": ""
+  },
+  {
+    "file": "2090_detail.html",
+    "control": "textarea",
+    "label": "ความเห็นอาจารย์ที่ปรึกษา",
+    "id": ""
+  },
+  {
+    "file": "2100_reissue.html",
+    "control": "select",
+    "label": "ปีการศึกษา",
+    "id": ""
+  },
+  {
+    "file": "2100_reissue.html",
+    "control": "select",
+    "label": "ภาคการศึกษา",
+    "id": ""
+  },
+  {
+    "file": "2100_reissue.html",
+    "control": "select",
+    "label": "สถานะ",
+    "id": ""
+  },
+  {
+    "file": "2110_evidence.html",
+    "control": "select",
+    "label": "ปีการศึกษา",
+    "id": ""
+  },
+  {
+    "file": "2110_evidence.html",
+    "control": "select",
+    "label": "ภาคการศึกษา",
+    "id": ""
+  },
+  {
+    "file": "2110_evidence.html",
+    "control": "select",
+    "label": "สถานะ",
+    "id": ""
+  },
+  {
+    "file": "2120_reissue.html",
+    "control": "select",
+    "label": "ปีการศึกษา",
+    "id": ""
+  },
+  {
+    "file": "2120_reissue.html",
+    "control": "select",
+    "label": "ภาคการศึกษา",
+    "id": ""
+  },
+  {
+    "file": "2120_reissue.html",
+    "control": "select",
+    "label": "สถานะ",
+    "id": ""
+  },
+  {
+    "file": "2130_request.html",
+    "control": "select",
+    "label": "ปีการศึกษา",
+    "id": ""
+  },
+  {
+    "file": "2130_request.html",
+    "control": "select",
+    "label": "ภาคการศึกษา",
+    "id": ""
+  },
+  {
+    "file": "2130_request.html",
+    "control": "select",
+    "label": "สถานะ",
+    "id": ""
+  },
+  {
+    "file": "2140_documents.html",
+    "control": "select",
+    "label": "ปีการศึกษา",
+    "id": ""
+  },
+  {
+    "file": "2140_documents.html",
+    "control": "select",
+    "label": "ภาคการศึกษา",
+    "id": ""
+  },
+  {
+    "file": "2140_documents.html",
+    "control": "select",
+    "label": "สถานะ",
+    "id": ""
+  }
+]

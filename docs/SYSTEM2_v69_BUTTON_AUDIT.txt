@@ -1,0 +1,25 @@
+SYSTEM 2 v69 — STEP 1/2 Button Audit
+
+PASS | 3010.html | ค้นหา | scopeSearchBtn | id-handler
+PASS | 3010_create.html | ตรวจสอบข้อมูลในขอบเขต | checkScopeBtn | id-handler
+PASS | 3010_create.html | ดูรายการ | - | data-open
+PASS | 3010_create.html | ดูรายการ | - | data-open
+PASS | 3010_create.html | ดูรายการ | - | data-open
+PASS | 3010_create.html | ดูรายการ | - | data-open
+PASS | 3010_create.html | บันทึกขอบเขตการประมวลผล | saveScopeBtn | id-handler
+PASS | 3010_manage.html | บันทึกสถานะและหมายเหตุ | saveScopeManage | id-handler
+PASS | 3020.html | ค้นหา | scoreSearchBtn | id-handler
+PASS | 3020_create.html | + เพิ่มองค์ประกอบคะแนน | addRow | id-handler
+PASS | 3020_create.html | บันทึกโครงสร้างคะแนน | saveBtn | id-handler
+PASS | 3020_create.html | ลบ | - | class-handler
+PASS | 3020_manage.html | แก้ไขโครงสร้างหลัก | editCourse | id-handler
+PASS | 3020_manage.html | สร้างโครงสร้างเฉพาะ Section | - | class-handler
+PASS | 3020_manage.html | แก้ไขโครงสร้าง Section | - | class-handler
+PASS | 3020_manage.html | กลับไปใช้โครงสร้างหลัก | - | class-handler
+PASS | 3020_manage.html | สร้างโครงสร้างเฉพาะ Section | - | class-handler
+PASS | 3020_manage.html | + เพิ่มองค์ประกอบ | eadd | id-handler
+PASS | 3020_manage.html | บันทึกการแก้ไข | esave | id-handler
+PASS | 3020_manage.html | ลบ | - | class-handler
+PASS | 3020_manage.html | ลบ | - | class-handler
+
+Broken href/src: 0

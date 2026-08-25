@@ -1,0 +1,11 @@
+SYSTEM 2 v70 — STEP 3
+- เปลี่ยนหน้าแรกเป็นรายการสถานะคะแนนระหว่างภาค
+- รับ Score Structure จาก STEP 2 และรองรับ Section Override
+- Context: Scope → รายวิชา → Section → องค์ประกอบคะแนน
+- Roster เป็นข้อมูลจากนักศึกษาที่ลงทะเบียนของ Section
+- บันทึก/แก้ไขคะแนนได้หลายครั้ง
+- ตรวจคะแนนเกิน Max Score
+- แสดงกรอกแล้ว/ทั้งหมด/คงเหลือ
+- Import Excel/CSV + Export CSV มี interaction
+- แยกรายงานความครบถ้วนเป็น 3030_report.html
+- ไม่รวม Final / Grade / I-W / Approval ใน STEP 3

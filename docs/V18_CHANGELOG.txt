@@ -1,0 +1,10 @@
+SYSTEM 1 v18 - Master/Data Control Audit
+
+- ตรวจและปรับหลักการ UI: ข้อมูลจาก MASTER SYSTEM 1 = Dropdown/Multi-select; SYSTEM STATUS = Dropdown; System Constant = Dropdown; Transaction = Input
+- STEP 1.1 หน้าแก้ไขข้อมูลปฏิทิน: ปี/ภาค/กลุ่มนักศึกษา/ระดับ/รูปแบบ/คณะ/ศูนย์/หลักสูตร/สาขา/สถานะ เชื่อม Master/Status
+- แยกกลุ่มเรียนเป็น Transaction input
+- ปีที่เข้าศึกษาเปลี่ยนเป็น Condition + ปีจาก Master
+- หน้าเพิ่มปฏิทินใช้ Master control ชุดเดียวกัน
+- หน้ากำหนดกิจกรรมเปลี่ยนกิจกรรมเป็น Master dropdown + อื่น ๆ
+- ขยาย Master ระดับการศึกษาและคณะตามตัวอย่างเอกสารจริง; เพิ่มนักศึกษาเดิมในกลุ่มเป้าหมายปฏิทิน
+- ปรับ rus-master-integration.js ให้รู้จัก กลุ่มนักศึกษา/รูปแบบการศึกษา/ประเภทเอกสาร/ประเภทกิจกรรม
