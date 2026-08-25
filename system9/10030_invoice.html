@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ใบแจ้งหนี้ค่าสมัคร — SYSTEM 9</title>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#174a8b;--line:#cbd5e1;--soft:#f4f7fb;--text:#172033}
+*{box-sizing:border-box}body{margin:0;background:#eef3f9;color:var(--text);font-family:Kanit,Arial,sans-serif}.toolbar{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);padding:12px 20px;display:flex;justify-content:space-between;gap:12px}.btn{border:0;border-radius:8px;padding:10px 16px;font:600 15px Kanit;cursor:pointer}.primary{background:var(--blue);color:#fff}.secondary{background:#e9f1fb;color:var(--blue)}.sheet{width:min(900px,calc(100% - 32px));margin:24px auto;background:#fff;padding:34px 38px;box-shadow:0 4px 20px #00000012}.head{display:flex;justify-content:space-between;gap:24px;border-bottom:3px solid var(--blue);padding-bottom:18px}.brand{display:flex;gap:14px;align-items:center}.mark{width:58px;height:58px;border-radius:10px;background:#fbbf24;display:grid;place-items:center;color:#143d72;font-weight:700;font-size:20px}.title h1{margin:0;color:var(--blue);font-size:26px}.title p{margin:3px 0 0;color:#64748b}.invoice-meta{text-align:right}.invoice-meta b{font-size:20px;color:var(--blue)}.status{display:inline-block;margin-top:6px;padding:4px 10px;border-radius:20px;background:#fff3cd;color:#8a5a00;font-weight:600}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px}.box{border:1px solid var(--line);border-radius:10px;padding:16px}.box h3{margin:0 0 12px;color:var(--blue);font-size:17px}.row{display:grid;grid-template-columns:160px 1fr;gap:10px;padding:5px 0}.row .k{color:#64748b}.amount{font-size:30px;font-weight:700;color:var(--blue)}.paybox{margin-top:20px;border:2px solid var(--blue);border-radius:12px;padding:18px}.paybox h2{margin:0 0 14px;color:var(--blue);font-size:20px}.paygrid{display:grid;grid-template-columns:1.2fr .8fr;gap:22px}.ref{background:var(--soft);border:1px solid #dbe6f3;border-radius:8px;padding:12px;margin:8px 0}.ref b{font-size:18px}.qr{width:180px;height:180px;border:8px solid #fff;box-shadow:0 0 0 1px #94a3b8;margin:auto;background:#fff;display:grid;grid-template-columns:repeat(21,1fr);grid-template-rows:repeat(21,1fr)}.qr i{background:#111}.qrlabel{text-align:center;margin-top:8px;font-size:13px;color:#64748b}.barcode{height:64px;margin-top:18px;display:flex;align-items:stretch;gap:2px;padding:8px;border:1px solid #94a3b8;background:#fff}.barcode span{background:#111}.barcode-text{text-align:center;font-family:monospace;font-size:13px;letter-spacing:1px;margin-top:5px}.instructions{margin-top:18px;border-top:1px dashed #94a3b8;padding-top:15px}.instructions ol{margin:8px 0 0;padding-left:22px}.foot{margin-top:26px;border-top:1px solid var(--line);padding-top:12px;font-size:12px;color:#64748b;display:flex;justify-content:space-between}.proto-note{margin-top:12px;padding:8px 10px;border-radius:6px;background:#fff7ed;color:#9a3412;font-size:12px}
+@media(max-width:700px){.grid,.paygrid{grid-template-columns:1fr}.head{flex-direction:column}.invoice-meta{text-align:left}.sheet{padding:22px}.row{grid-template-columns:125px 1fr}}
+@media print{body{background:#fff}.toolbar{display:none}.sheet{width:100%;margin:0;box-shadow:none;padding:14mm}.proto-note{display:none}@page{size:A4;margin:0}}
+</style>
+</head>
+<body>
+<div class="toolbar"><button class="btn secondary" onclick="window.close()">ปิดใบแจ้งหนี้</button><button class="btn primary" onclick="window.print()">พิมพ์ / บันทึกเป็น PDF</button></div>
+<div class="sheet">
+  <div class="head">
+    <div class="brand"><div class="mark">RUS</div><div class="title"><h1>ใบแจ้งหนี้ค่าสมัคร</h1><p>ระบบรับสมัครและรายงานตัวนักศึกษา · มหาวิทยาลัยเทคโนโลยีราชมงคลสุวรรณภูมิ</p></div></div>
+    <div class="invoice-meta"><div>เลขที่ใบแจ้งหนี้</div><b id="invoiceNo">INV-69-000124</b><br><span class="status">รอชำระ</span></div>
+  </div>
+  <div class="grid">
+    <div class="box"><h3>ข้อมูลผู้สมัคร</h3><div class="row"><div class="k">เลขใบสมัคร</div><b id="appNo">A69000124</b></div><div class="row"><div class="k">ชื่อ-นามสกุล</div><span id="appName">กมลชนก วัฒนชัย</span></div><div class="row"><div class="k">รอบรับสมัคร</div><span id="round">Portfolio รอบ 1</span></div><div class="row"><div class="k">หลักสูตร</div><span id="program">บช.บ. การบัญชี</span></div></div>
+    <div class="box"><h3>รายละเอียดค่าธรรมเนียม</h3><div class="row"><div class="k">รายการ</div><span>ค่าสมัครเข้าศึกษา</span></div><div class="row"><div class="k">วันที่ออก</div><span>10 ส.ค. 2569</span></div><div class="row"><div class="k">ครบกำหนด</div><b id="due">20 ส.ค. 2569</b></div><div class="row"><div class="k">ยอดชำระ</div><div class="amount"><span id="amount">500.00</span> บาท</div></div></div>
+  </div>
+  <div class="paybox">
+    <h2>ข้อมูลสำหรับชำระเงิน</h2>
+    <div class="paygrid">
+      <div>
+        <div class="ref">Payment Reference<br><b id="payRef">PAY-69-000124</b></div>
+        <div class="ref">Ref.1 — รหัสสาขา/หลักสูตร<br><b id="ref1">1001</b></div>
+        <div class="ref">Ref.2 — เลขประชาชน/Passport<br><b id="ref2">1101700203456</b></div>
+        <div class="barcode" id="barcode"></div><div class="barcode-text" id="barcodeText">| 1001 | 1101700203456 | 50000 |</div>
+      </div>
+      <div><div class="qr" id="qr"></div><div class="qrlabel">PromptPay QR / Payment Gateway<br>สแกนจากหน้าชำระเงินของระบบ</div></div>
+    </div>
+    <div class="instructions"><b>ช่องทางที่รองรับ</b><ol><li>PromptPay QR / Payment Gateway</li><li>ชำระผ่านธนาคารโดยใช้ Ref.1 และ Ref.2</li><li>Counter Service โดยแสดงใบแจ้งหนี้ฉบับนี้</li></ol></div>
+  </div>
+  <div class="proto-note">Prototype: รูปแบบใบแจ้งหนี้พร้อมพิมพ์นี้ใช้ข้อมูลตัวอย่าง การชำระเงินจริงต้องเชื่อม Payment Provider/บัญชีรับเงินจริงของมหาวิทยาลัยก่อนใช้งาน Production</div>
+  <div class="foot"><span>กรุณาชำระภายในวันครบกำหนด และเก็บหลักฐานการชำระเงินไว้</span><span id="generated">พิมพ์จากระบบ SYSTEM 9</span></div>
+</div>
+<script>
+const data={
+ A69000124:{name:'กมลชนก วัฒนชัย',round:'Portfolio รอบ 1',program:'บช.บ. การบัญชี',amount:'500.00',invoice:'INV-69-000124',payRef:'PAY-69-000124',ref1:'1001',ref2:'1101700203456',due:'20 ส.ค. 2569'},
+ A69000125:{name:'ธนภัทร ศรีสุข',round:'รับตรง',program:'บธ.บ. การจัดการ',amount:'500.00',invoice:'INV-69-000125',payRef:'PAY-69-000125',ref1:'2004',ref2:'1101700207788',due:'20 ส.ค. 2569'},
+ A69000126:{name:'Li Ming',round:'บัณฑิตศึกษา',program:'วศ.ม. วิศวกรรมไฟฟ้า',amount:'1,000.00',invoice:'INV-69-000126',payRef:'PAY-69-000126',ref1:'G015',ref2:'PP889211',due:'22 ส.ค. 2569'}
+};
+const app=new URLSearchParams(location.search).get('app')||'A69000124',r=data[app]||data.A69000124;
+const set=(id,v)=>document.getElementById(id).textContent=v;set('appNo',app);set('appName',r.name);set('round',r.round);set('program',r.program);set('amount',r.amount);set('invoiceNo',r.invoice);set('payRef',r.payRef);set('ref1',r.ref1);set('ref2',r.ref2);set('due',r.due);
+const cents=String(Math.round(parseFloat(r.amount.replace(',',''))*100));set('barcodeText','| '+r.ref1+' | '+r.ref2+' | '+cents+' |');
+// local deterministic visual code so the prototype works offline; production must replace with provider-generated barcode/QR
+const seed=(app+r.ref1+r.ref2+cents);let bits='';for(let i=0;i<seed.length;i++){bits+=(seed.charCodeAt(i).toString(2).padStart(8,'0'))}const bc=document.getElementById('barcode');for(let i=0;i<95;i++){const s=document.createElement('span');s.style.width=((bits.charCodeAt(i%bits.length)%3)+1)+'px';s.style.background=bits[i%bits.length]==='1'?'#111':'transparent';bc.appendChild(s)}
+const q=document.getElementById('qr');for(let i=0;i<441;i++){const e=document.createElement('i');const x=i%21,y=Math.floor(i/21);const finder=(x<7&&y<7)||(x>13&&y<7)||(x<7&&y>13);const dark=finder?((x%6<5&&y%6<5)&&(x%6===0||x%6===4||y%6===0||y%6===4||((x%6>=2&&x%6<=3)&&(y%6>=2&&y%6<=3)))):bits[(i*7)%bits.length]==='1';if(!dark)e.style.background='transparent';q.appendChild(e)}
+</script>
+</body></html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>STEP 2 รับสมัครและข้อมูลผู้สมัคร — ระบบทะเบียนและประมวลผล มทร.สุวรรณภูมิ</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="../shared/system9.css" rel="stylesheet"/><link href="../shared/rus-ui-normalize.css" rel="stylesheet"/><link href="../shared/rus-sidebar-shared.css" rel="stylesheet"/></head><body><div class="app" id="app"><header class="topbar"><button aria-label="เมนู" class="menu-toggle" id="menuToggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></button><div class="brand"><div class="mark">RUS</div><div class="titles"><div class="th">ระบบทะเบียนและประมวลผล</div><div class="en">Registration System · มทร.สุวรรณภูมิ</div></div></div><div class="spacer"></div><div class="util"><button class="icon-btn" onclick="toast('ค้นหาข้อมูลผู้สมัคร')"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4-4"></path></svg></button><button class="user-chip" onclick="showUserProfile()"><div class="who"><div class="n">นางสาวกมลชนก วัฒนชัย</div><div class="r">เจ้าหน้าที่รับสมัคร · SYSTEM 9</div></div><div class="avatar">กว</div></button><a class="logout-btn" href="../logout.html">ออกจากระบบ</a></div></header><aside class="sidebar" id="sidebar"><div class="nav-section"><div class="label">ภาพรวม</div><button class="nav-parent" onclick="location.href='../main.html'"><span class="ico"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><rect height="7" width="7" x="3" y="3"></rect><rect height="7" width="7" x="14" y="3"></rect><rect height="7" width="7" x="3" y="14"></rect><rect height="7" width="7" x="14" y="14"></rect></svg></span><span class="txt">แดชบอร์ด</span></button></div><div class="nav-section"><div class="label">ระบบงาน (9 ระบบ)</div><div id="navSystems"></div></div><div class="nav-section"><div class="label">ตั้งค่า</div><button class="nav-parent" onclick="toast('เปิดเมนูผู้ใช้งานและสิทธิ์')"><span class="txt">ผู้ใช้งานและสิทธิ์</span></button></div></aside><main class="content"><div class="crumb">หน้าแรก › รับสมัครและรายงานตัว › <b>STEP 2 รับสมัครและข้อมูลผู้สมัคร</b></div><div class="page-head"><div><h1>STEP 2 รับสมัครและข้อมูลผู้สมัคร</h1><p>ติดตามใบสมัครที่ผู้สมัครยื่นเข้ามา ค้นหาและเปิดดูข้อมูลตามรอบรับสมัครและหลักสูตร</p></div></div><div class="grid4"><div class="stat"><b>1,284</b><span>ใบสมัครทั้งหมด</span></div><div class="stat"><b>1,102</b><span>ใบสมัครครบถ้วน</span></div><div class="stat"><b>126</b><span>ข้อมูลไม่ครบ</span></div><div class="stat"><b>56</b><span>รอเอกสารเพิ่มเติม</span></div></div><section class="card"><div class="card-h"><h2>รายการใบสมัคร</h2></div><div class="card-b">
+<div style="display:grid;grid-template-columns:repeat(5,minmax(150px,1fr));gap:10px;margin-bottom:10px">
+<select id="fYear"><option value="">ทุกปีการศึกษา</option><option value="2569">2569</option></select>
+<select id="fRound"><option value="">ทุกรอบรับสมัคร</option><option value="Portfolio">Portfolio</option><option value="รับตรง">รับตรง</option></select>
+<select id="fLevel"><option value="">ทุกระดับการศึกษา</option><option value="ปริญญาตรี">ปริญญาตรี</option><option value="ป.โท">ป.โท</option><option value="ป.เอก">ป.เอก</option></select>
+<select id="fFaculty" onchange="syncPrograms()"><option value="">ทุกคณะ</option><option value="บริหารธุรกิจ">คณะบริหารธุรกิจและเทคโนโลยีสารสนเทศ</option><option value="วิศวกรรม">คณะวิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์</option><option value="บัณฑิตศึกษา">บัณฑิตวิทยาลัย</option></select>
+<select id="fProgram"><option value="">ทุกสาขา/หลักสูตร</option></select>
+</div>
+<div style="display:grid;grid-template-columns:220px 220px minmax(320px,1fr) auto auto;gap:10px;margin-bottom:16px">
+<select id="fStatus"><option value="">ทุกสถานะใบสมัคร</option><option value="พร้อมชำระ">พร้อมชำระ</option><option value="รอเอกสาร">รอเอกสาร</option><option value="ข้อมูลไม่ครบ">ข้อมูลไม่ครบ</option><option value="ยกเลิก">ยกเลิก</option></select>
+<select id="fComplete"><option value="">ทุกความครบถ้วน</option><option value="complete">ครบถ้วน 100%</option><option value="incomplete">ยังไม่ครบ 100%</option></select>
+<input id="fKeyword" placeholder="เลขใบสมัคร / Applicant ID / ชื่อ-นามสกุล / เลขประชาชน"/>
+<button class="btn btn-secondary" onclick="applyFilters()">ค้นหา</button>
+<button class="btn btn-secondary" onclick="clearFilters()">ล้างตัวกรอง</button>
+</div>
+<div class="table-wrap"><table id="appTable"><tr><th>เลขใบสมัคร / Applicant ID</th><th>ผู้สมัคร</th><th>รอบ/หลักสูตร</th><th>คุณวุฒิเดิม</th><th>วันที่ยื่น</th><th>ความครบถ้วน</th><th>สถานะ</th><th>จัดการ</th></tr>
+<tr data-year="2569" data-round="Portfolio" data-level="ปริญญาตรี" data-faculty="บริหารธุรกิจ" data-program="บริหารธุรกิจบัณฑิต" data-status="รอเอกสาร" data-complete="96" data-key="A69000124 AP-000124 กมลชนก วัฒนชัย 1103700XXXXXX"><td><b>A69000124</b><br><span class="muted">AP-000124</span></td><td>กมลชนก วัฒนชัย</td><td>Portfolio / บริหารธุรกิจบัณฑิต</td><td>ม.6 · GPA 3.42</td><td>10 ส.ค. 2569</td><td>96%</td><td><span class="pill wait">รอเอกสาร</span></td><td><a class="btn btn-secondary btn-sm" href="10020_detail.html?app=A69000124">ดูข้อมูล</a></td></tr>
+<tr data-year="2569" data-round="รับตรง" data-level="ปริญญาตรี" data-faculty="วิศวกรรม" data-program="วิศวกรรมไฟฟ้า" data-status="พร้อมชำระ" data-complete="100" data-key="A69000125 AP-000125 ธนภัทร มีสุข 1103700YYYYYY"><td><b>A69000125</b><br><span class="muted">AP-000125</span></td><td>ธนภัทร มีสุข</td><td>รับตรง / วิศวกรรมไฟฟ้า</td><td>ปวส. · GPA 3.18</td><td>11 ส.ค. 2569</td><td>100%</td><td><span class="pill ok">พร้อมชำระ</span></td><td><a class="btn btn-secondary btn-sm" href="10020_detail.html?app=A69000125">ดูข้อมูล</a></td></tr>
+<tr data-year="2569" data-round="รับตรง" data-level="ป.โท" data-faculty="บัณฑิตศึกษา" data-program="บริหารธุรกิจมหาบัณฑิต" data-status="ข้อมูลไม่ครบ" data-complete="82" data-key="A69000126 AP-000126 Li Ming P1234567"><td><b>A69000126</b><br><span class="muted">AP-000126</span></td><td>Li Ming</td><td>รับตรง / บริหารธุรกิจมหาบัณฑิต</td><td>Bachelor · GPA 3.55</td><td>12 ส.ค. 2569</td><td>82%</td><td><span class="pill wait">ข้อมูลไม่ครบ</span></td><td><a class="btn btn-secondary btn-sm" href="10020_detail.html?app=A69000126">ดูข้อมูล</a></td></tr></table></div>
+<div id="filterResult" style="margin-top:10px;color:#64748b;font-size:14px">แสดงตัวอย่าง 3 รายการจากใบสมัครทั้งหมด 1,284 ราย</div>
+</div></section></main></div><div class="modal" id="modal"><div class="modal-box"><div class="modal-h"><b id="modalTitle">รายละเอียด</b><button class="x" onclick="closeModal()">×</button></div><div class="modal-b" id="modalBody"></div></div></div><script>window.ACTIVE_LEAF='STEP 2 รับสมัครและข้อมูลผู้สมัคร';</script><script src="../shared/rus-nav.js"></script><script src="../shared/system9.js"></script><script>
+const programMap={
+  'บริหารธุรกิจ':['บริหารธุรกิจบัณฑิต'],
+  'วิศวกรรม':['วิศวกรรมไฟฟ้า'],
+  'บัณฑิตศึกษา':['บริหารธุรกิจมหาบัณฑิต']
+};
+function syncPrograms(){
+  const f=document.getElementById('fFaculty'),p=document.getElementById('fProgram');
+  p.innerHTML='<option value="">ทุกสาขา/หลักสูตร</option>';
+  (programMap[f.value]||[]).forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=x;p.appendChild(o)});
+}
+function applyFilters(){
+  const vals={year:fYear.value,round:fRound.value,level:fLevel.value,faculty:fFaculty.value,program:fProgram.value,status:fStatus.value,complete:fComplete.value,key:fKeyword.value.trim().toLowerCase()};
+  let shown=0;
+  document.querySelectorAll('#appTable tr[data-year]').forEach(r=>{
+    const pct=Number(r.dataset.complete||0);
+    const ok=(!vals.year||r.dataset.year===vals.year)&&(!vals.round||r.dataset.round===vals.round)&&(!vals.level||r.dataset.level===vals.level)&&(!vals.faculty||r.dataset.faculty===vals.faculty)&&(!vals.program||r.dataset.program===vals.program)&&(!vals.status||r.dataset.status===vals.status)&&(!vals.complete||(vals.complete==='complete'?pct===100:pct<100))&&(!vals.key||(r.dataset.key||'').toLowerCase().includes(vals.key));
+    r.style.display=ok?'':'none'; if(ok) shown++;
+  });
+  filterResult.textContent='พบ '+shown+' รายการในข้อมูลตัวอย่าง';
+}
+function clearFilters(){
+  ['fYear','fRound','fLevel','fFaculty','fStatus','fComplete'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fKeyword').value=''; syncPrograms(); applyFilters();
+}
+</script></body></html>

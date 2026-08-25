@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ฝั่งผู้สมัคร — ใบสมัคร — STEP 2 SYSTEM 9</title>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="../shared/system9.css" rel="stylesheet"><link href="../shared/rus-ui-normalize.css" rel="stylesheet"><link href="../shared/rus-sidebar-shared.css" rel="stylesheet">
+<style>
+.form-section{background:#fff;border:1px solid var(--border);border-radius:13px;margin-bottom:16px;box-shadow:0 2px 9px rgba(23,61,112,.05)}
+.form-section-h{padding:14px 18px;border-bottom:1px solid #edf1f6;display:flex;align-items:center;gap:10px}.form-section-h .no{width:30px;height:30px;border-radius:50%;background:#164a8a;color:white;display:grid;place-items:center;font-weight:700}.form-section-h h2{margin:0;font-size:17px;color:#173d70}.form-section-b{padding:18px}
+.help{font-size:11px;color:#718096;margin-top:3px}.required{color:#b91c1c}.compact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.address-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px}.summary-strip{display:flex;gap:12px;flex-wrap:wrap;background:#edf5ff;border-left:4px solid #164a8a;padding:12px 14px;border-radius:8px;margin-bottom:16px}.summary-strip b{color:#173d70}.sticky-actions{position:sticky;bottom:0;background:rgba(245,247,251,.96);padding:12px 0 0;display:flex;justify-content:flex-end;gap:10px;z-index:5}.doc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.doc-item{border:1px solid #d9e3ef;border-radius:9px;padding:11px;background:#fbfdff}.doc-item label{display:flex;gap:8px;align-items:flex-start;font-size:12px}.mini-note{background:#fff9e8;border-left:4px solid #f59e0b;padding:10px 12px;border-radius:7px;font-size:12px;margin-top:12px}
+@media(max-width:1050px){.compact-grid,.address-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.compact-grid,.address-grid,.doc-grid{grid-template-columns:1fr}}
+</style></head>
+<body><div class="app" id="app">
+<header class="topbar"><button aria-label="เมนู" class="menu-toggle" id="menuToggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></button><div class="brand"><div class="mark">RUS</div><div class="titles"><div class="th">ระบบทะเบียนและประมวลผล</div><div class="en">Registration System · มทร.สุวรรณภูมิ</div></div></div><div class="spacer"></div><div class="util"><button class="user-chip" onclick="showUserProfile()"><div class="who"><div class="n">นางสาวกมลชนก วัฒนชัย</div><div class="r">เจ้าหน้าที่รับสมัคร · SYSTEM 9</div></div><div class="avatar">กว</div></button><a class="logout-btn" href="../logout.html">ออกจากระบบ</a></div></header>
+<aside class="sidebar" id="sidebar"><div class="nav-section"><div class="label">ภาพรวม</div><button class="nav-parent" onclick="location.href='../main.html'"><span class="txt">แดชบอร์ด</span></button></div><div class="nav-section"><div class="label">ระบบงาน (9 ระบบ)</div><div id="navSystems"></div></div></aside>
+<main class="content"><div class="crumb">หน้าแรก › รับสมัครและรายงานตัว › STEP 2 › <b>ใบสมัคร</b></div>
+<div class="page-head"><div><h1 id="formTitle">ใบสมัครออนไลน์ (ฝั่งผู้สมัคร)</h1><p>ผู้สมัครกรอกและยื่นข้อมูลด้วยตนเอง ระบบจะส่ง Applicant Record เข้าสู่รายการของเจ้าหน้าที่ใน STEP 2</p></div><div class="actions" style="margin-top:0"><a class="btn btn-secondary" href="10020.html">ออกจากแบบฟอร์ม</a></div></div>
+<div class="summary-strip"><span><b>หลักการ:</b> เลือกรอบก่อน ระบบจึงแสดงหลักสูตร เกณฑ์คุณวุฒิ และ Checklist เอกสารที่เกี่ยวข้อง</span><span>•</span><span>ช่องที่มี <span class="required">*</span> จำเป็นต้องกรอก</span></div>
+
+<section class="form-section"><div class="form-section-h"><span class="no">1</span><h2>รอบและหลักสูตรที่สมัคร</h2></div><div class="form-section-b"><div class="compact-grid">
+<div class="field"><label>รอบรับสมัคร <span class="required">*</span></label><select id="afRound" onchange="updateAdmissionRules()"><option value="PF">ADM-69-PF1 — Portfolio รอบ 1</option><option value="DIR">ADM-69-DIR1 — รับตรง รอบ 1</option><option value="GRAD">GRAD-69-1 — บัณฑิตศึกษา</option></select></div>
+<div class="field"><label>ระดับการศึกษา <span class="required">*</span></label><select id="afLevel" onchange="updateAdmissionRules()"><option value="UG">ปริญญาตรี</option><option value="VOC">ปวช.</option><option value="HVC">ปวส.</option><option value="M">ปริญญาโท</option><option value="D">ปริญญาเอก</option></select></div>
+<div class="field"><label>คณะ <span class="required">*</span></label><select id="afFaculty" onchange="loadPrograms()"><option value="BUS">บริหารธุรกิจ</option><option value="ENG">วิศวกรรมศาสตร์</option></select><div class="help">อ้างอิง Master ส่วนกลาง</div></div>
+<div class="field"><label>สาขา / หลักสูตร <span class="required">*</span></label><select id="afProgram"><option>การจัดการ — บริหารธุรกิจบัณฑิต</option><option>การบัญชี — บัญชีบัณฑิต</option></select></div>
+</div><div class="notice" id="ruleHint" style="margin:14px 0 0">Portfolio · ปริญญาตรี — รับ ม.6 / ปวช. ตามเกณฑ์หลักสูตร และตรวจ GPA ขั้นต่ำอัตโนมัติ</div></div></section>
+
+<section class="form-section"><div class="form-section-h"><span class="no">2</span><h2>ข้อมูลผู้สมัคร</h2></div><div class="form-section-b"><div class="form-grid">
+<div class="field"><label>เลขประจำตัวประชาชน / Passport <span class="required">*</span></label><input id="citizen" value="1103700XXXXXX"></div>
+<div class="field"><label>คำนำหน้า <span class="required">*</span></label><select><option>นาย</option><option selected>นางสาว</option><option>นาง</option></select></div>
+<div class="field"><label>ชื่อ <span class="required">*</span></label><input value="กมลชนก"></div><div class="field"><label>นามสกุล <span class="required">*</span></label><input value="วัฒนชัย"></div>
+<div class="field"><label>วันเกิด <span class="required">*</span></label><input type="date" value="2007-04-18"></div><div class="field"><label>สัญชาติ <span class="required">*</span></label><select><option>ไทย</option><option>จีน</option><option>ลาว</option><option>กัมพูชา</option><option>อื่น ๆ</option></select></div>
+<div class="field"><label>โทรศัพท์ <span class="required">*</span></label><input value="08X-XXX-XXXX"></div><div class="field"><label>Email <span class="required">*</span></label><input type="email" value="applicant@example.com"></div>
+</div></div></section>
+
+<section class="form-section"><div class="form-section-h"><span class="no">3</span><h2>ที่อยู่ปัจจุบัน</h2></div><div class="form-section-b">
+<div class="address-grid"><div class="field"><label>บ้านเลขที่ <span class="required">*</span></label><input value="99/9"></div><div class="field"><label>หมู่</label><input value="3"></div><div class="field"><label>ซอย</label><input></div><div class="field"><label>ถนน</label><input></div></div>
+<div class="address-grid" style="margin-top:14px"><div class="field"><label>จังหวัด <span class="required">*</span></label><select id="province" onchange="loadDistricts()"></select></div><div class="field"><label>อำเภอ / เขต <span class="required">*</span></label><select id="district" onchange="loadSubdistricts()"></select></div><div class="field"><label>ตำบล / แขวง <span class="required">*</span></label><select id="subdistrict" onchange="setPostcode()"></select></div><div class="field"><label>รหัสไปรษณีย์ <span class="required">*</span></label><input id="postcode" readonly></div></div>
+<div class="help" style="margin-top:10px">จังหวัด → อำเภอ/เขต → ตำบล/แขวง เป็น Cascading Dropdown และรหัสไปรษณีย์เติมอัตโนมัติ</div>
+</div></section>
+
+<section class="form-section"><div class="form-section-h"><span class="no">4</span><h2>ข้อมูลการศึกษาเดิม</h2></div><div class="form-section-b"><div class="compact-grid">
+<div class="field"><label>คุณวุฒิเดิม <span class="required">*</span></label><select id="qualification" onchange="updateAdmissionRules()"><option>ม.6</option><option>ม.3</option><option>ปวช.</option><option>ปวส.</option><option>ปริญญาตรี</option></select></div>
+<div class="field"><label>สถานศึกษาเดิม <span class="required">*</span></label><input value="โรงเรียนตัวอย่าง"></div><div class="field"><label>ปีที่จบ <span class="required">*</span></label><input value="2568"></div><div class="field"><label>GPA <span class="required">*</span></label><input type="number" step="0.01" min="0" max="4" value="3.42"></div>
+</div><div class="mini-note" id="eligibility">เกณฑ์รอบนี้: ม.6 / ปวช. · GPA ขั้นต่ำ 2.50</div></div></section>
+
+<section class="form-section"><div class="form-section-h"><span class="no">5</span><h2>เอกสารประกอบการสมัคร</h2></div><div class="form-section-b"><div class="doc-grid" id="docChecklist">
+<div class="doc-item"><label><input type="checkbox" checked> <span><b>รูปถ่ายผู้สมัคร</b><br><span class="help">JPG/PNG</span></span></label></div>
+<div class="doc-item"><label><input type="checkbox" checked> <span><b>Transcript / ใบแสดงผลการเรียน</b><br><span class="help">PDF/JPG</span></span></label></div>
+<div class="doc-item" id="portfolioDoc"><label><input type="checkbox"> <span><b>Portfolio</b><br><span class="help">แสดงตามประเภทการรับ</span></span></label></div>
+<div class="doc-item"><label><input type="checkbox"> <span><b>บัตรประชาชน / Passport</b><br><span class="help">ตามสัญชาติผู้สมัคร</span></span></label></div>
+</div><div class="field" style="margin-top:14px"><label>แนบเอกสาร</label><input type="file" multiple accept=".pdf,.jpg,.jpeg,.png"></div></div></section>
+
+<details class="form-section"><summary class="form-section-h" style="cursor:pointer"><span class="no">6</span><h2>ข้อมูลบิดา / มารดา / ผู้ปกครอง</h2><span class="help" style="margin-left:auto">กรอกเมื่อหลักสูตร/รอบกำหนด หรือใช้สำหรับการติดต่อ</span></summary><div class="form-section-b"><div class="form-grid"><div class="field"><label>ชื่อบิดา</label><input></div><div class="field"><label>โทรศัพท์บิดา</label><input></div><div class="field"><label>ชื่อมารดา</label><input></div><div class="field"><label>โทรศัพท์มารดา</label><input></div><div class="field"><label>ชื่อผู้ปกครอง</label><input></div><div class="field"><label>โทรศัพท์ผู้ปกครอง</label><input></div></div></div></details>
+
+<div class="sticky-actions"><button class="btn btn-secondary" onclick="toast('บันทึกร่างใบสมัครแล้ว')">บันทึกร่าง</button><button class="btn btn-primary" onclick="saveApplication()">บันทึกใบสมัคร</button></div>
+</main></div>
+<script>window.ACTIVE_LEAF='STEP 2 รับสมัครและข้อมูลผู้สมัคร';</script><script src="../shared/rus-nav.js"></script><script src="../shared/system9.js"></script>
+<script>
+const addr={
+ 'พระนครศรีอยุธยา':{'พระนครศรีอยุธยา':{'ประตูชัย':'13000','หอรัตนไชย':'13000','ไผ่ลิง':'13000'},'บางปะอิน':{'บ้านเลน':'13160','เชียงรากน้อย':'13180'}},
+ 'กรุงเทพมหานคร':{'ปทุมวัน':{'ปทุมวัน':'10330','ลุมพินี':'10330'},'บางรัก':{'สีลม':'10500','สุริยวงศ์':'10500'}},
+ 'สุพรรณบุรี':{'เมืองสุพรรณบุรี':{'ท่าพี่เลี้ยง':'72000','รั้วใหญ่':'72000'},'สองพี่น้อง':{'สองพี่น้อง':'72110'}},
+ 'นนทบุรี':{'เมืองนนทบุรี':{'สวนใหญ่':'11000','ตลาดขวัญ':'11000'},'ปากเกร็ด':{'ปากเกร็ด':'11120','บางพูด':'11120'}}
+};
+function fill(sel,vals){sel.innerHTML=vals.map(x=>`<option>${x}</option>`).join('')}
+function loadProvinces(){fill(document.getElementById('province'),Object.keys(addr));document.getElementById('province').value='พระนครศรีอยุธยา';loadDistricts()}
+function loadDistricts(){const p=document.getElementById('province').value;fill(document.getElementById('district'),Object.keys(addr[p]||{}));loadSubdistricts()}
+function loadSubdistricts(){const p=document.getElementById('province').value,d=document.getElementById('district').value;fill(document.getElementById('subdistrict'),Object.keys((addr[p]||{})[d]||{}));setPostcode()}
+function setPostcode(){const p=document.getElementById('province').value,d=document.getElementById('district').value,s=document.getElementById('subdistrict').value;document.getElementById('postcode').value=(((addr[p]||{})[d]||{})[s]||'')}
+function loadPrograms(){const f=document.getElementById('afFaculty').value,sel=document.getElementById('afProgram');sel.innerHTML=f==='ENG'?'<option>วิศวกรรมไฟฟ้า — วิศวกรรมศาสตรบัณฑิต</option><option>วิศวกรรมเครื่องกล — วิศวกรรมศาสตรบัณฑิต</option>':'<option>การจัดการ — บริหารธุรกิจบัณฑิต</option><option>การบัญชี — บัญชีบัณฑิต</option>';toast('โหลดสาขาและหลักสูตรจาก Master แล้ว')}
+function updateAdmissionRules(){const r=document.getElementById('afRound').value,l=document.getElementById('afLevel').value,q=document.getElementById('qualification').value;let msg='';if(r==='GRAD'||l==='M'||l==='D'){msg='บัณฑิตศึกษา — ตรวจวุฒิปริญญาตรีและ GPA ตามเกณฑ์หลักสูตร';document.getElementById('eligibility').textContent='เกณฑ์บัณฑิตศึกษา: วุฒิปริญญาตรี / GPA ตามหลักสูตร';}else{msg=(r==='PF'?'Portfolio':'รับตรง')+' · '+document.getElementById('afLevel').selectedOptions[0].text+' — ตรวจคุณวุฒิและ GPA ตามเกณฑ์ของหลักสูตร';document.getElementById('eligibility').textContent='เกณฑ์รอบนี้: '+q+' · GPA ขั้นต่ำตามหลักสูตร';}document.getElementById('ruleHint').textContent=msg;document.getElementById('portfolioDoc').style.display=r==='PF'?'':'none'}
+function saveApplication(){const must=['citizen','province','district','subdistrict'];const ok=must.every(id=>document.getElementById(id)?.value);if(!ok){toast('กรุณากรอกข้อมูลจำเป็นให้ครบ');return}toast('บันทึกใบสมัครแล้ว');setTimeout(()=>location.href='10020.html',700)}
+loadProvinces();updateAdmissionRules();
+
+</script></body></html>
