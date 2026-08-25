@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>จองรายวิชาข้ามศูนย์ — ระบบทะเบียนและประมวลผล มทร.สุวรรณภูมิ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Saira+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/rus-ui.css">
+<style>
+/* ===== เฉพาะหน้า main (shell + dashboard) ===== */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:60}
+
+/* SIDEBAR (9 ระบบ) */
+.sidebar{position:fixed;top:var(--topbar-h);left:0;bottom:0;width:var(--sidebar-w);background:var(--surface);
+  border-right:1px solid var(--border);overflow-y:auto;overflow-x:hidden;padding:12px 0 30px;z-index:55;
+  transition:width .24s cubic-bezier(.4,0,.2,1),transform .24s cubic-bezier(.4,0,.2,1)}
+.nav-section{padding:4px 12px}
+.nav-section .label{font-size:10.5px;font-weight:700;color:var(--text-faint);letter-spacing:.7px;text-transform:uppercase;
+  padding:10px 12px 5px;white-space:nowrap;overflow:hidden}
+.nav-parent{display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:9px;color:var(--text-muted);
+  font-size:14px;font-weight:500;transition:.13s;white-space:nowrap;position:relative;width:100%;text-align:left}
+.nav-parent .ico{width:22px;height:22px;flex-shrink:0;display:grid;place-items:center}
+.nav-parent .ico svg{width:20px;height:20px;opacity:.85}
+.nav-parent .txt{flex:1;overflow:hidden;text-overflow:ellipsis}
+.nav-parent .chev{width:16px;height:16px;opacity:.55;transition:transform .2s;flex-shrink:0}
+.nav-parent:hover{background:var(--rus-primary-50);color:var(--rus-primary)}
+.nav-parent.open{color:var(--rus-primary-dark);font-weight:600;background:var(--rus-primary-50)}
+.nav-parent.open .chev{transform:rotate(90deg)}
+.nav-parent.current{background:var(--rus-primary);color:#fff}
+.nav-parent.current .ico svg{opacity:1}
+/* ชั้น 2: กลุ่มงาน */
+.submenu{max-height:0;overflow:hidden;transition:max-height .3s ease;background:var(--rus-primary-50)}
+.submenu.open{max-height:1200px;padding:4px 8px 8px}
+.nav-group2{display:flex;align-items:center;gap:8px;width:100%;text-align:left;padding:9px 12px;margin-top:2px;
+  border-radius:8px;color:var(--rus-primary-dark);font-size:13px;font-weight:600;transition:.13s;position:relative}
+.nav-group2 .g-cn{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav-group2 .g-chev{width:14px;height:14px;opacity:.6;transition:transform .2s;flex-shrink:0}
+.nav-group2:hover{background:var(--rus-primary-light)}
+.nav-group2.open{background:var(--rus-primary-light)}
+.nav-group2.open .g-chev{transform:rotate(90deg)}
+/* STEP หน้าเดียว = ลิงก์ตรง */
+.nav-group2.single{cursor:pointer}
+.nav-group2.active-step{background:#fff;color:var(--rus-primary-dark);box-shadow:var(--shadow-sm)}
+.nav-group2.active-step .g-cn{font-weight:700}
+
+/* ชั้น 3: หน้าจอจริง */
+.subsub{max-height:0;overflow:hidden;transition:max-height .26s ease;padding-left:14px;margin-left:8px;border-left:2px solid var(--rus-primary-light)}
+.subsub.open{max-height:500px;padding-top:2px;padding-bottom:4px}
+.nav-leaf{display:flex;align-items:center;gap:9px;padding:7px 12px;border-radius:7px;color:var(--text-muted);
+  font-size:12.5px;font-weight:400;transition:.12s;white-space:nowrap;position:relative;margin:1px 0}
+.nav-leaf .cn{flex:1;overflow:hidden;text-overflow:ellipsis}
+.nav-leaf .bullet{width:5px;height:5px;border-radius:50%;background:var(--border-strong);flex-shrink:0;transition:.12s}
+.nav-leaf:hover{background:#fff;color:var(--rus-primary)}
+.nav-leaf:hover .bullet{background:var(--rus-primary)}
+.nav-leaf.active{background:#fff;color:var(--rus-primary-dark);font-weight:600;box-shadow:var(--shadow-sm)}
+.nav-leaf.active .bullet{background:var(--rus-primary);width:6px;height:6px}
+
+/* COLLAPSED (desktop icon-only) */
+.app.collapsed .sidebar{width:var(--sidebar-collapsed);overflow-x:visible;overflow-y:visible}
+.app.collapsed .nav-section .label{opacity:0;height:0;padding:0}
+.app.collapsed .nav-section{padding:4px 9px}
+.app.collapsed .nav-parent{justify-content:center;padding:12px 0}
+.app.collapsed .nav-parent .txt,.app.collapsed .nav-parent .chev{display:none}
+.app.collapsed .submenu{display:none!important}
+.app.collapsed .nav-parent::after{content:attr(data-label);position:absolute;left:calc(100% + 12px);top:50%;
+  transform:translateY(-50%);background:var(--rus-primary-deep);color:#fff;font-size:12.5px;font-weight:500;
+  padding:7px 12px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:.15s;z-index:80;box-shadow:var(--shadow-lg)}
+.app.collapsed .nav-parent::before{content:"";position:absolute;left:calc(100% + 5px);top:50%;transform:translateY(-50%);
+  border:7px solid transparent;border-right-color:var(--rus-primary-deep);opacity:0;transition:.15s;z-index:80}
+.app.collapsed .nav-parent:hover::after,.app.collapsed .nav-parent:hover::before{opacity:1}
+
+/* CONTENT */
+.content{margin-top:var(--topbar-h);margin-left:var(--sidebar-w);padding:22px 26px 50px;
+  transition:margin-left .24s cubic-bezier(.4,0,.2,1);min-height:calc(100vh - var(--topbar-h))}
+.app.collapsed .content{margin-left:var(--sidebar-collapsed)}
+.backdrop{position:fixed;inset:0;background:rgba(22,48,95,.45);z-index:54;opacity:0;pointer-events:none;transition:.24s}
+
+/* MOBILE drawer */
+@media(max-width:980px){
+  .content{margin-left:0!important}
+  .sidebar{transform:translateX(-100%);box-shadow:var(--shadow-lg)}
+  .app.mobile-open .sidebar{transform:translateX(0);width:var(--sidebar-w)}
+  .app.mobile-open .backdrop{opacity:1;pointer-events:auto}
+  .app.collapsed .sidebar{width:var(--sidebar-w)}
+  .app.collapsed .nav-section .label{opacity:1;height:auto;padding:10px 12px 5px}
+  .app.collapsed .nav-section{padding:4px 12px}
+  .app.collapsed .nav-parent{justify-content:flex-start;padding:11px 13px}
+  .app.collapsed .nav-parent .txt,.app.collapsed .nav-parent .chev{display:flex}
+  .app.collapsed .nav-parent .txt{display:block}
+  .app.collapsed .submenu{display:block!important}
+  .app.collapsed .nav-parent::after,.app.collapsed .nav-parent::before{display:none}
+}
+
+/* DASHBOARD */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:22px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.stat::after{content:"";position:absolute;right:-16px;top:-16px;width:80px;height:80px;border-radius:50%;background:var(--rus-primary-50)}
+.stat .ic{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;margin-bottom:12px;position:relative;z-index:1}
+.stat .ic svg{width:22px;height:22px}
+.stat .v{font-size:28px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;position:relative;z-index:1}
+.stat .l{font-size:13px;color:var(--text-muted);position:relative;z-index:1}
+.stat .trend{font-size:12px;font-weight:600;margin-top:6px;position:relative;z-index:1}
+.c-blue{background:var(--info-bg);color:var(--rus-primary)} .c-green{background:var(--ok-bg);color:var(--ok)}
+.c-orange{background:var(--warn-bg);color:var(--warn)} .c-gold{background:#FBF1DC;color:var(--rus-accent-dark)}
+.panel-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:18px}
+@media(max-width:1100px){.panel-grid{grid-template-columns:1fr}}
+.task{display:flex;align-items:center;gap:13px;padding:13px 18px;border-bottom:1px solid #EEF1F5}
+.task:hover{background:var(--rus-primary-50)}
+.task .ti{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex-shrink:0}
+.task .ti svg{width:19px;height:19px}
+.task .tx{flex:1;min-width:0}
+.task .tx .t1{font-size:14px;font-weight:500}
+.task .tx .t2{font-size:12.5px;color:var(--text-muted)}
+.task .cnt{font-size:18px;font-weight:700;color:var(--rus-primary-dark);font-variant-numeric:tabular-nums}
+
+/* ===== ฟอร์ม STEP 1 ===== */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 20px}
+@media(max-width:760px){.form-grid{grid-template-columns:1fr}}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld.full{grid-column:1/-1}
+.fld label{font-size:13px;font-weight:600;color:var(--text)}
+.fld label .req{color:var(--error);margin-left:2px}
+.fld input,.fld select,.fld textarea{font-family:inherit;font-size:14px;padding:10px 12px;border:1.5px solid var(--border-strong);
+  border-radius:8px;background:#fff;color:var(--text);transition:.13s;width:100%}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-color:var(--rus-primary);box-shadow:0 0 0 3px var(--rus-primary-light)}
+.fld .hint{font-size:12px;color:var(--text-faint)}
+.fld-row{display:flex;gap:10px;align-items:center}
+.switch{position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:var(--border-strong);border-radius:24px;transition:.2s;cursor:pointer}
+.slider::before{content:"";position:absolute;height:18px;width:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+.switch input:checked+.slider{background:var(--ok)}
+.switch input:checked+.slider::before{transform:translateX(20px)}
+.form-actions{display:flex;gap:11px;justify-content:flex-end;margin-top:8px;padding-top:18px;border-top:1px solid var(--border)}
+.seg{display:flex;gap:0;border:1.5px solid var(--border-strong);border-radius:8px;overflow:hidden;width:fit-content}
+.seg button{padding:8px 16px;font-size:13px;font-weight:500;color:var(--text-muted);background:#fff;transition:.12s}
+.seg button.on{background:var(--rus-primary);color:#fff}
+.status-pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:4px 11px;border-radius:20px}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.toolbar .search{flex:1;min-width:200px;position:relative}
+.toolbar .search input{width:100%;padding:9px 12px 9px 36px;border:1.5px solid var(--border-strong);border-radius:8px;font-size:14px;font-family:inherit}
+.toolbar .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--text-faint)}
+
+
+/* ===== components เสริม (modal, toast, chip, empty) ===== */
+.chip-group{display:flex;flex-wrap:wrap;gap:9px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border:1.5px solid var(--border-strong);border-radius:30px;
+  font-size:13px;font-weight:500;color:var(--text-muted);background:#fff;cursor:pointer;transition:.13s;user-select:none}
+.chip:hover{border-color:var(--rus-primary);color:var(--rus-primary)}
+.chip input{display:none}
+.chip .tick{width:16px;height:16px;border:1.5px solid var(--border-strong);border-radius:5px;display:grid;place-items:center;transition:.13s}
+.chip .tick svg{width:11px;height:11px;color:#fff;opacity:0}
+.chip.on{border-color:var(--rus-primary);background:var(--rus-primary-50);color:var(--rus-primary-dark);font-weight:600}
+.chip.on .tick{background:var(--rus-primary);border-color:var(--rus-primary)}
+.chip.on .tick svg{opacity:1}
+.info-banner{display:flex;gap:11px;align-items:flex-start;padding:13px 16px;border-radius:10px;background:var(--info-bg);
+  border:1px solid var(--rus-primary-light);font-size:13.5px;color:var(--rus-primary-dark);margin-bottom:16px}
+.info-banner svg{width:19px;height:19px;flex-shrink:0;margin-top:1px;color:var(--rus-primary)}
+.timeline-mini{display:flex;align-items:center;gap:0;margin:4px 0 18px;flex-wrap:wrap}
+.tl-step{display:flex;align-items:center;gap:8px;font-size:12.5px}
+.tl-dot{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:12px;flex-shrink:0;
+  background:#EEF0F4;color:var(--text-muted)}
+.tl-step.done .tl-dot{background:var(--ok);color:#fff}
+.tl-step.active .tl-dot{background:var(--rus-primary);color:#fff;box-shadow:0 0 0 4px var(--rus-primary-light)}
+.tl-line{width:34px;height:2px;background:var(--border-strong);margin:0 6px}
+.tl-step.done+.tl-line{background:var(--ok)}
+</style>
+<link rel="stylesheet" href="../shared/rus-ui-normalize.css">
+<link rel="stylesheet" href="../shared/rus-sidebar-shared.css">
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <button class="menu-toggle" id="menuToggle" aria-label="ย่อ/ขยายเมนู">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round"/></svg>
+    </button>
+    <div class="brand">
+      <div class="mark">RUS</div>
+      <div class="titles">
+        <div class="th">ระบบทะเบียนและประมวลผล</div>
+        <div class="en">Registration System · มทร.สุวรรณภูมิ</div>
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <div class="util">
+      <button class="icon-btn" title="ค้นหา"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4-4"/></svg></button>
+      <button class="icon-btn" title="แจ้งเตือน"><span class="badge-dot"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="user-chip">
+        <div class="who"><div class="n">นายภักดี รัตนวิจิตรสกุล</div><div class="r">เจ้าหน้าที่ทะเบียน · สวท.</div></div>
+        <div class="avatar">ภร</div>
+      </button>
+      <a class="logout-btn" href="../logout.html" title="ออกจากระบบ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span>ออกจากระบบ</span></a>
+    </div>
+  </header>
+
+  <!-- SIDEBAR (9 ระบบ) -->
+  <aside class="sidebar" id="sidebar">
+    <div class="nav-section">
+      <div class="label">ภาพรวม</div>
+      <button class="nav-parent" data-label="แดชบอร์ด">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></span>
+        <span class="txt">แดชบอร์ด</span>
+      </button>
+    </div>
+    <div class="nav-section">
+      <div class="label">ระบบงาน (9 ระบบ)</div>
+      <!-- เมนูถูกสร้างด้วย JS เพื่อความกระชับ -->
+      <div id="navSystems"></div>
+    </div>
+    <div class="nav-section">
+      <div class="label">ตั้งค่า</div>
+      <button class="nav-parent" data-label="ผู้ใช้งานและสิทธิ์">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2 21v-1a6 6 0 0 1 12 0v1M17 11l2 2 4-4"/></svg></span>
+        <span class="txt">ผู้ใช้งานและสิทธิ์</span>
+      </button>
+      <button class="nav-parent" data-label="ตั้งค่าระบบ">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1A1.6 1.6 0 0 0 6.8 19l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1-2.7H3a2 2 0 0 1 0-4h.1A1.6 1.6 0 0 0 4.6 6.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg></span>
+        <span class="txt">ตั้งค่าระบบ</span>
+      </button>
+    </div>
+  </aside>
+  <div class="backdrop" id="backdrop"></div>
+
+  <!-- CONTENT (ตัวอย่างแดชบอร์ด) -->
+
+      <main class="content"><style>
+.fx-page{padding-bottom:36px}.fx-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:14px}.fx-head h1{margin:0 0 5px}
+.fx-note{padding:13px 15px;border:1px solid #bfd5fa;background:#f3f8ff;border-radius:10px;margin:12px 0 16px;line-height:1.55}
+.fx-flow{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:12px 0 16px}.fx-flow span{padding:6px 10px;border:1px solid #c7daf8;background:#fff;border-radius:18px;font-size:12px}.fx-flow b{color:var(--rus-primary)}
+.fx-filter{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.fx-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0}
+.fx-summary .box{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px}.fx-summary .value{display:block;font-size:20px;font-weight:800;color:var(--rus-primary-dark);margin-top:5px}
+.fx-tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);overflow-x:auto}.fx-tab{flex:0 0 auto;border:0;background:transparent;padding:13px 15px;font:inherit;font-weight:800;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}.fx-tab.active{color:var(--rus-primary);border-bottom-color:var(--rus-primary)}
+.fx-panel{display:none;padding-top:16px}.fx-panel.active{display:block}.fx-table{overflow-x:auto}.fx-table .data-table{min-width:950px}.fx-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:16px}.fx-empty{padding:38px;text-align:center;border:1px dashed #bdc9d9;border-radius:12px;background:#fafcff;margin-top:14px}
+.scope-chip{display:inline-block;padding:4px 9px;border-radius:14px;background:#eef5ff;border:1px solid #c7daf8;margin:2px 4px 2px 0;font-size:12px}
+@media(max-width:1000px){.fx-filter{grid-template-columns:1fr 1fr}.fx-summary{grid-template-columns:1fr 1fr}}@media(max-width:700px){.fx-filter{grid-template-columns:1fr}.fx-head{flex-direction:column}}
+</style><div class="crumb">หน้าแรก › ระบบลงทะเบียน › STEP 7 › <b>รายการลงทะเบียน Section/ต่างศูนย์</b></div><div class="fx-head"><div><h1>รายการลงทะเบียน Section/ต่างศูนย์</h1><div class="sub">รายการกรณีพิเศษหลังลงทะเบียนตามแผน</div></div></div><div class="fx-flow"><span>STEP 6 ตามแผน</span>→<span><b>STEP 7 Section/ต่างศูนย์</b></span>→<span>STEP 8 ตรวจ Rule</span>→<span>STEP 9 อนุมัติ</span>→<span>STEP 10 Pay-In</span>→<span>STEP 11 ชำระเงิน</span>→<span>STEP 12 ใบเสร็จ</span>→<span>STEP 13 เพิ่ม/ถอน</span>→<span>STEP 14 สถานภาพ</span></div>
+<div class="fx-note"><b>หน้าที่ STEP 7:</b> ใช้เฉพาะกรณีเปลี่ยน Section, Section พิเศษ หรือเรียนต่างศูนย์ โดยอ้างอิงรายการลงทะเบียนตามแผนที่มีอยู่แล้ว</div>
+<section class="card"><div style="padding:18px"><div class="fx-table"><table class="data-table"><thead><tr><th>รหัส</th><th>นักศึกษา</th><th>อ้างอิง STEP 6</th><th>ประเภท</th><th>รายวิชา</th><th>Section/ศูนย์ใหม่</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody>
+<tr><td><b>SECX-2569-001</b></td><td>6501234567 นายสมชาย</td><td>REG-2569-001</td><td>เปลี่ยน Section</td><td>ACC202</td><td>Sec 03 · วาสุกรี</td><td><span class="tag ok">บันทึกแล้ว</span></td><td><a class="btn btn-primary btn-sm" href="2070_manage.html">จัดการ</a></td></tr>
+</tbody></table></div></div></section></main>
+</div>
+<script src="../shared/rus-faculty.js"></script>
+<script>window.ACTIVE_LEAF="รายการลงทะเบียน Section/ต่างศูนย์";</script>
+<script src="../shared/rus-curriculum.js"></script>
+<script src="../shared/rus-nav.js"></script>
+<script src="../shared/rus-table.js"></script>
+<script>
+
+var REQ=[
+ {y:'2569',t:'1',fc:'05',fac:'วิศวกรรมฯ',maj:'วิศวกรรมโยธา',sid:'1680502015',name:'นาย ธนกร ใจดี',course:'ENG201 ภาษาอังกฤษเชิงเทคนิค',route:'หันตรา → นนทบุรี',rq:'15 พ.ค. 69',st:'wait'},
+ {y:'2569',t:'1',fc:'03',fac:'บริหารธุรกิจฯ',maj:'การบัญชี',sid:'1690301001',name:'นางสาว ปรียา มากมี',course:'GEN202 มนุษย์กับสังคม',route:'วาสุกรี → หันตรา',rq:'14 พ.ค. 69',st:'ok'},
+ {y:'2569',t:'1',fc:'04',fac:'วิทยาศาสตร์ฯ',maj:'วิทยาการคอมพิวเตอร์',sid:'1690402008',name:'นางสาว ศิริพร แจ่มใส',course:'BIT101 หลักการเขียนโปรแกรม',route:'หันตรา → สุพรรณบุรี',rq:'12 พ.ค. 69',st:'reject'},
+ {y:'2568',t:'2',fc:'01',fac:'ครุศาสตร์ฯ',maj:'วิศวกรรมเครื่องกล (ค.อ.บ.)',sid:'1680101005',name:'นาย ชัยวัฒน์ มุ่งมั่น',course:'MTE205 การออกแบบเครื่องจักร',route:'นนทบุรี → หันตรา',rq:'8 พ.ย. 68',st:'ok'}
+];
+function pill(st){var m={ok:['var(--ok-bg)','var(--ok)','อนุมัติ'],wait:['var(--warn-bg)','var(--warn)','รออนุมัติ'],reject:['var(--error-bg)','var(--error)','ปฏิเสธ']}[st];return '<span class="status-pill" style="background:'+m[0]+';color:'+m[1]+'">'+m[2]+'</span>';}
+function render(ctx){var tb=document.getElementById('tableBody'),em=document.getElementById('emptyState'),mt=document.getElementById('resultMeta'),s=document.getElementById('tableSearch'),sf=document.getElementById('statusFilter');if(!tb)return;var q=(s&&s.value||'').toLowerCase().trim(),stf=sf?sf.value:'';
+var rows=REQ.filter(function(c){if(ctx){if(ctx.year&&c.y!==ctx.year)return false;if(ctx.term&&c.t!==ctx.term)return false;if(ctx.faculty&&c.fc!==ctx.faculty)return false;}return true;});
+tb.innerHTML=rows.filter(function(c){var so=!stf||pill(c.st).indexOf(stf)>=0;var qo=!q||(c.sid+' '+c.name+' '+c.course+' '+c.route).toLowerCase().indexOf(q)>=0;return so&&qo;}).map(function(c){var act=c.st==='wait'?'<a class="btn btn-primary btn-sm" href="2070_detail.html">พิจารณา</a>':'<a class="btn btn-ghost btn-sm" href="2070_detail.html">ดู</a>';return '<tr><td><b>'+c.sid+'</b></td><td>'+c.name+'</td><td style="font-size:13px">'+c.course+'</td><td style="font-size:12.5px">'+c.route+'</td><td class="ctr" style="font-size:12px;color:var(--text-muted)">'+c.rq+'</td><td class="ctr">'+pill(c.st)+'</td><td class="ctr">'+act+'</td></tr>';}).join('');
+var n=tb.querySelectorAll('tr').length;if(em)em.style.display=n?'none':'block';if(mt)mt.textContent=n+' คำขอ';}
+(function(){var s=document.getElementById('tableSearch'),sf=document.getElementById('statusFilter');var cur={year:'2569',term:'1',faculty:'',major:''};if(s)s.addEventListener('input',function(){render(cur);});if(sf)sf.addEventListener('change',function(){render(cur);});if(window.RUS&&RUS.buildContextBar){RUS.buildContextBar('ctxBar',{years:[2569,2568,2567,2566],onChange:function(ctx){cur=ctx;render(ctx);}});}render(cur);})();
+</script>
+<script src="../shared/system2-rc.js"></script>
+<script src="../shared/master-group-crud-config.js"></script>
+<script src="../shared/rus-master-integration.js"></script>
+</body>
+</html>
