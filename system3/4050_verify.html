@@ -1,0 +1,40 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>STEP 5 — ตรวจสอบเอกสาร — SYSTEM 3</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="../shared/rus-ui.css"><link rel="stylesheet" href="../shared/rus-ui-normalize.css"><link rel="stylesheet" href="../shared/rus-sidebar-shared.css"><link rel="stylesheet" href="../shared/system3-v125.css"></head><body><div class="app" id="app"><header class="topbar"><button aria-label="ย่อ/ขยายเมนู" class="menu-toggle" id="menuToggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><div class="brand"><div class="mark">RUS</div><div class="titles"><div class="th">ระบบเอกสารและงานบริการทางการศึกษา</div><div class="en">Academic Document & Student Service System · มทร.สุวรรณภูมิ</div></div></div><div class="spacer"></div><div class="util"><button class="user-chip"><div class="who"><div class="n">เจ้าหน้าที่สำนักทะเบียน</div><div class="r">Registrar Staff</div></div><div class="avatar">รท</div></button><a class="logout-btn" href="../logout.html"><span>ออกจากระบบ</span></a></div></header><aside class="sidebar" id="sidebar"><div class="nav-section"><div class="label">ภาพรวม</div><button class="nav-parent" data-label="แดชบอร์ด"><span class="ico">▦</span><span class="txt">แดชบอร์ด</span></button></div><div class="nav-section"><div class="label">ระบบงาน (9 ระบบ)</div><div id="navSystems"></div></div></aside><div class="backdrop" id="backdrop"></div><main class="content"><div class="s3-page">
+<div class="crumb">หน้าแรก › SYSTEM 3 › <b>STEP 5 — ส่งมอบและตรวจสอบเอกสาร</b> › ตรวจสอบเอกสาร</div>
+<div class="page-head"><div><h1>ตรวจสอบความถูกต้องของเอกสาร</h1><div class="sub">กรอกเลขที่เอกสารหรือรหัสตรวจสอบที่ปรากฏบนเอกสาร เพื่อดูสถานะและผลการรับรองล่าสุด</div></div></div>
+<div class="s3-card"><div class="hd">ค้นหาเอกสารเพื่อตรวจสอบ</div><div class="bd">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:end;max-width:1050px">
+<div class="s3-field"><label>เลขที่เอกสาร / รหัสตรวจสอบ <span style="color:#b42318">*</span></label><input id="verifyCode" value="DOC69-00982" placeholder="เช่น DOC69-00982 หรือรหัสตรวจสอบบนเอกสาร"></div>
+<button class="btn btn-primary" id="verifyBtn" style="height:46px;min-width:120px">ตรวจสอบ</button>
+</div><div style="margin-top:10px;color:#667085;font-size:14px">กรณีสแกน QR Code จากเอกสาร ระบบจะเปิดหน้านี้พร้อมรหัสตรวจสอบและแสดงผลโดยอัตโนมัติ</div>
+</div></div>
+<div id="verifyResult" style="display:none;margin-top:16px"></div>
+<div class="s3-note" style="margin-top:16px">ระบบแสดงเฉพาะข้อมูลที่จำเป็นสำหรับยืนยันความถูกต้องของเอกสาร และไม่เปิดเผยข้อมูลการศึกษาส่วนบุคคลเกินความจำเป็น</div>
+</div></main></div><script>window.ACTIVE_LEAF='ตรวจสอบเอกสาร';</script><script src="../shared/rus-nav.js"></script><script>
+(function(){
+ const input=document.getElementById('verifyCode'), btn=document.getElementById('verifyBtn'), out=document.getElementById('verifyResult');
+ function render(){
+  const code=input.value.trim().toUpperCase();
+  if(!code){out.style.display='block';out.innerHTML='<div class="s3-card"><div class="bd"><div style="font-weight:600;color:#b42318">กรุณากรอกเลขที่เอกสารหรือรหัสตรวจสอบ</div></div></div>';return;}
+  out.style.display='block';
+  if(code==='DOC69-00982'){
+   out.innerHTML=`<div class="s3-card"><div class="hd" style="display:flex;justify-content:space-between;align-items:center"><span>ผลการตรวจสอบเอกสาร</span><span style="background:#e7f6ec;color:#18733d;padding:6px 12px;border-radius:999px;font-size:14px;font-weight:600">✓ เอกสารถูกต้องและใช้งานได้</span></div><div class="bd">
+   <div style="padding:14px 16px;background:#f0f8f3;border:1px solid #b7dfc4;border-radius:10px;margin-bottom:16px"><b style="color:#176b3a">ตรวจสอบสำเร็จ</b><div style="margin-top:4px;color:#475467">เอกสารฉบับนี้ออกโดยมหาวิทยาลัยและสถานะการรับรองยังมีผล</div></div>
+   <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;border:1px solid #e1e7ef;border-radius:10px;overflow:hidden">
+   <div style="padding:13px 16px;border-bottom:1px solid #e1e7ef"><small style="color:#667085">เลขที่เอกสาร</small><div><b>DOC69-00982</b></div></div>
+   <div style="padding:13px 16px;border-bottom:1px solid #e1e7ef"><small style="color:#667085">ประเภทเอกสาร</small><div><b>Transcript ภาษาอังกฤษ</b></div></div>
+   <div style="padding:13px 16px;border-bottom:1px solid #e1e7ef"><small style="color:#667085">วันที่ออกเอกสาร</small><div>18 ส.ค. 2569</div></div>
+   <div style="padding:13px 16px;border-bottom:1px solid #e1e7ef"><small style="color:#667085">หน่วยงานผู้ออก</small><div>สำนักทะเบียนและประมวลผล</div></div>
+   <div style="padding:13px 16px"><small style="color:#667085">การรับรองเอกสาร</small><div><b style="color:#18733d">Digital Signature ถูกต้อง</b></div></div>
+   <div style="padding:13px 16px"><small style="color:#667085">สถานะล่าสุด</small><div><b style="color:#18733d">Active · ใช้งานได้</b></div></div></div>
+   <div class="s3-actions" style="margin-top:16px;justify-content:flex-end"><button class="btn" onclick="alert('เปิดตัวอย่างเอกสารฉบับที่ได้รับอนุญาตให้ดู')">ดูเอกสาร</button></div>
+   </div></div>`;
+  } else if(code==='DOC69-00000'){
+   out.innerHTML='<div class="s3-card"><div class="hd">ผลการตรวจสอบเอกสาร</div><div class="bd"><div style="padding:14px 16px;background:#fff1f0;border:1px solid #f5c2c0;border-radius:10px"><b style="color:#b42318">เอกสารนี้ถูกยกเลิกแล้ว</b><div style="margin-top:5px;color:#475467">สถานะ: Cancelled · ไม่ควรใช้เอกสารฉบับนี้เป็นหลักฐาน กรุณาติดต่อสำนักทะเบียนและประมวลผล</div></div></div></div>';
+  } else {
+   out.innerHTML='<div class="s3-card"><div class="hd">ผลการตรวจสอบเอกสาร</div><div class="bd"><div style="padding:14px 16px;background:#fff7e8;border:1px solid #f0d39a;border-radius:10px"><b style="color:#9a6700">ไม่พบเอกสาร</b><div style="margin-top:5px;color:#475467">กรุณาตรวจสอบเลขที่เอกสารหรือรหัสตรวจสอบอีกครั้ง</div></div></div></div>';
+  }
+ }
+ btn.addEventListener('click',render); input.addEventListener('keydown',e=>{if(e.key==='Enter')render()});
+ const q=new URLSearchParams(location.search).get('code'); if(q){input.value=q;render();}
+})();
+</script></body></html>

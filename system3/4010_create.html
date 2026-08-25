@@ -1,0 +1,74 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>STEP 1 — สร้างคำขอ — SYSTEM 3</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="../shared/rus-ui.css"><link rel="stylesheet" href="../shared/rus-ui-normalize.css"><link rel="stylesheet" href="../shared/rus-sidebar-shared.css"><link rel="stylesheet" href="../shared/system3-v125.css"></head><body><div class="app" id="app"><header class="topbar"><button aria-label="ย่อ/ขยายเมนู" class="menu-toggle" id="menuToggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><div class="brand"><div class="mark">RUS</div><div class="titles"><div class="th">ระบบเอกสารและงานบริการทางการศึกษา</div><div class="en">Academic Document & Student Service System · มทร.สุวรรณภูมิ</div></div></div><div class="spacer"></div><div class="util"><button class="user-chip"><div class="who"><div class="n">เจ้าหน้าที่สำนักทะเบียน</div><div class="r">Registrar Staff</div></div><div class="avatar">รท</div></button><a class="logout-btn" href="../logout.html"><span>ออกจากระบบ</span></a></div></header><aside class="sidebar" id="sidebar"><div class="nav-section"><div class="label">ภาพรวม</div><button class="nav-parent" data-label="แดชบอร์ด"><span class="ico">▦</span><span class="txt">แดชบอร์ด</span></button></div><div class="nav-section"><div class="label">ระบบงาน (9 ระบบ)</div><div id="navSystems"></div></div></aside><div class="backdrop" id="backdrop"></div><main class="content"><div class="s3-page"><div class="crumb">หน้าแรก › SYSTEM 3 › STEP 1 › <b>สร้างคำขอ</b></div><div class="page-head"><div><h1>สร้างคำขอเอกสารและบริการ</h1><div class="sub">เจ้าหน้าที่สร้างคำขอแทนนักศึกษา โดยอ้างอิงข้อมูลจาก Academic Core</div></div></div>
+<div class="s3-note"><b>หลักการ:</b> ค้นหานักศึกษาก่อน ระบบจึงเปิดให้เลือกบริการ ไม่ให้กรอกชื่อ คณะ สาขา หรือหลักสูตรใหม่ซ้ำ</div>
+<form id="reqForm"><div class="s3-card"><div class="hd">1. ข้อมูลผู้ขอ</div><div class="bd"><div class="s3-search-row"><input id="studentId" placeholder="รหัสนักศึกษา เช่น 1690305001" value="1690305001"><button type="button" class="btn btn-primary" id="findStudent">ค้นหานักศึกษา</button></div><div id="studentCard" class="s3-student-card" style="margin-top:12px"><div class="cell"><small>ชื่อ-นามสกุล</small><b>นางสาว กานดา สนิทดี</b></div><div class="cell"><small>คณะ / สาขา</small><b>บริหารธุรกิจ / การบัญชี</b></div><div class="cell"><small>หลักสูตร</small><b>บช.บ. การบัญชี (2567)</b></div><div class="cell"><small>สถานภาพ</small><b><span class="s3-chip ok">กำลังศึกษา</span></b></div></div></div></div>
+<div class="s3-card" style="margin-top:14px"><div class="hd">2. บริการที่ขอ</div><div class="bd">
+<div class="s3-service-section"><div class="s3-service-heading"><div><b>งานบริการเอกสาร</b><span>เลือกได้มากกว่า 1 รายการ และกำหนดภาษา/จำนวนฉบับแยกต่อรายการ</span></div><span class="s3-chip info">เลือกได้หลายรายการ</span></div><div class="s3-service-grid" id="documentServices"></div></div>
+<div class="s3-service-divider"><span>หรือ</span></div>
+<div class="s3-service-section"><div class="s3-service-heading"><div><b>งานบริการทางการศึกษา</b><span>เป็นคำร้องเฉพาะ ไม่ใช้จำนวนฉบับและภาษาเอกสาร</span></div><span class="s3-chip warn">เลือกได้ 1 บริการ</span></div><div class="s3-service-grid single" id="academicServices"></div></div>
+<div class="s3-field full" style="margin-top:14px"><label>วัตถุประสงค์ <span class="s3-required">*</span></label><textarea id="purpose" rows="2" required placeholder="ระบุวัตถุประสงค์การขอเอกสาร/บริการ"></textarea></div>
+</div></div>
+<div class="s3-card" style="margin-top:14px"><div class="hd">3. ช่องทางรับและข้อมูลประกอบ</div><div class="bd"><div class="s3-form"><div class="s3-field full"><label>ช่องทางรับ <span class="s3-required">*</span></label><input type="hidden" id="delivery" value="รับด้วยตนเอง"><div class="s3-choice-cards" id="deliveryChoices" role="radiogroup" aria-label="ช่องทางรับเอกสาร"><label class="s3-choice-card selected"><input type="radio" name="deliveryOption" value="รับด้วยตนเอง" checked><span class="choice-icon">🏫</span><span><b>รับด้วยตนเอง</b><small>รับเอกสารที่จุดบริการของมหาวิทยาลัย</small></span></label><label class="s3-choice-card"><input type="radio" name="deliveryOption" value="ไปรษณีย์ / EMS"><span class="choice-icon">📦</span><span><b>ไปรษณีย์ / EMS</b><small>จัดส่งตามที่อยู่ที่บันทึกไว้</small></span></label><label class="s3-choice-card"><input type="radio" name="deliveryOption" value="Electronic Document"><span class="choice-icon">📄</span><span><b>เอกสารอิเล็กทรอนิกส์</b><small>รับไฟล์ที่ผ่านการรับรองทางระบบ</small></span></label></div></div><div class="s3-field s3-hidden" id="addressField"><label>ที่อยู่จัดส่ง</label><input value="99 หมู่ 4 ต.หันตรา อ.พระนครศรีอยุธยา จ.พระนครศรีอยุธยา 13000" readonly></div><div class="s3-field full"><label>เอกสารประกอบ</label><input type="file" id="attachments" multiple><span class="s3-muted" id="attachHint">ระบบจะแสดงรายการเอกสารบังคับตามบริการที่เลือก</span></div></div></div></div>
+<div class="s3-card" style="margin-top:14px"><div class="hd">4. สรุปก่อนส่งคำขอ</div><div class="bd">
+<div class="s3-summary-grid">
+  <div class="s3-summary-item"><small>ผู้ขอ</small><b>1690305001 · นางสาว กานดา สนิทดี</b><span>บริหารธุรกิจ / การบัญชี</span></div>
+  <div class="s3-summary-item"><small>บริการ / เอกสาร</small><b id="sumService">ยังไม่ได้เลือกบริการ</b><span id="sumLangQty">—</span></div>
+  <div class="s3-summary-item"><small>ช่องทางรับ</small><b id="sumDelivery">รับด้วยตนเอง</b><span id="sumDeliveryNote">รับเอกสารที่จุดบริการของมหาวิทยาลัย</span></div>
+  <div class="s3-summary-item"><small>เอกสารประกอบ</small><b id="sumAttach">ยังไม่ได้เลือกไฟล์</b><span>ระบบจะตรวจเอกสารบังคับตามบริการที่เลือก</span></div>
+  <div class="s3-summary-item full"><small>วัตถุประสงค์</small><b id="sumPurpose">ยังไม่ได้ระบุ</b></div>
+</div>
+<div class="s3-summary-footer">
+  <div><div class="s3-section-title">ค่าธรรมเนียมโดยประมาณ</div><div class="s3-money" id="fee">—</div><div class="s3-muted">คำนวณตามประเภทบริการและจำนวนฉบับ</div></div>
+  <div><div class="s3-section-title">ขั้นตอนถัดไป</div><div id="nextStep" class="s3-statusline"><span class="s3-chip info">เลือกบริการก่อน</span></div><div class="s3-muted">เมื่อยืนยันคำขอ ระบบจะส่งเข้าสู่ Workflow ตามเงื่อนไขของบริการ</div></div>
+</div>
+</div></div>
+<div class="s3-actions sticky" style="justify-content:flex-end;margin-top:14px"><a class="btn btn-secondary" href="4010.html">ยกเลิก</a><button type="button" class="btn btn-secondary" id="draftBtn">บันทึกร่าง</button><button type="submit" class="btn btn-primary">ยืนยันและส่งคำขอ</button></div></form></div></main></div><script>window.ACTIVE_LEAF='สร้างคำขอ';</script><script src="../shared/rus-nav.js"></script><script>
+const data={
+ incomplete:{name:'ใบแสดงผลการศึกษาฉบับไม่สมบูรณ์',icon:'📄',help:'สำหรับนักศึกษาที่ยังไม่สำเร็จการศึกษา แสดงผลตาม Academic Record ปัจจุบัน',fee:100,langs:['ไทย','อังกฤษ'],defaultLang:'ไทย',attach:'ไม่มีเอกสารบังคับในตัวอย่างนี้'},
+ complete:{name:'ใบแสดงผลการศึกษาฉบับสำเร็จ',icon:'🎓',help:'สำหรับผู้ที่สำเร็จการศึกษาและผลผ่านการรับรองครบถ้วน',fee:100,langs:['ไทย','อังกฤษ'],defaultLang:'ไทย',attach:'ตรวจ Graduation Status และผลการศึกษา Final'},
+ tr_th:{name:'Transcript ภาษาไทย',icon:'📘',help:'ใช้ผลการศึกษา Final/Approved จาก SYSTEM 2',fee:100,langs:['ไทย'],defaultLang:'ไทย',attach:'ไม่มีเอกสารบังคับในตัวอย่างนี้'},
+ tr_en:{name:'Transcript ภาษาอังกฤษ',icon:'📗',help:'ใช้ข้อมูลชื่อ/หลักสูตรภาษาอังกฤษและผลการศึกษา Final',fee:150,langs:['อังกฤษ'],defaultLang:'อังกฤษ',attach:'โปรดตรวจสอบชื่อภาษาอังกฤษก่อนยืนยัน'},
+ student_cert:{name:'หนังสือรับรองการเป็นนักศึกษา',icon:'🪪',help:'ใช้สถานภาพนักศึกษาที่อนุญาตตาม Rule',fee:50,langs:['ไทย','อังกฤษ'],defaultLang:'ไทย',attach:'เอกสารประกอบตามวัตถุประสงค์ของหนังสือรับรอง'},
+ status_cert:{name:'หนังสือรับรองสถานภาพ',icon:'✅',help:'ใช้สถานภาพจาก Academic Core',fee:50,langs:['ไทย','อังกฤษ'],defaultLang:'ไทย',attach:'เอกสารประกอบตามวัตถุประสงค์'},
+ grad_cert:{name:'ใบรับรองสำเร็จการศึกษา',icon:'🏅',help:'ต้องผ่านเงื่อนไขสำเร็จการศึกษาก่อน',fee:100,langs:['ไทย','อังกฤษ'],defaultLang:'ไทย',attach:'ระบบตรวจ Graduation Status อัตโนมัติ'},
+ grade_report:{name:'ใบแสดงผลการเรียน',icon:'📑',help:'ใช้ข้อมูลรายวิชาและผลการศึกษาใน Academic Record',fee:50,langs:['ไทย','อังกฤษ'],defaultLang:'ไทย',attach:'ไม่มีเอกสารบังคับในตัวอย่างนี้'},
+ graduation:{name:'ขอสำเร็จการศึกษา',icon:'🎓',help:'บริการคำร้องขอสำเร็จการศึกษา ไม่ใช่ประเภทเอกสาร',fee:0,academic:true,attach:'เอกสารประกอบตามเงื่อนไขการขอสำเร็จการศึกษา'}
+};
+const docWrap=document.getElementById('documentServices'),acadWrap=document.getElementById('academicServices'),fee=document.getElementById('fee'),next=document.getElementById('nextStep'),hint=document.getElementById('attachHint'),purpose=document.getElementById('purpose'),attachments=document.getElementById('attachments'),sumService=document.getElementById('sumService'),sumLangQty=document.getElementById('sumLangQty'),sumDelivery=document.getElementById('sumDelivery'),sumDeliveryNote=document.getElementById('sumDeliveryNote'),sumAttach=document.getElementById('sumAttach'),sumPurpose=document.getElementById('sumPurpose');
+function serviceCard(key,d){
+ const fixed=d.langs&&d.langs.length===1;
+ return `<label class="s3-service-card" data-key="${key}"><div class="s3-service-top"><input class="s3-service-check" type="checkbox" value="${key}"><span class="service-icon">${d.icon}</span><span class="service-copy"><b>${d.name}</b><small>${d.help}</small><em>${d.fee?d.fee.toLocaleString('th-TH')+' บาท / ฉบับ':'ไม่มีค่าธรรมเนียม'}</em></span></div>${d.academic?'':`<div class="s3-service-config"><div><label>ภาษา</label>${fixed?`<div class="s3-fixed-value">${d.defaultLang}</div>`:`<select class="svc-lang">${d.langs.map(x=>`<option${x===d.defaultLang?' selected':''}>${x}</option>`).join('')}</select>`}</div><div><label>จำนวนฉบับ</label><input class="svc-qty" type="number" min="1" max="20" value="1"></div></div>`}</label>`;
+}
+Object.entries(data).forEach(([k,d])=>{(d.academic?acadWrap:docWrap).insertAdjacentHTML('beforeend',serviceCard(k,d))});
+function selected(){return [...document.querySelectorAll('.s3-service-check:checked')].map(c=>{const k=c.value,card=c.closest('.s3-service-card'),d=data[k];return {key:k,data:d,lang:d.academic?'':(card.querySelector('.svc-lang')?.value||d.defaultLang),qty:d.academic?1:Math.max(1,parseInt(card.querySelector('.svc-qty')?.value||'1'))}})}
+function syncCards(){document.querySelectorAll('.s3-service-card').forEach(c=>c.classList.toggle('selected',c.querySelector('.s3-service-check').checked))}
+function updateSummary(){
+ const items=selected();
+ if(!items.length){sumService.textContent='ยังไม่ได้เลือกบริการ';sumLangQty.textContent='—';fee.textContent='—';next.innerHTML='<span class="s3-chip info">เลือกบริการก่อน</span>';hint.textContent='ระบบจะแสดงรายการเอกสารบังคับตามบริการที่เลือก';}
+ else{
+   sumService.textContent=items.map(x=>x.data.name).join(' + ');
+   sumLangQty.textContent=items.map(x=>x.data.academic?'บริการคำร้อง':`${x.lang} · ${x.qty} ฉบับ`).join(' | ');
+   const total=items.reduce((a,x)=>a+x.data.fee*x.qty,0);fee.textContent=total?total.toLocaleString('th-TH')+' บาท':'ไม่มีค่าธรรมเนียม';
+   const hasAcad=items.some(x=>x.data.academic);next.innerHTML='<span class="s3-chip info">'+(hasAcad?'ตรวจสอบข้อมูลและสิทธิ์ → พิจารณาอนุมัติ':'ตรวจสอบข้อมูลและสิทธิ์')+'</span>';
+   const notes=[...new Set(items.map(x=>x.data.attach))];hint.textContent='เอกสารประกอบ: '+notes.join(' / ');
+ }
+ sumPurpose.textContent=purpose.value.trim()||'ยังไม่ได้ระบุ';
+ const files=[...attachments.files];sumAttach.textContent=files.length?files.length+' ไฟล์ · '+files.map(f=>f.name).join(', '):'ยังไม่ได้เลือกไฟล์';
+ syncCards();
+}
+document.addEventListener('change',e=>{
+ if(e.target.classList.contains('s3-service-check')){
+   const key=e.target.value,d=data[key];
+   if(d.academic&&e.target.checked){document.querySelectorAll('.s3-service-check').forEach(x=>{if(x!==e.target)x.checked=false})}
+   if(!d.academic&&e.target.checked){document.querySelectorAll('#academicServices .s3-service-check').forEach(x=>x.checked=false)}
+   updateSummary();
+ }
+ if(e.target.classList.contains('svc-lang'))updateSummary();
+});
+document.addEventListener('input',e=>{if(e.target.classList.contains('svc-qty'))updateSummary()});
+purpose.oninput=updateSummary;attachments.onchange=updateSummary;
+document.querySelectorAll('input[name="deliveryOption"]').forEach(r=>r.addEventListener('change',e=>{document.getElementById('delivery').value=e.target.value;document.querySelectorAll('.s3-choice-card').forEach(c=>c.classList.toggle('selected',c.contains(e.target)));document.getElementById('addressField').classList.toggle('s3-hidden',e.target.value!=='ไปรษณีย์ / EMS');sumDelivery.textContent=e.target.value;sumDeliveryNote.textContent=e.target.value==='ไปรษณีย์ / EMS'?'จัดส่งตามที่อยู่ที่บันทึกไว้':e.target.value==='Electronic Document'?'รับไฟล์ที่ผ่านการรับรองทางระบบ':'รับเอกสารที่จุดบริการของมหาวิทยาลัย'}));
+document.getElementById('findStudent').onclick=()=>{const id=document.getElementById('studentId').value.trim();if(!id){alert('กรุณาระบุรหัสนักศึกษา');return}document.getElementById('studentCard').classList.remove('s3-hidden')};
+document.getElementById('draftBtn').onclick=()=>{localStorage.setItem('s3draft','1');alert('บันทึกร่างคำขอเรียบร้อย');location.href='4010.html'};
+document.getElementById('reqForm').onsubmit=e=>{e.preventDefault();const items=selected();if(!items.length){alert('กรุณาเลือกบริการหรือประเภทเอกสารอย่างน้อย 1 รายการ');return}if(!purpose.value.trim()){alert('กรุณาระบุวัตถุประสงค์');return}if(confirm('ยืนยันส่งคำขอเข้าสู่ขั้นตอนตรวจสอบข้อมูลและสิทธิ์?')){localStorage.setItem('s3-new-request',JSON.stringify({items:items.map(x=>({service:x.key,lang:x.lang,qty:x.qty})),purpose:purpose.value.trim(),at:new Date().toISOString()}));location.href='4010_detail.html?id=DR69-0522&new=1'}};
+updateSummary();
+</script></body></html>
