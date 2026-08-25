@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>2.8 Mapping รายวิชา — ระบบทะเบียนและประมวลผล</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&amp;family=Saira+Condensed:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="../shared/rus-ui.css" rel="stylesheet"/>
+<style>
+/* ===== เฉพาะหน้า main (shell + dashboard) ===== */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:60}
+
+/* SIDEBAR (9 ระบบ) */
+.sidebar{position:fixed;top:var(--topbar-h);left:0;bottom:0;width:var(--sidebar-w);background:var(--surface);
+  border-right:1px solid var(--border);overflow-y:auto;overflow-x:hidden;padding:12px 0 30px;z-index:55;
+  transition:width .24s cubic-bezier(.4,0,.2,1),transform .24s cubic-bezier(.4,0,.2,1)}
+.nav-section{padding:4px 12px}
+.nav-section .label{font-size:10.5px;font-weight:700;color:var(--text-faint);letter-spacing:.7px;text-transform:uppercase;
+  padding:10px 12px 5px;white-space:nowrap;overflow:hidden}
+.nav-parent{display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:9px;color:var(--text-muted);
+  font-size:14px;font-weight:500;transition:.13s;white-space:nowrap;position:relative;width:100%;text-align:left}
+.nav-parent .ico{width:22px;height:22px;flex-shrink:0;display:grid;place-items:center}
+.nav-parent .ico svg{width:20px;height:20px;opacity:.85}
+.nav-parent .txt{flex:1;overflow:hidden;text-overflow:ellipsis}
+.nav-parent .chev{width:16px;height:16px;opacity:.55;transition:transform .2s;flex-shrink:0}
+.nav-parent:hover{background:var(--rus-primary-50);color:var(--rus-primary)}
+.nav-parent.open{color:var(--rus-primary-dark);font-weight:600;background:var(--rus-primary-50)}
+.nav-parent.open .chev{transform:rotate(90deg)}
+.nav-parent.current{background:var(--rus-primary);color:#fff}
+.nav-parent.current .ico svg{opacity:1}
+/* ชั้น 2: กลุ่มงาน */
+.submenu{max-height:0;overflow:hidden;transition:max-height .3s ease;background:var(--rus-primary-50)}
+.submenu.open{max-height:1200px;padding:4px 8px 8px}
+.nav-group2{display:flex;align-items:center;gap:8px;width:100%;text-align:left;padding:9px 12px;margin-top:2px;
+  border-radius:8px;color:var(--rus-primary-dark);font-size:13px;font-weight:600;transition:.13s;position:relative}
+.nav-group2 .g-cn{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav-group2 .g-chev{width:14px;height:14px;opacity:.6;transition:transform .2s;flex-shrink:0}
+.nav-group2:hover{background:var(--rus-primary-light)}
+.nav-group2.open{background:var(--rus-primary-light)}
+.nav-group2.open .g-chev{transform:rotate(90deg)}
+/* STEP หน้าเดียว = ลิงก์ตรง */
+.nav-group2.single{cursor:pointer}
+.nav-group2.active-step{background:#fff;color:var(--rus-primary-dark);box-shadow:var(--shadow-sm)}
+.nav-group2.active-step .g-cn{font-weight:700}
+
+/* ชั้น 3: หน้าจอจริง */
+.subsub{max-height:0;overflow:hidden;transition:max-height .26s ease;padding-left:14px;margin-left:8px;border-left:2px solid var(--rus-primary-light)}
+.subsub.open{max-height:500px;padding-top:2px;padding-bottom:4px}
+.nav-leaf{display:flex;align-items:center;gap:9px;padding:7px 12px;border-radius:7px;color:var(--text-muted);
+  font-size:12.5px;font-weight:400;transition:.12s;white-space:nowrap;position:relative;margin:1px 0}
+.nav-leaf .cn{flex:1;overflow:hidden;text-overflow:ellipsis}
+.nav-leaf .bullet{width:5px;height:5px;border-radius:50%;background:var(--border-strong);flex-shrink:0;transition:.12s}
+.nav-leaf:hover{background:#fff;color:var(--rus-primary)}
+.nav-leaf:hover .bullet{background:var(--rus-primary)}
+.nav-leaf.active{background:#fff;color:var(--rus-primary-dark);font-weight:600;box-shadow:var(--shadow-sm)}
+.nav-leaf.active .bullet{background:var(--rus-primary);width:6px;height:6px}
+
+/* COLLAPSED (desktop icon-only) */
+.app.collapsed .sidebar{width:var(--sidebar-collapsed);overflow-x:visible;overflow-y:visible}
+.app.collapsed .nav-section .label{opacity:0;height:0;padding:0}
+.app.collapsed .nav-section{padding:4px 9px}
+.app.collapsed .nav-parent{justify-content:center;padding:12px 0}
+.app.collapsed .nav-parent .txt,.app.collapsed .nav-parent .chev{display:none}
+.app.collapsed .submenu{display:none!important}
+.app.collapsed .nav-parent::after{content:attr(data-label);position:absolute;left:calc(100% + 12px);top:50%;
+  transform:translateY(-50%);background:var(--rus-primary-deep);color:#fff;font-size:12.5px;font-weight:500;
+  padding:7px 12px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:.15s;z-index:80;box-shadow:var(--shadow-lg)}
+.app.collapsed .nav-parent::before{content:"";position:absolute;left:calc(100% + 5px);top:50%;transform:translateY(-50%);
+  border:7px solid transparent;border-right-color:var(--rus-primary-deep);opacity:0;transition:.15s;z-index:80}
+.app.collapsed .nav-parent:hover::after,.app.collapsed .nav-parent:hover::before{opacity:1}
+
+/* CONTENT */
+.content{margin-top:var(--topbar-h);margin-left:var(--sidebar-w);padding:22px 26px 50px;
+  transition:margin-left .24s cubic-bezier(.4,0,.2,1);min-height:calc(100vh - var(--topbar-h))}
+.app.collapsed .content{margin-left:var(--sidebar-collapsed)}
+.backdrop{position:fixed;inset:0;background:rgba(22,48,95,.45);z-index:54;opacity:0;pointer-events:none;transition:.24s}
+
+/* MOBILE drawer */
+@media(max-width:980px){
+  .content{margin-left:0!important}
+  .sidebar{transform:translateX(-100%);box-shadow:var(--shadow-lg)}
+  .app.mobile-open .sidebar{transform:translateX(0);width:var(--sidebar-w)}
+  .app.mobile-open .backdrop{opacity:1;pointer-events:auto}
+  .app.collapsed .sidebar{width:var(--sidebar-w)}
+  .app.collapsed .nav-section .label{opacity:1;height:auto;padding:10px 12px 5px}
+  .app.collapsed .nav-section{padding:4px 12px}
+  .app.collapsed .nav-parent{justify-content:flex-start;padding:11px 13px}
+  .app.collapsed .nav-parent .txt,.app.collapsed .nav-parent .chev{display:flex}
+  .app.collapsed .nav-parent .txt{display:block}
+  .app.collapsed .submenu{display:block!important}
+  .app.collapsed .nav-parent::after,.app.collapsed .nav-parent::before{display:none}
+}
+
+/* DASHBOARD */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:22px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.stat::after{content:"";position:absolute;right:-16px;top:-16px;width:80px;height:80px;border-radius:50%;background:var(--rus-primary-50)}
+.stat .ic{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;margin-bottom:12px;position:relative;z-index:1}
+.stat .ic svg{width:22px;height:22px}
+.stat .v{font-size:28px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;position:relative;z-index:1}
+.stat .l{font-size:13px;color:var(--text-muted);position:relative;z-index:1}
+.stat .trend{font-size:12px;font-weight:600;margin-top:6px;position:relative;z-index:1}
+.c-blue{background:var(--info-bg);color:var(--rus-primary)} .c-green{background:var(--ok-bg);color:var(--ok)}
+.c-orange{background:var(--warn-bg);color:var(--warn)} .c-gold{background:#FBF1DC;color:var(--rus-accent-dark)}
+.panel-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:18px}
+@media(max-width:1100px){.panel-grid{grid-template-columns:1fr}}
+.task{display:flex;align-items:center;gap:13px;padding:13px 18px;border-bottom:1px solid #EEF1F5}
+.task:hover{background:var(--rus-primary-50)}
+.task .ti{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex-shrink:0}
+.task .ti svg{width:19px;height:19px}
+.task .tx{flex:1;min-width:0}
+.task .tx .t1{font-size:14px;font-weight:500}
+.task .tx .t2{font-size:12.5px;color:var(--text-muted)}
+.task .cnt{font-size:18px;font-weight:700;color:var(--rus-primary-dark);font-variant-numeric:tabular-nums}
+
+/* ===== ฟอร์ม STEP 1 ===== */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 20px}
+@media(max-width:760px){.form-grid{grid-template-columns:1fr}}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld.full{grid-column:1/-1}
+.fld label{font-size:13px;font-weight:600;color:var(--text)}
+.fld label .req{color:var(--error);margin-left:2px}
+.fld input,.fld select,.fld textarea{font-family:inherit;font-size:14px;padding:10px 12px;border:1.5px solid var(--border-strong);
+  border-radius:8px;background:#fff;color:var(--text);transition:.13s;width:100%}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-color:var(--rus-primary);box-shadow:0 0 0 3px var(--rus-primary-light)}
+.fld .hint{font-size:12px;color:var(--text-faint)}
+.fld-row{display:flex;gap:10px;align-items:center}
+.switch{position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:var(--border-strong);border-radius:24px;transition:.2s;cursor:pointer}
+.slider::before{content:"";position:absolute;height:18px;width:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+.switch input:checked+.slider{background:var(--ok)}
+.switch input:checked+.slider::before{transform:translateX(20px)}
+.form-actions{display:flex;gap:11px;justify-content:flex-end;margin-top:8px;padding-top:18px;border-top:1px solid var(--border)}
+.seg{display:flex;gap:0;border:1.5px solid var(--border-strong);border-radius:8px;overflow:hidden;width:fit-content}
+.seg button{padding:8px 16px;font-size:13px;font-weight:500;color:var(--text-muted);background:#fff;transition:.12s}
+.seg button.on{background:var(--rus-primary);color:#fff}
+.status-pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:4px 11px;border-radius:20px}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.toolbar .search{flex:1;min-width:200px;position:relative}
+.toolbar .search input{width:100%;padding:9px 12px 9px 36px;border:1.5px solid var(--border-strong);border-radius:8px;font-size:14px;font-family:inherit}
+.toolbar .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--text-faint)}
+
+
+/* ===== components เสริม (modal, toast, chip, empty) ===== */
+.chip-group{display:flex;flex-wrap:wrap;gap:9px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border:1.5px solid var(--border-strong);border-radius:30px;
+  font-size:13px;font-weight:500;color:var(--text-muted);background:#fff;cursor:pointer;transition:.13s;user-select:none}
+.chip:hover{border-color:var(--rus-primary);color:var(--rus-primary)}
+.chip input{display:none}
+.chip .tick{width:16px;height:16px;border:1.5px solid var(--border-strong);border-radius:5px;display:grid;place-items:center;transition:.13s}
+.chip .tick svg{width:11px;height:11px;color:#fff;opacity:0}
+.chip.on{border-color:var(--rus-primary);background:var(--rus-primary-50);color:var(--rus-primary-dark);font-weight:600}
+.chip.on .tick{background:var(--rus-primary);border-color:var(--rus-primary)}
+.chip.on .tick svg{opacity:1}
+.info-banner{display:flex;gap:11px;align-items:flex-start;padding:13px 16px;border-radius:10px;background:var(--info-bg);
+  border:1px solid var(--rus-primary-light);font-size:13.5px;color:var(--rus-primary-dark);margin-bottom:16px}
+.info-banner svg{width:19px;height:19px;flex-shrink:0;margin-top:1px;color:var(--rus-primary)}
+.timeline-mini{display:flex;align-items:center;gap:0;margin:4px 0 18px;flex-wrap:wrap}
+.tl-step{display:flex;align-items:center;gap:8px;font-size:12.5px}
+.tl-dot{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:12px;flex-shrink:0;
+  background:#EEF0F4;color:var(--text-muted)}
+.tl-step.done .tl-dot{background:var(--ok);color:#fff}
+.tl-step.active .tl-dot{background:var(--rus-primary);color:#fff;box-shadow:0 0 0 4px var(--rus-primary-light)}
+.tl-line{width:34px;height:2px;background:var(--border-strong);margin:0 6px}
+.tl-step.done+.tl-line{background:var(--ok)}
+</style>
+<style>
+.hierarchy{display:grid;grid-template-columns:280px 1fr;gap:18px}.tree-panel{border:1px solid var(--border);border-radius:12px;background:#fff;overflow:hidden}.tree-head{padding:14px 16px;background:var(--rus-primary-50);font-weight:700;color:var(--rus-primary-dark)}.tree{padding:10px}.tree button{width:100%;display:flex;align-items:center;gap:8px;text-align:left;padding:9px 10px;border-radius:8px;color:var(--text-muted);font-family:inherit}.tree button:hover,.tree button.on{background:var(--rus-primary-light);color:var(--rus-primary-dark)}.tree .l1{font-weight:700}.tree .l2{padding-left:26px;font-weight:600}.tree .l3{padding-left:42px}.tree .l4{padding-left:58px}.level-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px}.level{padding:12px 8px;border:1px solid var(--border);border-radius:10px;background:#fff;text-align:center;font-size:12px}.level b{display:block;color:var(--rus-primary-dark);font-size:13px}.level.active{border-color:var(--rus-primary);background:var(--rus-primary-50)}.course-path{font-size:12px;color:var(--text-muted);margin-top:4px}.master-note{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:10px;background:var(--info-bg);color:var(--rus-primary-dark);margin-bottom:16px}.master-note b{display:block}.stat-mini{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}.stat-mini>div{padding:12px;border:1px solid var(--border);border-radius:10px;background:#fff}.stat-mini strong{font-size:20px;display:block;color:var(--rus-primary-dark)}@media(max-width:1000px){.hierarchy{grid-template-columns:1fr}.level-strip{grid-template-columns:repeat(3,1fr)}.stat-mini{grid-template-columns:repeat(2,1fr)}}
+</style>
+<style data-system1-rev="1">
+.revise-banner{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;margin:0 0 16px;border:1px solid #93c5fd;border-left:5px solid #1d4ed8;border-radius:10px;background:#eff6ff;color:#163d78}.revise-banner b{display:block;margin-bottom:2px}.arch-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:14px 0 18px}.arch-box{background:#fff;border:1px solid #dbe3ef;border-radius:10px;padding:14px}.arch-box .k{font-size:12px;color:#64748b}.arch-box .v{font-weight:700;color:#163d78;margin-top:4px}.tag{display:inline-block;padding:3px 8px;border-radius:999px;background:#e0f2fe;color:#075985;font-size:12px;font-weight:600}.tag.ok{background:#dcfce7;color:#166534}.tag.warn{background:#fef3c7;color:#92400e}.hier{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 14px;border:1px solid #dbe3ef;border-radius:10px;background:#fff;margin-bottom:16px}.hier span{padding:7px 10px;background:#eff6ff;border-radius:8px;color:#1e3a8a;font-weight:600;font-size:13px}.mini-note{font-size:12px;color:#64748b}.rule-list{display:grid;gap:8px}.rule{padding:11px 12px;border:1px solid #dbe3ef;border-radius:9px;background:#fff}.rule b{color:#163d78}.matrix td,.matrix th{vertical-align:top}.matrix .main{font-weight:700;color:#163d78}.subtle{color:#64748b;font-size:12px}.warnbox{padding:12px 14px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;color:#9a3412;margin:12px 0}.okbox{padding:12px 14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;color:#166534;margin:12px 0}
+</style><link rel="stylesheet" href="../shared/rus-ui-normalize.css">
+<link rel="stylesheet" href="../shared/rus-sidebar-shared.css">
+</head>
+<body>
+<div class="app" id="app">
+<!-- TOP BAR -->
+<header class="topbar">
+<button aria-label="ย่อ/ขยายเมนู" class="menu-toggle" id="menuToggle">
+<svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round"></path></svg>
+</button>
+<div class="brand">
+<div class="mark">RUS</div>
+<div class="titles">
+<div class="th">ระบบทะเบียนและประมวลผล</div>
+<div class="en">Registration System · มทร.สุวรรณภูมิ</div>
+</div>
+</div>
+<div class="spacer"></div>
+<div class="util">
+<button class="icon-btn" title="ค้นหา"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4-4"></path></svg></button>
+<button class="icon-btn" title="แจ้งเตือน"><span class="badge-dot"></span><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+<button class="user-chip">
+<div class="who"><div class="n">นายภักดี รัตนวิจิตรสกุล</div><div class="r">เจ้าหน้าที่ทะเบียน · สวท.</div></div>
+<div class="avatar">ภร</div>
+</button>
+<a class="logout-btn" href="../logout.html" title="ออกจากระบบ"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5M21 12H9"></path></svg><span>ออกจากระบบ</span></a>
+</div>
+</header>
+<!-- SIDEBAR (9 ระบบ) -->
+<aside class="sidebar" id="sidebar">
+<div class="nav-section">
+<div class="label">ภาพรวม</div>
+<button class="nav-parent" data-label="แดชบอร์ด">
+<span class="ico"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><rect height="9" rx="1" width="7" x="3" y="3"></rect><rect height="5" rx="1" width="7" x="14" y="3"></rect><rect height="9" rx="1" width="7" x="14" y="12"></rect><rect height="5" rx="1" width="7" x="3" y="16"></rect></svg></span>
+<span class="txt">แดชบอร์ด</span>
+</button>
+</div>
+<div class="nav-section">
+<div class="label">ระบบงาน (9 ระบบ)</div>
+<!-- เมนูถูกสร้างด้วย JS เพื่อความกระชับ -->
+<div id="navSystems"></div>
+</div>
+<div class="nav-section">
+<div class="label">ตั้งค่า</div>
+<button class="nav-parent" data-label="ผู้ใช้งานและสิทธิ์">
+<span class="ico"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="9" cy="8" r="3.5"></circle><path d="M2 21v-1a6 6 0 0 1 12 0v1M17 11l2 2 4-4"></path></svg></span>
+<span class="txt">ผู้ใช้งานและสิทธิ์</span>
+</button>
+<button class="nav-parent" data-label="ตั้งค่าระบบ">
+<span class="ico"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1A1.6 1.6 0 0 0 6.8 19l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1-2.7H3a2 2 0 0 1 0-4h.1A1.6 1.6 0 0 0 4.6 6.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"></path></svg></span>
+<span class="txt">ตั้งค่าระบบ</span>
+</button>
+</div>
+</aside>
+<div class="backdrop" id="backdrop"></div>
+<!-- CONTENT (ตัวอย่างแดชบอร์ด) -->
+<main class="content">
+<style>
+.map-wrap{display:grid;grid-template-columns:330px minmax(0,1fr);gap:16px}.panel{background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-sm)}.panel-h{padding:15px 17px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}.panel-b{padding:16px}.context-grid{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:12px;margin-bottom:16px}.context-grid label{display:block;font-size:12px;font-weight:600;margin-bottom:5px}.context-grid select{width:100%;padding:10px;border:1px solid var(--border-strong);border-radius:8px;background:#fff}.subject-row{border:1px solid var(--border);border-radius:10px;padding:10px;margin:8px 0;background:#fafcff}.subject-row .top{display:flex;justify-content:space-between;gap:8px}.subject-row small{color:var(--text-muted)}.add-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px}.add-grid button{border:1px solid var(--rus-primary-light);background:var(--rus-primary-50);color:var(--rus-primary-dark);padding:7px 5px;border-radius:7px;font-size:11px;cursor:pointer}.year-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.year-tabs button{padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:#fff;cursor:pointer}.year-tabs button.on{background:var(--rus-primary);color:#fff;border-color:var(--rus-primary)}.terms{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.term{border:1px solid var(--border);border-radius:12px;min-height:300px;overflow:hidden}.term h3{margin:0;padding:11px 13px;background:var(--rus-primary-50);color:var(--rus-primary-dark);font-size:15px}.term-list{padding:10px;min-height:215px}.mapped{border:1px solid var(--border);border-radius:9px;padding:9px;margin-bottom:8px;background:#fff}.mapped .head{display:flex;justify-content:space-between;gap:8px}.mapped .actions{display:flex;gap:4px;margin-top:7px}.mapped button{padding:4px 7px;border:1px solid var(--border);border-radius:6px;background:#fff;cursor:pointer}.term-total{padding:10px 12px;border-top:1px solid var(--border);font-weight:700}.validation{margin-top:14px;padding:13px;border-radius:10px;border-left:4px solid var(--ok);background:var(--ok-bg)}.validation.warn{border-left-color:var(--warn);background:var(--warn-bg)}.validation.error{border-left-color:var(--error);background:var(--error-bg)}.empty{padding:24px 8px;text-align:center;color:var(--text-faint);font-size:13px}.toolbar2{display:flex;gap:8px;flex-wrap:wrap}.help{background:#eef6ff;border:1px solid #c9dcf5;border-radius:10px;padding:12px;margin-bottom:14px}.help b{color:var(--rus-primary-dark)}@media(max-width:1050px){.map-wrap{grid-template-columns:1fr}.context-grid{grid-template-columns:1fr 1fr}.terms{grid-template-columns:1fr}}@media(max-width:620px){.context-grid{grid-template-columns:1fr}.add-grid{grid-template-columns:1fr}}
+</style>
+<div class="crumb">หน้าแรก › ระบบลงทะเบียน › STEP 2 › <b>จัดรายวิชาในแผนการเรียน</b></div>
+<div class="page-head"><div><h1>จัดรายวิชาในแผนการเรียน</h1><div class="sub">เลือกหลักสูตร ชั้นปี และนำรายวิชาเข้าแต่ละภาคการศึกษา โดยกดปุ่ม ไม่จำเป็นต้องลาก</div></div><a class="btn btn-ghost" href="2020.html">ภาพรวม STEP 2</a></div><div class="revise-banner"><div><b>Mapping รายวิชาเข้าแผนโดยไม่สร้าง Course ซ้ำ</b>ระบบตรวจหน่วยกิตรวม, prerequisite, วิชาซ้ำ, วิชาที่อยู่นอก ฉบับหลักสูตร (พ.ศ.) และแผนที่ยังไม่ครบตามโครงสร้างก่อนอนุมัติใช้งาน</div></div>
+<div class="help"><b>วิธีใช้ 3 ขั้นตอน:</b> 1) เลือกหลักสูตรและปีหลักสูตร 2) เลือกชั้นปี 3) กด “ภาค 1 / ภาค 2 / ฤดูร้อน” ใต้รายวิชาที่ต้องการ จากนั้นกดบันทึก</div>
+<section class="panel" style="margin-bottom:16px"><div class="panel-b"><div class="context-grid">
+<div><label>คณะ</label><select id="faculty"><option>คณะวิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์</option><option>คณะบริหารธุรกิจและเทคโนโลยีสารสนเทศ</option><option>คณะวิทยาศาสตร์และเทคโนโลยี</option><option>คณะศิลปศาสตร์</option></select></div>
+<div><label>หลักสูตร</label><select id="program"><option value="CE">วศ.บ. วิศวกรรมคอมพิวเตอร์</option><option value="EE">วศ.บ. วิศวกรรมไฟฟ้า</option><option value="CV">วศ.บ. วิศวกรรมโยธา</option></select></div>
+<div><label>ฉบับหลักสูตร พ.ศ.</label><select id="version"><option>2568</option><option>2565</option></select></div>
+<div><label>ชั้นปีที่กำลังจัด</label><select id="year"><option value="1">ชั้นปีที่ 1</option><option value="2">ชั้นปีที่ 2</option><option value="3">ชั้นปีที่ 3</option><option value="4">ชั้นปีที่ 4</option></select></div>
+</div></div></section>
+<div class="map-wrap">
+<aside class="panel"><div class="panel-h"><div><b>Master รายวิชา</b><div style="font-size:12px;color:var(--text-muted)">กดเลือกภาคที่ต้องการเพิ่ม</div></div></div><div class="panel-b"><input id="q" placeholder="ค้นหารหัสหรือชื่อรายวิชา" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px"/><div id="subjectPool"></div></div></aside>
+<section class="panel"><div class="panel-h"><div><b id="planTitle">แผนการเรียน ชั้นปีที่ 1</b><div id="planSub" style="font-size:12px;color:var(--text-muted)"></div></div><div class="toolbar2"><button class="btn btn-ghost btn-sm" id="copyPrev">คัดลอกจากชั้นปีก่อน</button><button class="btn btn-ghost btn-sm" id="clearYear">ล้างชั้นปีนี้</button></div></div><div class="panel-b">
+<div class="year-tabs" id="yearTabs"><button class="on" data-year="1">ปี 1</button><button data-year="2">ปี 2</button><button data-year="3">ปี 3</button><button data-year="4">ปี 4</button></div>
+<div class="terms">
+<div class="term"><h3>ภาคการศึกษาที่ 1</h3><div class="term-list" id="term1"></div><div class="term-total">รวม <span id="total1">0</span> หน่วยกิต</div></div>
+<div class="term"><h3>ภาคการศึกษาที่ 2</h3><div class="term-list" id="term2"></div><div class="term-total">รวม <span id="total2">0</span> หน่วยกิต</div></div>
+<div class="term"><h3>ภาคฤดูร้อน</h3><div class="term-list" id="termS"></div><div class="term-total">รวม <span id="totalS">0</span> หน่วยกิต</div></div>
+</div>
+<div class="validation" id="validBox"></div>
+<div class="detail-actions" style="margin-top:14px"><button class="btn btn-primary" id="save">บันทึกแผนการเรียน</button><button class="btn btn-ghost" id="preview">ดูสรุปทั้งหลักสูตร</button><a class="btn btn-ghost" href="2030.html">เสร็จแล้ว ไป STEP 3</a></div>
+</div></section>
+</div>
+<dialog id="summaryDlg" style="border:0;border-radius:14px;padding:0;max-width:850px;width:92%"><div style="padding:20px"><h2>สรุปแผนการเรียนทั้งหลักสูตร</h2><div id="summaryBody"></div><div class="detail-actions"><button class="btn btn-primary" onclick="summaryDlg.close()">ปิด</button></div></div></dialog>
+</main>
+</div>
+<script>window.ACTIVE_LEAF="จัดรายวิชาในแผนการเรียน";</script>
+<script src="../shared/rus-nav.js"></script>
+<script src="../shared/rus-table.js"></script>
+<script>
+const SUBJECTS=[
+ {code:'CE101',name:'การเขียนโปรแกรมคอมพิวเตอร์',credit:3,group:'วิชาชีพบังคับ',pre:''},
+ {code:'MA101',name:'คณิตศาสตร์วิศวกรรม 1',credit:3,group:'พื้นฐานวิชาชีพ',pre:''},
+ {code:'PH101',name:'ฟิสิกส์สำหรับวิศวกร',credit:3,group:'พื้นฐานวิชาชีพ',pre:''},
+ {code:'GE101',name:'ภาษาอังกฤษเพื่อการสื่อสาร',credit:3,group:'ศึกษาทั่วไป',pre:''},
+ {code:'CE201',name:'โครงสร้างข้อมูลและอัลกอริทึม',credit:3,group:'วิชาชีพบังคับ',pre:'CE101'},
+ {code:'CE202',name:'สถาปัตยกรรมคอมพิวเตอร์',credit:3,group:'วิชาชีพบังคับ',pre:'CE101'},
+ {code:'CE301',name:'ระบบปฏิบัติการ',credit:3,group:'วิชาชีพบังคับ',pre:'CE201'},
+ {code:'CE401',name:'โครงงานวิศวกรรมคอมพิวเตอร์',credit:3,group:'วิชาชีพบังคับ',pre:'CE301'}
+];
+const KEY='rus_v15_studyplan';
+let state=JSON.parse(localStorage.getItem(KEY)||'null')||{CE:{2568:{1:{t1:[],t2:[],ts:[]},2:{t1:[],t2:[],ts:[]},3:{t1:[],t2:[],ts:[]},4:{t1:[],t2:[],ts:[]}}}};
+let currentYear='1';
+const el=id=>document.getElementById(id);
+function ensure(){const p=el('program').value,v=el('version').value;state[p]??={};state[p][v]??={};for(let y=1;y<=4;y++)state[p][v][y]??={t1:[],t2:[],ts:[]};return state[p][v];}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+function addSubject(code,term){const plan=ensure()[currentYear];if(['t1','t2','ts'].some(t=>plan[t].includes(code))){alert('รายวิชานี้อยู่ในชั้นปีนี้แล้ว');return;}plan[term].push(code);render();}
+function unmapSubject(code,term){const a=ensure()[currentYear][term];const i=a.indexOf(code);if(i>=0)a.splice(i,1);render();}
+function moveSubject(code,term,dir){const a=ensure()[currentYear][term],i=a.indexOf(code),j=i+dir;if(i<0||j<0||j>=a.length)return;[a[i],a[j]]=[a[j],a[i]];render();}
+function renderPool(){const q=el('q').value.trim().toLowerCase();el('subjectPool').innerHTML=SUBJECTS.filter(s=>(s.code+' '+s.name).toLowerCase().includes(q)).map(s=>`<div class="subject-row"><div class="top"><div><b>${s.code}</b><br><span>${esc(s.name)}</span><br><small>${s.credit} หน่วยกิต · ${esc(s.group)}${s.pre?' · ต้องผ่าน '+s.pre:''}</small></div></div><div class="add-grid"><button onclick="addSubject('${s.code}','t1')">+ ภาค 1</button><button onclick="addSubject('${s.code}','t2')">+ ภาค 2</button><button onclick="addSubject('${s.code}','ts')">+ ฤดูร้อน</button></div></div>`).join('')||'<div class="empty">ไม่พบรายวิชา</div>';}
+function renderTerm(term,target,total){const codes=ensure()[currentYear][term];el(target).innerHTML=codes.map(code=>{const s=SUBJECTS.find(x=>x.code===code);return `<div class="mapped"><div class="head"><div><b>${s.code}</b> ${esc(s.name)}<br><small>${s.credit} หน่วยกิต · ${esc(s.group)}</small></div><button onclick="unmapSubject('${code}','${term}')">นำออกจากแผน</button></div><div class="actions"><button onclick="moveSubject('${code}','${term}',-1)">↑ เลื่อนขึ้น</button><button onclick="moveSubject('${code}','${term}',1)">↓ เลื่อนลง</button></div></div>`}).join('')||'<div class="empty">ยังไม่มีรายวิชา<br>เพิ่มจากรายการด้านซ้าย</div>';el(total).textContent=codes.reduce((a,c)=>a+(SUBJECTS.find(s=>s.code===c)?.credit||0),0);}
+function validation(){const plan=ensure()[currentYear];const codes=[...plan.t1,...plan.t2,...plan.ts];const total=codes.reduce((a,c)=>a+(SUBJECTS.find(s=>s.code===c)?.credit||0),0);const missing=[];codes.forEach(c=>{const s=SUBJECTS.find(x=>x.code===c);if(s?.pre){let earlier=[];for(let y=1;y<+currentYear;y++){const p=ensure()[y];earlier.push(...p.t1,...p.t2,...p.ts)}if(!earlier.includes(s.pre)&&!codes.slice(0,codes.indexOf(c)).includes(s.pre))missing.push(`${c} ต้องผ่าน ${s.pre}`)}});const box=el('validBox');if(!codes.length){box.className='validation warn';box.innerHTML='<b>ยังไม่มีรายวิชาในชั้นปีนี้</b><br>เลือกจากรายการด้านซ้าย';}else if(total>44||missing.length){box.className='validation error';box.innerHTML=`<b>พบจุดที่ต้องตรวจสอบ</b><br>รวมทั้งปี ${total} หน่วยกิต${missing.length?'<br>'+missing.join('<br>'):''}`;}else{box.className='validation';box.innerHTML=`<b>ผ่านการตรวจสอบเบื้องต้น</b><br>รวมทั้งปี ${total} หน่วยกิต · ไม่มีรายวิชาซ้ำ`;}}
+function render(){el('year').value=currentYear;document.querySelectorAll('#yearTabs button').forEach(b=>b.classList.toggle('on',b.dataset.year===currentYear));el('planTitle').textContent=`แผนการเรียน ชั้นปีที่ ${currentYear}`;el('planSub').textContent=`${el('program').selectedOptions[0].text} · ฉบับ พ.ศ. ${el('version').value}`;renderPool();renderTerm('t1','term1','total1');renderTerm('t2','term2','total2');renderTerm('ts','termS','totalS');validation();}
+el('q').addEventListener('input',renderPool);el('year').addEventListener('change',e=>{currentYear=e.target.value;render()});el('yearTabs').addEventListener('click',e=>{const b=e.target.closest('button[data-year]');if(b){currentYear=b.dataset.year;render()}});el('program').addEventListener('change',render);el('version').addEventListener('change',render);
+el('save').onclick=()=>{localStorage.setItem(KEY,JSON.stringify(state));alert('บันทึกแผนการเรียนเรียบร้อยแล้ว')};
+el('clearYear').onclick=()=>{if(confirm(`ล้างรายวิชาทั้งหมดของชั้นปีที่ ${currentYear} หรือไม่`)){ensure()[currentYear]={t1:[],t2:[],ts:[]};render()}};
+el('copyPrev').onclick=()=>{if(+currentYear===1){alert('ชั้นปีที่ 1 ไม่มีชั้นปีก่อนหน้า');return;}if(confirm(`คัดลอกรายวิชาจากชั้นปีที่ ${+currentYear-1} มายังชั้นปีที่ ${currentYear} หรือไม่`)){ensure()[currentYear]=JSON.parse(JSON.stringify(ensure()[String(+currentYear-1)]));render()}};
+el('preview').onclick=()=>{const plan=ensure();let html='<table class="data-table"><thead><tr><th>ชั้นปี</th><th>ภาค 1</th><th>ภาค 2</th><th>ฤดูร้อน</th><th>รวม</th></tr></thead><tbody>';for(let y=1;y<=4;y++){const p=plan[y],sum=t=>p[t].reduce((a,c)=>a+(SUBJECTS.find(s=>s.code===c)?.credit||0),0);html+=`<tr><td>ปี ${y}</td><td>${sum('t1')}</td><td>${sum('t2')}</td><td>${sum('ts')}</td><td><b>${sum('t1')+sum('t2')+sum('ts')}</b></td></tr>`}html+='</tbody></table>';el('summaryBody').innerHTML=html;el('summaryDlg').showModal()};
+render();
+</script>
+<script src="../shared/system2-rc.js"></script>
+<script src="../shared/master-group-crud-config.js"></script>
+<script src="../shared/rus-master-integration.js"></script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>แก้ไขโครงสร้างหลักสูตร — ระบบทะเบียน</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&amp;family=Saira+Condensed:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="../shared/rus-ui.css" rel="stylesheet"/>
+<style>
+/* ===== เฉพาะหน้า main (shell + dashboard) ===== */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:60}
+
+/* SIDEBAR (9 ระบบ) */
+.sidebar{position:fixed;top:var(--topbar-h);left:0;bottom:0;width:var(--sidebar-w);background:var(--surface);
+  border-right:1px solid var(--border);overflow-y:auto;overflow-x:hidden;padding:12px 0 30px;z-index:55;
+  transition:width .24s cubic-bezier(.4,0,.2,1),transform .24s cubic-bezier(.4,0,.2,1)}
+.nav-section{padding:4px 12px}
+.nav-section .label{font-size:10.5px;font-weight:700;color:var(--text-faint);letter-spacing:.7px;text-transform:uppercase;
+  padding:10px 12px 5px;white-space:nowrap;overflow:hidden}
+.nav-parent{display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:9px;color:var(--text-muted);
+  font-size:14px;font-weight:500;transition:.13s;white-space:nowrap;position:relative;width:100%;text-align:left}
+.nav-parent .ico{width:22px;height:22px;flex-shrink:0;display:grid;place-items:center}
+.nav-parent .ico svg{width:20px;height:20px;opacity:.85}
+.nav-parent .txt{flex:1;overflow:hidden;text-overflow:ellipsis}
+.nav-parent .chev{width:16px;height:16px;opacity:.55;transition:transform .2s;flex-shrink:0}
+.nav-parent:hover{background:var(--rus-primary-50);color:var(--rus-primary)}
+.nav-parent.open{color:var(--rus-primary-dark);font-weight:600;background:var(--rus-primary-50)}
+.nav-parent.open .chev{transform:rotate(90deg)}
+.nav-parent.current{background:var(--rus-primary);color:#fff}
+.nav-parent.current .ico svg{opacity:1}
+/* ชั้น 2: กลุ่มงาน */
+.submenu{max-height:0;overflow:hidden;transition:max-height .3s ease;background:var(--rus-primary-50)}
+.submenu.open{max-height:1200px;padding:4px 8px 8px}
+.nav-group2{display:flex;align-items:center;gap:8px;width:100%;text-align:left;padding:9px 12px;margin-top:2px;
+  border-radius:8px;color:var(--rus-primary-dark);font-size:13px;font-weight:600;transition:.13s;position:relative}
+.nav-group2 .g-cn{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav-group2 .g-chev{width:14px;height:14px;opacity:.6;transition:transform .2s;flex-shrink:0}
+.nav-group2:hover{background:var(--rus-primary-light)}
+.nav-group2.open{background:var(--rus-primary-light)}
+.nav-group2.open .g-chev{transform:rotate(90deg)}
+/* STEP หน้าเดียว = ลิงก์ตรง */
+.nav-group2.single{cursor:pointer}
+.nav-group2.active-step{background:#fff;color:var(--rus-primary-dark);box-shadow:var(--shadow-sm)}
+.nav-group2.active-step .g-cn{font-weight:700}
+
+/* ชั้น 3: หน้าจอจริง */
+.subsub{max-height:0;overflow:hidden;transition:max-height .26s ease;padding-left:14px;margin-left:8px;border-left:2px solid var(--rus-primary-light)}
+.subsub.open{max-height:500px;padding-top:2px;padding-bottom:4px}
+.nav-leaf{display:flex;align-items:center;gap:9px;padding:7px 12px;border-radius:7px;color:var(--text-muted);
+  font-size:12.5px;font-weight:400;transition:.12s;white-space:nowrap;position:relative;margin:1px 0}
+.nav-leaf .cn{flex:1;overflow:hidden;text-overflow:ellipsis}
+.nav-leaf .bullet{width:5px;height:5px;border-radius:50%;background:var(--border-strong);flex-shrink:0;transition:.12s}
+.nav-leaf:hover{background:#fff;color:var(--rus-primary)}
+.nav-leaf:hover .bullet{background:var(--rus-primary)}
+.nav-leaf.active{background:#fff;color:var(--rus-primary-dark);font-weight:600;box-shadow:var(--shadow-sm)}
+.nav-leaf.active .bullet{background:var(--rus-primary);width:6px;height:6px}
+
+/* COLLAPSED (desktop icon-only) */
+.app.collapsed .sidebar{width:var(--sidebar-collapsed);overflow-x:visible;overflow-y:visible}
+.app.collapsed .nav-section .label{opacity:0;height:0;padding:0}
+.app.collapsed .nav-section{padding:4px 9px}
+.app.collapsed .nav-parent{justify-content:center;padding:12px 0}
+.app.collapsed .nav-parent .txt,.app.collapsed .nav-parent .chev{display:none}
+.app.collapsed .submenu{display:none!important}
+.app.collapsed .nav-parent::after{content:attr(data-label);position:absolute;left:calc(100% + 12px);top:50%;
+  transform:translateY(-50%);background:var(--rus-primary-deep);color:#fff;font-size:12.5px;font-weight:500;
+  padding:7px 12px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:.15s;z-index:80;box-shadow:var(--shadow-lg)}
+.app.collapsed .nav-parent::before{content:"";position:absolute;left:calc(100% + 5px);top:50%;transform:translateY(-50%);
+  border:7px solid transparent;border-right-color:var(--rus-primary-deep);opacity:0;transition:.15s;z-index:80}
+.app.collapsed .nav-parent:hover::after,.app.collapsed .nav-parent:hover::before{opacity:1}
+
+/* CONTENT */
+.content{margin-top:var(--topbar-h);margin-left:var(--sidebar-w);padding:22px 26px 50px;
+  transition:margin-left .24s cubic-bezier(.4,0,.2,1);min-height:calc(100vh - var(--topbar-h))}
+.app.collapsed .content{margin-left:var(--sidebar-collapsed)}
+.backdrop{position:fixed;inset:0;background:rgba(22,48,95,.45);z-index:54;opacity:0;pointer-events:none;transition:.24s}
+
+/* MOBILE drawer */
+@media(max-width:980px){
+  .content{margin-left:0!important}
+  .sidebar{transform:translateX(-100%);box-shadow:var(--shadow-lg)}
+  .app.mobile-open .sidebar{transform:translateX(0);width:var(--sidebar-w)}
+  .app.mobile-open .backdrop{opacity:1;pointer-events:auto}
+  .app.collapsed .sidebar{width:var(--sidebar-w)}
+  .app.collapsed .nav-section .label{opacity:1;height:auto;padding:10px 12px 5px}
+  .app.collapsed .nav-section{padding:4px 12px}
+  .app.collapsed .nav-parent{justify-content:flex-start;padding:11px 13px}
+  .app.collapsed .nav-parent .txt,.app.collapsed .nav-parent .chev{display:flex}
+  .app.collapsed .nav-parent .txt{display:block}
+  .app.collapsed .submenu{display:block!important}
+  .app.collapsed .nav-parent::after,.app.collapsed .nav-parent::before{display:none}
+}
+
+/* DASHBOARD */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:22px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.stat::after{content:"";position:absolute;right:-16px;top:-16px;width:80px;height:80px;border-radius:50%;background:var(--rus-primary-50)}
+.stat .ic{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;margin-bottom:12px;position:relative;z-index:1}
+.stat .ic svg{width:22px;height:22px}
+.stat .v{font-size:28px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;position:relative;z-index:1}
+.stat .l{font-size:13px;color:var(--text-muted);position:relative;z-index:1}
+.stat .trend{font-size:12px;font-weight:600;margin-top:6px;position:relative;z-index:1}
+.c-blue{background:var(--info-bg);color:var(--rus-primary)} .c-green{background:var(--ok-bg);color:var(--ok)}
+.c-orange{background:var(--warn-bg);color:var(--warn)} .c-gold{background:#FBF1DC;color:var(--rus-accent-dark)}
+.panel-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:18px}
+@media(max-width:1100px){.panel-grid{grid-template-columns:1fr}}
+.task{display:flex;align-items:center;gap:13px;padding:13px 18px;border-bottom:1px solid #EEF1F5}
+.task:hover{background:var(--rus-primary-50)}
+.task .ti{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex-shrink:0}
+.task .ti svg{width:19px;height:19px}
+.task .tx{flex:1;min-width:0}
+.task .tx .t1{font-size:14px;font-weight:500}
+.task .tx .t2{font-size:12.5px;color:var(--text-muted)}
+.task .cnt{font-size:18px;font-weight:700;color:var(--rus-primary-dark);font-variant-numeric:tabular-nums}
+
+/* ===== ฟอร์ม STEP 1 ===== */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 20px}
+@media(max-width:760px){.form-grid{grid-template-columns:1fr}}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld.full{grid-column:1/-1}
+.fld label{font-size:13px;font-weight:600;color:var(--text)}
+.fld label .req{color:var(--error);margin-left:2px}
+.fld input,.fld select,.fld textarea{font-family:inherit;font-size:14px;padding:10px 12px;border:1.5px solid var(--border-strong);
+  border-radius:8px;background:#fff;color:var(--text);transition:.13s;width:100%}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-color:var(--rus-primary);box-shadow:0 0 0 3px var(--rus-primary-light)}
+.fld .hint{font-size:12px;color:var(--text-faint)}
+.fld-row{display:flex;gap:10px;align-items:center}
+.switch{position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:var(--border-strong);border-radius:24px;transition:.2s;cursor:pointer}
+.slider::before{content:"";position:absolute;height:18px;width:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+.switch input:checked+.slider{background:var(--ok)}
+.switch input:checked+.slider::before{transform:translateX(20px)}
+.form-actions{display:flex;gap:11px;justify-content:flex-end;margin-top:8px;padding-top:18px;border-top:1px solid var(--border)}
+.seg{display:flex;gap:0;border:1.5px solid var(--border-strong);border-radius:8px;overflow:hidden;width:fit-content}
+.seg button{padding:8px 16px;font-size:13px;font-weight:500;color:var(--text-muted);background:#fff;transition:.12s}
+.seg button.on{background:var(--rus-primary);color:#fff}
+.status-pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:4px 11px;border-radius:20px}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.toolbar .search{flex:1;min-width:200px;position:relative}
+.toolbar .search input{width:100%;padding:9px 12px 9px 36px;border:1.5px solid var(--border-strong);border-radius:8px;font-size:14px;font-family:inherit}
+.toolbar .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--text-faint)}
+
+
+/* ===== components เสริม (modal, toast, chip, empty) ===== */
+.chip-group{display:flex;flex-wrap:wrap;gap:9px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border:1.5px solid var(--border-strong);border-radius:30px;
+  font-size:13px;font-weight:500;color:var(--text-muted);background:#fff;cursor:pointer;transition:.13s;user-select:none}
+.chip:hover{border-color:var(--rus-primary);color:var(--rus-primary)}
+.chip input{display:none}
+.chip .tick{width:16px;height:16px;border:1.5px solid var(--border-strong);border-radius:5px;display:grid;place-items:center;transition:.13s}
+.chip .tick svg{width:11px;height:11px;color:#fff;opacity:0}
+.chip.on{border-color:var(--rus-primary);background:var(--rus-primary-50);color:var(--rus-primary-dark);font-weight:600}
+.chip.on .tick{background:var(--rus-primary);border-color:var(--rus-primary)}
+.chip.on .tick svg{opacity:1}
+.info-banner{display:flex;gap:11px;align-items:flex-start;padding:13px 16px;border-radius:10px;background:var(--info-bg);
+  border:1px solid var(--rus-primary-light);font-size:13.5px;color:var(--rus-primary-dark);margin-bottom:16px}
+.info-banner svg{width:19px;height:19px;flex-shrink:0;margin-top:1px;color:var(--rus-primary)}
+.timeline-mini{display:flex;align-items:center;gap:0;margin:4px 0 18px;flex-wrap:wrap}
+.tl-step{display:flex;align-items:center;gap:8px;font-size:12.5px}
+.tl-dot{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:12px;flex-shrink:0;
+  background:#EEF0F4;color:var(--text-muted)}
+.tl-step.done .tl-dot{background:var(--ok);color:#fff}
+.tl-step.active .tl-dot{background:var(--rus-primary);color:#fff;box-shadow:0 0 0 4px var(--rus-primary-light)}
+.tl-line{width:34px;height:2px;background:var(--border-strong);margin:0 6px}
+.tl-step.done+.tl-line{background:var(--ok)}
+</style>
+<style>
+.hierarchy{display:grid;grid-template-columns:280px 1fr;gap:18px}.tree-panel{border:1px solid var(--border);border-radius:12px;background:#fff;overflow:hidden}.tree-head{padding:14px 16px;background:var(--rus-primary-50);font-weight:700;color:var(--rus-primary-dark)}.tree{padding:10px}.tree button{width:100%;display:flex;align-items:center;gap:8px;text-align:left;padding:9px 10px;border-radius:8px;color:var(--text-muted);font-family:inherit}.tree button:hover,.tree button.on{background:var(--rus-primary-light);color:var(--rus-primary-dark)}.tree .l1{font-weight:700}.tree .l2{padding-left:26px;font-weight:600}.tree .l3{padding-left:42px}.tree .l4{padding-left:58px}.level-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px}.level{padding:12px 8px;border:1px solid var(--border);border-radius:10px;background:#fff;text-align:center;font-size:12px}.level b{display:block;color:var(--rus-primary-dark);font-size:13px}.level.active{border-color:var(--rus-primary);background:var(--rus-primary-50)}.course-path{font-size:12px;color:var(--text-muted);margin-top:4px}.master-note{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:10px;background:var(--info-bg);color:var(--rus-primary-dark);margin-bottom:16px}.master-note b{display:block}.stat-mini{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}.stat-mini>div{padding:12px;border:1px solid var(--border);border-radius:10px;background:#fff}.stat-mini strong{font-size:20px;display:block;color:var(--rus-primary-dark)}@media(max-width:1000px){.hierarchy{grid-template-columns:1fr}.level-strip{grid-template-columns:repeat(3,1fr)}.stat-mini{grid-template-columns:repeat(2,1fr)}}
+</style>
+<link rel="stylesheet" href="../shared/rus-ui-normalize.css">
+<link rel="stylesheet" href="../shared/rus-sidebar-shared.css">
+</head>
+<body>
+<div class="app" id="app">
+<!-- TOP BAR -->
+<header class="topbar">
+<button aria-label="ย่อ/ขยายเมนู" class="menu-toggle" id="menuToggle">
+<svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round"></path></svg>
+</button>
+<div class="brand">
+<div class="mark">RUS</div>
+<div class="titles">
+<div class="th">ระบบทะเบียนและประมวลผล</div>
+<div class="en">Registration System · มทร.สุวรรณภูมิ</div>
+</div>
+</div>
+<div class="spacer"></div>
+<div class="util">
+<button class="icon-btn" title="ค้นหา"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4-4"></path></svg></button>
+<button class="icon-btn" title="แจ้งเตือน"><span class="badge-dot"></span><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+<button class="user-chip">
+<div class="who"><div class="n">นายภักดี รัตนวิจิตรสกุล</div><div class="r">เจ้าหน้าที่ทะเบียน · สวท.</div></div>
+<div class="avatar">ภร</div>
+</button>
+<a class="logout-btn" href="../logout.html" title="ออกจากระบบ"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5M21 12H9"></path></svg><span>ออกจากระบบ</span></a>
+</div>
+</header>
+<!-- SIDEBAR (9 ระบบ) -->
+<aside class="sidebar" id="sidebar">
+<div class="nav-section">
+<div class="label">ภาพรวม</div>
+<button class="nav-parent" data-label="แดชบอร์ด">
+<span class="ico"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><rect height="9" rx="1" width="7" x="3" y="3"></rect><rect height="5" rx="1" width="7" x="14" y="3"></rect><rect height="9" rx="1" width="7" x="14" y="12"></rect><rect height="5" rx="1" width="7" x="3" y="16"></rect></svg></span>
+<span class="txt">แดชบอร์ด</span>
+</button>
+</div>
+<div class="nav-section">
+<div class="label">ระบบงาน (9 ระบบ)</div>
+<!-- เมนูถูกสร้างด้วย JS เพื่อความกระชับ -->
+<div id="navSystems"></div>
+</div>
+<div class="nav-section">
+<div class="label">ตั้งค่า</div>
+<button class="nav-parent" data-label="ผู้ใช้งานและสิทธิ์">
+<span class="ico"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="9" cy="8" r="3.5"></circle><path d="M2 21v-1a6 6 0 0 1 12 0v1M17 11l2 2 4-4"></path></svg></span>
+<span class="txt">ผู้ใช้งานและสิทธิ์</span>
+</button>
+<button class="nav-parent" data-label="ตั้งค่าระบบ">
+<span class="ico"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1A1.6 1.6 0 0 0 6.8 19l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1-2.7H3a2 2 0 0 1 0-4h.1A1.6 1.6 0 0 0 4.6 6.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"></path></svg></span>
+<span class="txt">ตั้งค่าระบบ</span>
+</button>
+</div>
+</aside>
+<div class="backdrop" id="backdrop"></div>
+<!-- CONTENT (ตัวอย่างแดชบอร์ด) -->
+<main class="content"><style>.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;padding:11px;border:1px solid var(--border);border-radius:9px;background:#fff}.wide{grid-column:1/-1}.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}@media(max-width:700px){.form-grid{grid-template-columns:1fr}.wide{grid-column:auto}}</style>
+<div class="crumb">หน้าแรก › ระบบลงทะเบียน › STEP 2 › โครงสร้างหลักสูตร › <b>แก้ไข</b></div><div class="page-head"><div><h1>แก้ไขโครงสร้างหลักสูตร</h1><div class="sub">แก้ไขข้อมูลหลักโดยไม่ลบข้อมูลเดิม และบันทึก Audit Log ทุกครั้ง</div></div><a class="btn btn-ghost" href="2022.html">← กลับ</a></div><div class="flowbar"><a href="2020.html">2.1 คณะ/สาขา</a><i>→</i><a href="master/2172.html">2.2 หลักสูตร</a><i>→</i><a href="2022.html" style="font-weight:700;background:#dbeafe">2.3 โครงสร้าง</a><i>→</i><a href="master/2172.html">2.4 หมวด/กลุ่ม</a><i>→</i><a href="master/2172.html">2.5 ประเภทวิชา</a><i>→</i><a href="master/2172.html">2.6 Master รายวิชา</a><i>→</i><a href="2026.html">2.7 แผนการเรียน</a><i>→</i><a href="2027.html">2.8 จัดรายวิชา</a></div>
+<section class="card"><div class="card-head"><div class="ct"><span class="dot"></span><h2>ข้อมูลโครงสร้างหลักสูตร</h2></div></div><form id="editForm" style="padding:18px"><div class="form-grid">
+<div class="field"><label>รหัสโครงสร้าง *</label><input id="code" required="" value="STR-CE-2568"/></div><div class="field"><label>สถานะ *</label><select id="status"><option>Active</option><option>Inactive</option></select></div><div class="field wide"><label>ชื่อโครงสร้างหลักสูตร *</label><input id="name" required="" value="โครงสร้างหลักสูตรวิศวกรรมศาสตรบัณฑิต พ.ศ. 2568"/></div><div class="field"><label>หลักสูตร *</label><select id="program"><option>วศ.บ. วิศวกรรมคอมพิวเตอร์</option><option>วศ.บ. วิศวกรรมไฟฟ้า</option></select></div><div class="field"><label>หน่วยกิตรวม *</label><input id="credits" min="1" required="" type="number" value="132"/></div><div class="field"><label>วันที่เริ่มใช้ *</label><input id="effective" required="" type="date" value="2025-06-01"/></div><div class="field"><label>จำนวนปี *</label><input id="years" max="8" min="1" type="number" value="4"/></div><div class="field wide"><label>หมายเหตุการแก้ไข *</label><textarea id="reason" placeholder="ระบุเหตุผลเพื่อบันทึกใน Audit Log" required="" rows="4"></textarea></div></div><div class="notice" id="msg" style="display:none"></div><div class="actions"><a class="btn btn-ghost" href="2020_detail.html">ยกเลิก</a><button class="btn btn-primary" type="submit">บันทึกการแก้ไข</button></div></form></section></main>
+</div>
+<script>window.ACTIVE_LEAF="โครงสร้างหลักสูตร";</script>
+<script src="../shared/rus-nav.js"></script>
+<script src="../shared/rus-table.js"></script><script>(()=>{const key='rus_structure_record',form=document.getElementById('editForm');const old=JSON.parse(localStorage.getItem(key)||'{}');for(const k of ['code','name','program','credits','effective','status','years'])if(old[k]&&document.getElementById(k))document.getElementById(k).value=old[k];form.addEventListener('submit',e=>{e.preventDefault();if(!form.reportValidity())return;const d={};for(const k of ['code','name','program','credits','effective','status','years'])d[k]=document.getElementById(k).value;localStorage.setItem(key,JSON.stringify(d));const logs=JSON.parse(localStorage.getItem('rus_structure_audit')||'[]');logs.unshift({time:new Date().toLocaleString('th-TH'),user:'นายภักดี รัตนวิจิตรสกุล',action:'แก้ไขโครงสร้างหลักสูตร',detail:document.getElementById('reason').value,status:d.status});localStorage.setItem('rus_structure_audit',JSON.stringify(logs));const m=document.getElementById('msg');m.style.display='block';m.textContent='บันทึกข้อมูลและ Audit Log เรียบร้อย';m.style.background='#ecfdf5';setTimeout(()=>location.href='2020_detail.html',700)});})();</script>
+
+<script src="../shared/system2-rc.js"></script>
+<script src="../shared/master-group-crud-config.js"></script>
+<script src="../shared/rus-master-integration.js"></script>
+</body>
+</html>
