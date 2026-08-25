@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>รายการรอบันทึกผล — ระบบเทียบโอนผลการศึกษา</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="../shared/rus-ui.css" rel="stylesheet"/><link href="../shared/rus-ui-normalize.css" rel="stylesheet"/><link href="../shared/rus-sidebar-shared.css" rel="stylesheet"/><link href="../shared/system6-v179.css" rel="stylesheet"/></head><body><div class="app" id="app"><header class="topbar"><button aria-label="ย่อ/ขยายเมนู" class="menu-toggle" id="menuToggle" type="button"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></button><div class="brand"><div class="mark">RUS</div><div class="titles"><div class="th">ระบบเทียบโอนผลการศึกษา</div><div class="en">Credit Transfer Management System · มทร.สุวรรณภูมิ</div></div></div><div class="spacer"></div><div class="util"><button class="user-chip" type="button"><div class="who"><div class="n">เจ้าหน้าที่ทะเบียน</div><div class="r">Registrar Staff · ระบบเทียบโอนผลการศึกษา</div></div><div class="avatar">ทบ</div></button><a class="logout-btn" href="../logout.html"><span>ออกจากระบบ</span></a></div></header><aside class="sidebar" id="sidebar"><div class="nav-section"><div class="label">ภาพรวม</div><a class="nav-parent" data-label="แดชบอร์ด" href="../main.html"><span class="ico">▦</span><span class="txt">แดชบอร์ด</span></a></div><div class="nav-section"><div class="label">ระบบงาน (9 ระบบ)</div><div id="navSystems"></div></div></aside><div class="backdrop" id="backdrop"></div><main class="content"><div class="s6-page">
+<div class="crumb">หน้าหลัก › ระบบเทียบโอนผลการศึกษา › STEP 6 › รายการผลเทียบโอน</div>
+<div class="pagehead"><div><h1>รายการผลเทียบโอน</h1><div class="sub">รวมรายการที่พร้อมบันทึก ผลที่บันทึกแล้ว และรายการที่ต้องตรวจสอบ — เลือกคำขอแล้วจึงเปิดรายละเอียด</div></div></div>
+<div class="panel" style="padding-bottom:14px">
+<div class="stepflow" style="grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:16px">
+<div class="flowbox active"><b>รอบันทึกผล</b><span>ผ่าน STEP 5 และพร้อมเขียนเข้าทะเบียน</span></div>
+<div class="flowbox"><b>บันทึกแล้ว</b><span>เขียน Student Record / Transcript สำเร็จ</span></div>
+<div class="flowbox"><b>ต้องตรวจสอบ</b><span>บันทึกไม่สำเร็จหรือข้อมูลไม่ครบ</span></div>
+</div>
+<div class="filter">
+<div class="field"><label>ปีการศึกษา</label><select><option>ทั้งหมด</option><option selected="">2569</option><option>2568</option></select></div>
+<div class="field"><label>ภาคการศึกษา</label><select><option>ทั้งหมด</option><option selected="">1/2569</option><option>2/2569</option></select></div>
+<div class="field"><label>สถานะ</label><select id="resultStatus" onchange="filterResultRows(this.value)"><option value="all">ทั้งหมด</option><option value="pending">รอบันทึกผล</option><option value="done">บันทึกแล้ว</option><option value="error">ต้องตรวจสอบ</option></select></div>
+<div class="field"><label>ค้นหา</label><input id="resultSearch" oninput="filterResultRows(document.getElementById('resultStatus').value)" placeholder="เลขคำขอ / รหัสนักศึกษา / ชื่อ-นามสกุล"/></div>
+<button class="btn btn-p" onclick="filterResultRows(document.getElementById('resultStatus').value)" type="button">ค้นหา</button>
+<button class="btn btn-s" onclick="s6Adv()" type="button">ตัวกรองเพิ่มเติม</button>
+</div>
+<div class="advanced"><div class="field"><label>คณะ</label><select><option>ทั้งหมด</option><option>บริหารธุรกิจและเทคโนโลยีสารสนเทศ</option><option>วิศวกรรมศาสตร์และสถาปัตยกรรมศาสตร์</option></select></div><div class="field"><label>ประเภทเทียบโอน</label><select><option>ทั้งหมด</option><option>รายวิชาจากสถานศึกษาเดิม</option><option>ภายในมหาวิทยาลัย</option></select></div><button class="btn btn-s" onclick="document.getElementById('resultStatus').value='all';document.getElementById('resultSearch').value='';filterResultRows('all')" type="button">ล้างตัวกรองทั้งหมด</button></div>
+</div>
+<div class="panel tablewrap"><table><thead><tr><th>เลขคำขอ</th><th>นักศึกษา</th><th>หลักสูตร</th><th>ผลเทียบโอน</th><th>การเงิน</th><th>สถานะบันทึกผล</th><th>วันที่ดำเนินการ</th><th>จัดการ</th></tr></thead><tbody id="resultRows">
+<tr data-state="pending"><td><b>TRF-2569-0018</b></td><td>66012345<br/><b>กิตติพงษ์ ใจดี</b></td><td>บช.บ. การบัญชี (2567)</td><td>2 วิชา / 6 หน่วยกิต</td><td><span class="badge ok">ชำระครบ</span></td><td><span class="badge warn">รอบันทึกผล</span></td><td>22 ส.ค. 2569</td><td><a class="btn btn-p btn-sm" href="7060_detail.html?id=TRF-2569-0018">บันทึกผล</a></td></tr>
+<tr data-state="pending"><td><b>TRF-2569-0024</b></td><td>66017890<br/><b>ธนกฤต ศรีสุข</b></td><td>วศ.บ. วิศวกรรมไฟฟ้า (2567)</td><td>4 วิชา / 12 หน่วยกิต</td><td><span class="badge info">ยกเว้นค่าธรรมเนียม</span></td><td><span class="badge warn">รอบันทึกผล</span></td><td>22 ส.ค. 2569</td><td><a class="btn btn-p btn-sm" href="7060_detail.html?id=TRF-2569-0024">บันทึกผล</a></td></tr>
+<tr data-state="done"><td><b>TRF-2569-0009</b></td><td>66010012<br/><b>ณัฐวุฒิ รุ่งเรือง</b></td><td>บช.บ. การบัญชี (2567)</td><td>3 วิชา / 9 หน่วยกิต</td><td><span class="badge ok">ชำระครบ</span></td><td><span class="badge ok">บันทึกแล้ว</span></td><td>19 ส.ค. 2569</td><td><a class="btn btn-s btn-sm" href="7063_detail.html?id=TRF-2569-0009">ดูรายละเอียด</a></td></tr>
+<tr data-state="done"><td><b>TRF-2569-0012</b></td><td>66011234<br/><b>ศิริพร นาคดี</b></td><td>บธ.บ. การจัดการ (2567)</td><td>2 วิชา / 6 หน่วยกิต</td><td><span class="badge ok">ชำระครบ</span></td><td><span class="badge ok">บันทึกแล้ว</span></td><td>20 ส.ค. 2569</td><td><a class="btn btn-s btn-sm" href="7063_detail.html?id=TRF-2569-0012">ดูรายละเอียด</a></td></tr>
+<tr data-state="error"><td><b>TRF-2569-0016</b></td><td>66011988<br/><b>วรัญญา สุขใจ</b></td><td>วท.บ. เทคโนโลยีสารสนเทศ (2567)</td><td>2 วิชา / 6 หน่วยกิต</td><td><span class="badge ok">ชำระครบ</span></td><td><span class="badge bad">บันทึกไม่สำเร็จ</span></td><td>21 ส.ค. 2569</td><td><a class="btn btn-s btn-sm" href="7060_detail.html?id=TRF-2569-0016">ตรวจสอบ</a></td></tr>
+</tbody></table></div>
+<script>
+window.ACTIVE_LEAF="รายการผลเทียบโอน";
+function filterResultRows(state){
+  var q=(document.getElementById('resultSearch').value||'').toLowerCase();
+  document.querySelectorAll('#resultRows tr').forEach(function(r){
+    var okState=(state==='all'||r.dataset.state===state);
+    var okQ=!q||r.innerText.toLowerCase().includes(q);
+    r.style.display=(okState&&okQ)?'':'none';
+  });
+}
+</script>
+</div></main><script src="../shared/rus-nav.js"></script><script src="../shared/system6-v179.js"></script></div></body></html>
