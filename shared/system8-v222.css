@@ -1,0 +1,19 @@
+/* SYSTEM 8 v222 — align action colors with the shared RUS design language */
+.btn,.btn:link,.btn:visited{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;line-height:1.25;transition:background .15s ease,color .15s ease,box-shadow .15s ease,transform .08s ease}
+.btn:hover{filter:brightness(.98)}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:#164a8a!important;color:#fff!important}
+.btn-secondary{background:#eaf3ff!important;color:#164a8a!important;border:0!important}
+.btn-success{background:#15803d!important;color:#fff!important}
+.btn-danger{background:#b91c1c!important;color:#fff!important}
+.btn-warn{background:#f59e0b!important;color:#fff!important}
+.btn[disabled],.btn.disabled{opacity:.55;cursor:not-allowed;filter:none}
+
+/* v223: Detail actions use the same compact button language as other RUS systems */
+a.btn-detail, button.btn-detail{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:36px;padding:7px 16px;border-radius:9px;
+  background:#e8f1fc;border:1px solid #d4e4f7;color:#0b4f93 !important;
+  font-weight:600;text-decoration:none;white-space:nowrap;line-height:1.2;
+}
+a.btn-detail:hover,button.btn-detail:hover{background:#dceafb;border-color:#bfd7f1;text-decoration:none;}

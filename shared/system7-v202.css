@@ -1,0 +1,9 @@
+/* SYSTEM 7 v202 — hierarchy-first, tab only for detail views */
+.content .card{border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important}
+.detail-tabs{margin-top:2px}
+.filter-grid{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:10px 12px;align-items:end;margin:0 0 14px}
+.filter-grid .field{margin:0}.filter-grid .wide{grid-column:span 2}.filter-grid label{display:block;font-size:13px;color:#475569;margin-bottom:5px}
+.filter-grid input,.filter-grid select{width:100%;min-height:40px}
+.flow-branch{display:grid;grid-template-columns:1fr 40px 1fr;gap:12px;align-items:center;margin:10px 0 18px;border-bottom:1px solid #e2e8f0;padding-bottom:16px}
+.flow-branch .branch{padding:10px 0}.flow-branch .arrow{text-align:center;color:#64748b;font-size:22px}.flow-branch b{display:block;color:#0f3d74}.muted{color:#64748b;font-size:13px}.section-sep{border-top:1px solid #dbe4ef;margin:20px 0 14px;padding-top:14px}.tag{display:inline-block;padding:3px 8px;border-radius:999px;background:#eef4ff;color:#174ea6;font-size:12px;font-weight:600}
+@media(max-width:1000px){.filter-grid{grid-template-columns:repeat(2,minmax(160px,1fr))}.flow-branch{grid-template-columns:1fr}.flow-branch .arrow{transform:rotate(90deg)}}

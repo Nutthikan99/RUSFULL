@@ -1,0 +1,58 @@
+
+/* SYSTEM 4 v144 — content-only stylesheet. Shell/Header/Sidebar/Button/Table primitives come from shared RUS styles. */
+.s4-page{max-width:100%;}
+.s4-page .crumb{font-size:13px;color:#667085;margin-bottom:10px}
+.s4-page .pagehead{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px}
+.s4-page .pagehead h1{margin:0;color:#123b70;font-size:30px;line-height:1.2;font-weight:700}
+.s4-page .pagehead .sub{margin-top:5px;color:#667085;font-size:14px}
+.s4-page .badge{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;background:#edf4ff;color:#1f4f91;font-size:12px;font-weight:600;white-space:nowrap}
+.s4-page .cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:16px}
+.s4-page .card,.s4-page .panel{background:#fff;border:1px solid #dfe6ef;border-radius:14px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.s4-page .card{padding:18px}.s4-page .card b{display:block;font-size:25px;color:#123b70}.s4-page .card span{font-size:12px;color:#667085}
+.s4-page .panel{padding:16px;margin-bottom:16px}
+.s4-page .panel h3{margin:0 0 14px;color:#123b70;font-size:17px}
+.s4-page .filter{display:grid;grid-template-columns:minmax(280px,2fr) minmax(180px,1fr) auto auto;gap:10px;align-items:end}
+.s4-page .field label{display:block;font-size:12px;font-weight:500;color:#475467;margin-bottom:6px}
+.s4-page .field input,.s4-page .field select,.s4-page .field textarea{width:100%;min-height:44px;border:1px solid #cfd8e5;border-radius:10px;padding:9px 11px;font:inherit;font-size:14px;background:#fff;color:#172033}
+.s4-page .field textarea{min-height:90px;resize:vertical}
+.s4-page .advanced{display:none;margin-top:14px;padding-top:14px;border-top:1px dashed #dfe6ef;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.s4-page .advanced.open{display:grid}
+.s4-page .reset{grid-column:1/-1;text-align:right}.s4-page .reset button{border:0;background:transparent;color:#667085;font:inherit;cursor:pointer;text-decoration:underline}
+.s4-page .tablewrap{overflow:auto;padding:0}
+.s4-page table{width:100%;border-collapse:collapse;font-size:13px}.s4-page th{background:#f4f7fb;color:#344054;text-align:left;padding:12px;border-bottom:1px solid #dfe6ef;white-space:nowrap;font-weight:600}.s4-page td{padding:12px;border-bottom:1px solid #edf1f5;vertical-align:top}
+.s4-page .status{padding:5px 9px;border-radius:999px;font-size:11px;font-weight:600;display:inline-block}.s4-page .ok{background:#eaf8f2;color:#0f8a5f}.s4-page .warn{background:#fff5df;color:#9a5b00}.s4-page .bad{background:#fff0ee;color:#b42318}.s4-page .info{background:#edf4ff;color:#1f4f91}
+.s4-page .actions{display:flex;gap:7px;flex-wrap:wrap}.s4-page .note{padding:12px 14px;border-radius:10px;background:#eef5ff;color:#31547a;font-size:13px;margin-bottom:15px}
+.s4-page .flow{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px}.s4-page .flow a{background:#fff;border:1px solid #dfe6ef;border-radius:10px;padding:10px;text-align:center;font-size:12px}.s4-page .flow a:hover{border-color:#8fb3dd;background:#f4f8fd}
+.s4-page .formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.s4-page .formgrid .full{grid-column:1/-1}.s4-page .footeractions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}.s4-page .master-table .inactive{opacity:.62;background:#fafafa}
+.s4-page dialog.panel{max-width:720px;width:min(720px,92vw);border:none}.s4-page dialog::backdrop{background:rgba(16,24,40,.45)}
+/* map legacy S4 button variants to common RUS visual language */
+.s4-page .btn-p{background:#1f4f91;color:#fff}.s4-page .btn-s{background:#eef3f9;color:#344054}.s4-page .btn-g{background:#e8f8f1;color:#0f8a5f}.s4-page .btn-w{background:#fff4df;color:#9a5b00}.s4-page .btn-d{background:#fff0ee;color:#b42318}
+.s4-page .btn{min-height:40px;border-radius:9px;padding:9px 14px;font-family:inherit;font-size:13px;font-weight:600;border:0;cursor:pointer}
+@media(max-width:1100px){.s4-page .cards{grid-template-columns:repeat(2,1fr)}.s4-page .filter{grid-template-columns:1fr 1fr}.s4-page .flow{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:760px){.s4-page .cards,.s4-page .filter,.s4-page .advanced,.s4-page .formgrid{grid-template-columns:1fr}.s4-page .flow{grid-template-columns:repeat(2,1fr)}.s4-page .pagehead{flex-direction:column}.s4-page .pagehead h1{font-size:25px}}
+/* v149 — SYSTEM 4 uses the same content spacing pattern as the shared RUS shell */
+body .content{padding:22px 28px 55px;min-height:calc(100vh - 64px)}
+.s4-page{padding-top:0}
+.s4-page .crumb{margin-top:0}
+@media(max-width:760px){body .content{padding:16px 14px 40px}}
+
+/* v150 STEP 1-4 workflow and action audit */
+.s4-page .breadcrumb{font-size:13px;color:#667085;margin:0 0 10px}
+.s4-page .pagehead .right-head{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.s4-page .filter.system9-pattern{grid-template-columns:minmax(150px,.8fr) minmax(170px,.9fr) minmax(180px,1fr) minmax(300px,1.8fr) auto auto}
+.s4-page .result-count{font-size:12px;color:#667085;margin-top:9px}
+.s4-page .summary-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.s4-page .summary-strip .mini{background:#fff;border:1px solid #dfe6ef;border-radius:12px;padding:14px}
+.s4-page .summary-strip .mini b{font-size:22px;color:#123b70;display:block}.s4-page .summary-strip .mini span{font-size:12px;color:#667085}
+.s4-page .kv{display:grid;grid-template-columns:180px 1fr;gap:9px 14px;font-size:14px}.s4-page .kv b{color:#475467}
+.s4-page .split2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.s4-page .stepbar{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}.s4-page .stepbar div{padding:10px;border-radius:9px;background:#edf4ff;color:#245a9f;text-align:center;font-size:12px}.s4-page .stepbar .now{background:#1f4f91;color:#fff}
+.s4-page .money{font-weight:700;color:#123b70}.s4-page .warnbox{padding:12px 14px;border-radius:10px;background:#fff6e6;color:#8a5a00;margin-bottom:14px}.s4-page .dangerbox{padding:12px 14px;border-radius:10px;background:#fff0ee;color:#b42318;margin-bottom:14px}
+.s4-page .doc-preview{border:1px solid #dfe6ef;border-radius:12px;background:#fff;padding:22px;max-width:820px;margin:auto}.s4-page .doc-preview .doc-head{text-align:center;border-bottom:1px solid #dfe6ef;padding-bottom:14px;margin-bottom:16px}.s4-page .doc-preview .doc-head h2{margin:0;color:#123b70}.s4-page .doc-preview .amount{font-size:28px;font-weight:700;color:#123b70;text-align:right}.s4-page .print-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+.s4-page .exception-reason{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.s4-page .reason-card{border:1px solid #dfe6ef;border-radius:10px;padding:10px;cursor:pointer}.s4-page .reason-card:has(input:checked){border-color:#1f4f91;background:#edf4ff}
+@media(max-width:1200px){.s4-page .filter.system9-pattern{grid-template-columns:repeat(3,1fr)}.s4-page .summary-strip{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:800px){.s4-page .filter.system9-pattern,.s4-page .summary-strip,.s4-page .split2,.s4-page .stepbar,.s4-page .exception-reason{grid-template-columns:1fr}.s4-page .kv{grid-template-columns:1fr}}
+@media print{.topbar,.sidebar,.backdrop,.breadcrumb,.pagehead,.print-actions,.no-print{display:none!important}.content{margin:0!important;padding:0!important}.s4-page .doc-preview{border:0;box-shadow:none;max-width:none}.app{display:block!important}}
+
+/* v152 partial payment end-to-end */
+.payment-progress{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:14px 0}.payment-progress .metric{border:1px solid #dbe5f2;border-radius:12px;padding:14px;background:#fff}.payment-progress .metric span{display:block;font-size:12px;color:#64748b;margin-bottom:4px}.payment-progress .metric b{font-size:20px;color:#163d72}.pay-entry{background:#f8fbff;border:1px solid #d8e7f8;border-radius:12px;padding:16px}.flow-steps{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0 16px}.flow-steps span{background:#eef4fb;border:1px solid #d7e3f0;border-radius:999px;padding:7px 11px;font-size:12px;color:#46627f}.flow-steps span.active{background:#e7f1ff;border-color:#93bff5;color:#1557a5;font-weight:600}.partial-banner{border-left:4px solid #f59e0b;background:#fff8e8;padding:12px 14px;border-radius:8px;margin:12px 0}.paid-banner{border-left:4px solid #16a34a;background:#effcf3;padding:12px 14px;border-radius:8px;margin:12px 0}.readonly-money{font-weight:600;color:#173b6d}.inline-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.demo-reset{font-size:11px;color:#64748b;background:none;border:none;text-decoration:underline;cursor:pointer}@media(max-width:900px){.payment-progress{grid-template-columns:1fr}}

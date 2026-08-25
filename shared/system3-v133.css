@@ -1,0 +1,17 @@
+.s3-filter-main{align-items:end;gap:10px;flex-wrap:wrap}
+.s3-filter-main .btn{white-space:nowrap}
+.btn.btn-outline{background:#fff;border:1px solid #8ea2bd;color:#29496f}
+.btn.btn-outline:hover{background:#f5f8fc}
+.s3-advanced-filter{margin:12px 0 16px;padding:14px;background:#f7f9fc;border:1px solid #dce5ef;border-radius:12px;display:grid;grid-template-columns:repeat(3,minmax(190px,1fr));gap:12px}
+.s3-advanced-filter.s3-hidden{display:none}
+.s3-advanced-filter .s3-field{margin:0}
+.s3-advanced-filter label{display:block;margin-bottom:6px;font-size:13px;color:#53657a;font-weight:500}
+.s3-advanced-filter input,.s3-advanced-filter select{width:100%;min-height:40px;border:1px solid #cbd6e2;border-radius:8px;background:#fff;padding:8px 10px;font-family:inherit}
+@media(max-width:1100px){.s3-advanced-filter{grid-template-columns:repeat(2,minmax(180px,1fr))}}
+@media(max-width:720px){.s3-advanced-filter{grid-template-columns:1fr}}
+
+/* v134 reset-filter UX: reset belongs to the filter panel, not the primary action row */
+.s3-filter-actions{grid-column:1/-1;display:flex;justify-content:flex-end;align-items:center;padding-top:2px;border-top:1px solid #e3e9f1;margin-top:2px}
+.s3-clear-link{appearance:none;border:0;background:transparent;color:#52677f;font-family:inherit;font-size:14px;font-weight:500;padding:8px 4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.s3-clear-link:hover{color:#123f79}
+.s3-filter-main{row-gap:10px}

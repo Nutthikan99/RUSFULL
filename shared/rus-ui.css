@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Saira+Condensed:wght@500;600;700&display=swap');
+/* ============================================================
+   RUS UI — Design System
+   ระบบทะเบียนและประมวลผล มหาวิทยาลัยเทคโนโลยีราชมงคลสุวรรณภูมิ
+   ไฟล์กลาง: design tokens + component ที่ใช้ร่วมทุกหน้า
+   ============================================================ */
+
+/* ---------- 1. DESIGN TOKENS ---------- */
+:root{
+  /* แบรนด์ RUS */
+  --rus-primary:#2952A3; --rus-primary-dark:#1E3D7A; --rus-primary-deep:#16305F;
+  --rus-primary-light:#E8EEF7; --rus-primary-50:#F3F6FB;
+  --rus-accent:#E8A33D; --rus-accent-dark:#C9871F;
+  /* สถานะ */
+  --ok:#2E7D32; --ok-bg:#E7F3E8; --warn:#ED6C02; --warn-bg:#FDF0E1;
+  --error:#C62828; --error-bg:#FBE9E9; --info:#2952A3; --info-bg:#E8EEF7;
+  /* พื้นผิว / ตัวอักษร */
+  --bg:#EEF1F6; --surface:#FFFFFF; --border:#D8DCE3; --border-strong:#C2C8D2;
+  --text:#1A1F2B; --text-muted:#5A6273; --text-faint:#8A92A3;
+  /* รูปทรง / เงา */
+  --radius:10px; --radius-sm:6px;
+  --shadow-sm:0 1px 2px rgba(20,40,80,.06);
+  --shadow:0 2px 8px rgba(20,40,80,.08);
+  --shadow-lg:0 8px 28px rgba(20,40,80,.16);
+  /* ตัวอักษร */
+  --font:"Kanit","Sarabun",system-ui,sans-serif;
+  --font-display:"Saira Condensed","Kanit",sans-serif;
+  /* เลย์เอาต์ */
+  --sidebar-w:300px; --sidebar-collapsed:66px; --topbar-h:60px;
+}
+
+/* ---------- 2. RESET / BASE ---------- */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+a{color:inherit;text-decoration:none}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-thumb{background:#C5CCD8;border-radius:6px}
+::-webkit-scrollbar-thumb:hover{background:#aab3c2}
+
+/* ---------- 3. TOP BAR ---------- */
+.topbar{height:var(--topbar-h);background:linear-gradient(100deg,var(--rus-primary-deep),var(--rus-primary));
+  display:flex;align-items:center;padding:0 16px;color:#fff;box-shadow:var(--shadow)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand .mark{width:38px;height:38px;border-radius:9px;background:#fff;display:grid;place-items:center;
+  font-family:var(--font-display);font-weight:700;font-size:19px;color:var(--rus-primary-deep);letter-spacing:.5px;box-shadow:inset 0 0 0 2px var(--rus-accent);flex-shrink:0}
+.brand .titles{line-height:1.15;min-width:0}
+.brand .titles .th{font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand .titles .en{font-size:11px;opacity:.75;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar .spacer{flex:1}
+.topbar .util{display:flex;align-items:center;gap:4px}
+.icon-btn{width:40px;height:40px;border-radius:8px;display:grid;place-items:center;color:#fff;opacity:.9;transition:.15s;position:relative}
+.icon-btn:hover{background:rgba(255,255,255,.14);opacity:1}
+.icon-btn svg{width:21px;height:21px}
+.logout-btn{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 15px;margin-left:4px;border-radius:8px;background:rgba(255,255,255,.12);color:#fff;font-family:inherit;font-size:14px;font-weight:500;text-decoration:none;cursor:pointer;transition:.15s;white-space:nowrap}
+.logout-btn:hover{background:var(--rus-accent);color:#fff}
+.logout-btn svg{width:18px;height:18px;flex-shrink:0}
+.badge-dot{position:absolute;top:8px;right:9px;width:8px;height:8px;background:var(--rus-accent);border-radius:50%;border:2px solid var(--rus-primary)}
+.menu-toggle{width:40px;height:40px;border-radius:8px;display:grid;place-items:center;color:#fff;opacity:.92;transition:.15s;margin-right:8px;flex-shrink:0}
+.menu-toggle:hover{background:rgba(255,255,255,.14);opacity:1}
+.menu-toggle svg{width:22px;height:22px}
+.user-chip{display:flex;align-items:center;gap:10px;padding:5px 8px 5px 5px;border-radius:30px;transition:.15s;margin-left:4px}
+.user-chip:hover{background:rgba(255,255,255,.14)}
+.user-chip .avatar{width:34px;height:34px;border-radius:50%;background:var(--rus-accent);display:grid;place-items:center;font-weight:600;color:#fff;font-size:14px;flex-shrink:0}
+.user-chip .who{line-height:1.2;text-align:right}
+.user-chip .who .n{font-size:13px;font-weight:500;white-space:nowrap}
+.user-chip .who .r{font-size:11px;opacity:.75;white-space:nowrap}
+@media(max-width:640px){.user-chip .who{display:none}.brand .titles .en{display:none}}
+
+/* ---------- 4. BUTTONS ---------- */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:8px;font-size:14px;font-weight:600;transition:.15s;border:1.5px solid transparent;white-space:nowrap}
+.btn svg{width:17px;height:17px}
+.btn-primary{background:var(--rus-primary);color:#fff;box-shadow:var(--shadow-sm)}
+.btn-primary:hover{background:var(--rus-primary-dark);box-shadow:var(--shadow)}
+.btn-accent{background:var(--rus-accent);color:#fff}
+.btn-accent:hover{background:var(--rus-accent-dark)}
+.btn-ghost{background:#fff;color:var(--rus-primary);border-color:var(--border-strong)}
+.btn-ghost:hover{border-color:var(--rus-primary);background:var(--rus-primary-50)}
+.btn-sm{padding:7px 13px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ---------- 5. BADGES ---------- */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:30px;font-size:12px;font-weight:600;white-space:nowrap}
+.badge svg{width:13px;height:13px}
+.badge.ok{background:var(--ok-bg);color:var(--ok)}
+.badge.warn{background:var(--warn-bg);color:var(--warn)}
+.badge.info{background:var(--info-bg);color:var(--info)}
+.badge.muted{background:#EEF0F4;color:var(--text-muted)}
+
+/* ---------- 6. CARD ---------- */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 18px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,#fff,#fafbfd)}
+.card-head .ct{display:flex;align-items:center;gap:10px}
+.card-head .ct .dot{width:9px;height:24px;border-radius:3px;background:var(--rus-primary)}
+.card-head h2{font-size:16px;font-weight:600}
+.card-head .meta{font-size:13px;color:var(--text-muted)}
+.card-head .link{font-size:13px;color:var(--rus-primary);font-weight:500}
+
+/* ---------- 7. TABLE ---------- */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+thead th{background:var(--rus-primary-50);color:var(--rus-primary-dark);font-weight:600;text-align:left;
+  padding:11px 14px;border-bottom:2px solid var(--rus-primary-light);white-space:nowrap}
+thead th.num,td.num{text-align:right;font-variant-numeric:tabular-nums}
+thead th.ctr,td.ctr{text-align:center}
+tbody td{padding:11px 14px;border-bottom:1px solid #EEF1F5;vertical-align:middle}
+tbody tr:nth-child(even){background:#FAFBFD}
+tbody tr:hover{background:var(--rus-primary-50)}
+
+/* ---------- 8. MODAL ---------- */
+.overlay{position:fixed;inset:0;background:rgba(22,48,95,.5);backdrop-filter:blur(2px);display:none;
+  align-items:center;justify-content:center;z-index:100;padding:20px;animation:rus-fade .2s}
+.overlay.show{display:flex}
+@keyframes rus-fade{from{opacity:0}to{opacity:1}}
+.modal{background:#fff;border-radius:14px;max-width:430px;width:100%;box-shadow:var(--shadow-lg);overflow:hidden;animation:rus-pop .22s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes rus-pop{from{transform:scale(.92) translateY(10px);opacity:0}to{transform:none;opacity:1}}
+.modal .m-top{padding:22px 24px 10px;text-align:center}
+.modal .m-icon{width:52px;height:52px;border-radius:50%;background:var(--info-bg);display:grid;place-items:center;margin:0 auto 14px}
+.modal .m-icon svg{width:28px;height:28px;color:var(--rus-primary)}
+.modal h3{font-size:18px;font-weight:700;margin-bottom:6px}
+.modal p{font-size:14px;color:var(--text-muted);padding:0 8px}
+.modal .m-body{padding:8px 24px 0}
+.modal .m-actions{display:flex;gap:10px;padding:18px 24px 22px}
+.modal .m-actions .btn{flex:1;justify-content:center}
+
+/* ---------- 9. TOAST ---------- */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ok);color:#fff;
+  padding:13px 22px;border-radius:10px;font-weight:600;font-size:14px;display:flex;align-items:center;gap:10px;
+  box-shadow:var(--shadow-lg);z-index:120;opacity:0;transition:.35s cubic-bezier(.2,.9,.3,1.2)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast svg{width:19px;height:19px}
+
+/* ---------- 10. EMPTY STATE ---------- */
+.empty{text-align:center;padding:34px 20px;color:var(--text-faint)}
+.empty svg{width:40px;height:40px;opacity:.4;margin-bottom:8px}
+.empty p{font-size:14px}
+
+/* ---------- 11. PAGE HEAD / BREADCRUMB ---------- */
+.crumb{font-size:12.5px;color:var(--text-faint);margin-bottom:7px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.crumb svg{width:13px;height:13px}
+.crumb b{color:var(--text-muted)}
+.crumb a{color:var(--rus-primary);text-decoration:none;transition:.12s}
+.crumb a:hover{color:var(--rus-primary-dark);text-decoration:underline}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.page-head h1{font-size:24px;font-weight:700;color:var(--rus-primary-deep);letter-spacing:-.3px}
+.page-head .sub{font-size:13.5px;color:var(--text-muted);margin-top:3px}
+.term-pill{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--border);border-radius:30px;padding:7px 15px;font-size:13.5px;font-weight:500;box-shadow:var(--shadow-sm)}
+.term-pill svg{width:16px;height:16px;color:var(--rus-accent-dark)}
+
+/* ===== context-bar: แถบเลือกปี/ภาค/คณะ/สาขา (ถาวรด้านบนทุกหน้าระบบ 2+) ===== */
+.context-bar{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:20px;box-shadow:var(--shadow-sm)}
+.context-bar .ctx-fld{display:flex;flex-direction:column;gap:5px;min-width:150px;flex:1}
+.context-bar .ctx-fld label{font-size:11.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.3px}
+.context-bar .ctx-fld select{font-family:inherit;font-size:14px;font-weight:500;padding:9px 12px;border:1.5px solid var(--border-strong);border-radius:8px;background:#fff;color:var(--text);transition:.13s;cursor:pointer}
+.context-bar .ctx-fld select:focus{outline:none;border-color:var(--rus-primary);box-shadow:0 0 0 3px var(--rus-primary-light)}
+.context-bar .ctx-ico{display:flex;align-items:center;gap:8px;padding:9px 14px;background:var(--rus-primary-50);border-radius:8px;font-size:13px;font-weight:600;color:var(--rus-primary-dark);align-self:stretch}
+.context-bar .ctx-ico svg{width:17px;height:17px;color:var(--rus-primary)}
+@media(max-width:760px){.context-bar .ctx-fld{min-width:120px}}
+
+/* ป้ายสรุปบริบทในหัวการ์ด (sync กับ context-bar) */
+.ctx-tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--rus-primary-dark);background:var(--rus-primary-50);padding:3px 10px;border-radius:20px;margin-left:10px}
+
+/* ===== ลากหัวคอลัมน์เพื่อจัดลำดับ (rus-table.js) ===== */
+.rus-draggable-col{cursor:grab;position:relative;user-select:none;-webkit-user-select:none;transition:background .12s}
+.rus-draggable-col:hover{background:var(--rus-primary-50)}
+.rus-draggable-col:active{cursor:grabbing}
+.rus-col-dragging{opacity:.45}
+.rus-drop-before::before,.rus-drop-after::after{content:"";position:absolute;top:0;bottom:0;width:3px;background:var(--rus-accent);border-radius:2px;z-index:2}
+.rus-drop-before::before{left:-1px}
+.rus-drop-after::after{right:-1px}
+
+/* ===== Curriculum Master–Detail v3 ===== */
+.curriculum-layout{display:grid;grid-template-columns:minmax(310px,36%) 1fr;gap:18px;align-items:start}.curriculum-tree-card{position:sticky;top:78px;max-height:calc(100vh - 100px);overflow:auto}.tree-toolbar{padding:12px;border-bottom:1px solid var(--border);display:flex;gap:8px}.tree-toolbar input{width:100%;border:1px solid var(--border-strong);border-radius:8px;padding:9px 11px;font-family:inherit}.curr-tree{padding:10px}.curr-tree button{display:flex;align-items:flex-start;gap:7px;width:100%;text-align:left;border-radius:7px;padding:7px 9px;color:var(--text-muted);font-family:inherit;font-size:12.5px}.curr-tree button:hover{background:var(--rus-primary-50);color:var(--rus-primary-dark)}.curr-tree button.selected{background:var(--rus-primary-light);color:var(--rus-primary-dark);font-weight:600}.curr-tree .depth-0{font-size:13.5px;font-weight:700}.curr-tree .depth-1{padding-left:22px}.curr-tree .depth-2{padding-left:38px}.curr-tree .depth-3{padding-left:54px}.curr-tree .depth-4{padding-left:70px}.curr-tree .depth-5{padding-left:86px}.tree-status{width:7px;height:7px;border-radius:50%;background:var(--ok);margin-top:5px;flex:0 0 auto}.tree-status.inactive{background:var(--text-faint)}.detail-path{font-size:12px;color:var(--text-faint);margin-bottom:12px}.detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.detail-item{border:1px solid var(--border);background:#fff;border-radius:9px;padding:12px}.detail-item .k{font-size:11.5px;color:var(--text-faint);margin-bottom:3px}.detail-item .v{font-size:14px;font-weight:500;color:var(--text)}.detail-actions{display:flex;gap:8px;flex-wrap:wrap}.inactive-box{border:1px solid #F4C7C7;background:#FFF7F7;color:#8C2E2E;border-radius:9px;padding:10px 12px;font-size:12.5px}.master-reference{background:#F7F9FD;border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:12.5px}.soft-delete-note{display:flex;gap:10px;background:#FFF8E8;border:1px solid #F0D99A;border-radius:10px;padding:12px 14px;font-size:12.5px;margin-bottom:14px}.status-badge{display:inline-flex;align-items:center;padding:4px 9px;border-radius:999px;font-size:11.5px;font-weight:600}.status-badge.active{background:var(--ok-bg);color:var(--ok)}.status-badge.inactive{background:#EEF0F4;color:var(--text-muted)}.relation-table td:first-child{font-weight:600}.parent-lock{background:#F7F9FD!important}.form-section-title{grid-column:1/-1;font-weight:700;color:var(--rus-primary-dark);padding-top:8px;border-top:1px solid var(--border)}@media(max-width:1000px){.curriculum-layout{grid-template-columns:1fr}.curriculum-tree-card{position:relative;top:auto;max-height:none}.detail-grid{grid-template-columns:1fr}}

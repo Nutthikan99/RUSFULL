@@ -1,0 +1,41 @@
+/* RUS UI control normalization v21
+   Single-line form controls use one consistent 42px height across prototype pages. */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]),
+select,
+.input-control {
+  box-sizing:border-box;
+  min-height:42px;
+  height:42px;
+  padding-top:9px!important;
+  padding-bottom:9px!important;
+  line-height:22px;
+  vertical-align:middle;
+}
+textarea {
+  box-sizing:border-box;
+  min-height:88px;
+  height:auto;
+  padding-top:10px!important;
+  padding-bottom:10px!important;
+  line-height:1.5;
+}
+button, .btn { box-sizing:border-box; }
+.toolbar select { min-height:42px; height:42px; }
+.toolbar .search input { min-height:42px; height:42px; }
+.fld input:not([type="checkbox"]):not([type="radio"]), .fld select { min-height:42px; height:42px; }
+/* Keep compact table editors visually aligned without shrinking text fields. */
+td input:not([type="checkbox"]):not([type="radio"]), td select { min-height:38px; height:38px; padding-top:7px!important; padding-bottom:7px!important; }
+
+
+/* v28 audit normalization: STEP 1.1 / STEP 1.2 / STEP 2 */
+.form-field,.fld{min-width:0}
+.form-field label,.fld label{display:block;margin-bottom:6px}
+.form-field input:not([type="checkbox"]):not([type="radio"]),
+.form-field select,.form-field textarea,
+.fld input:not([type="checkbox"]):not([type="radio"]),
+.fld select,.fld textarea{width:100%;max-width:100%}
+.form-grid>*{min-width:0}
+.toolbar,.list-toolbar{width:100%}
+.toolbar .search,.list-toolbar .search{flex:1 1 360px;min-width:280px}
+.toolbar .search input,.list-toolbar .search input{width:100%}
+.data-table{width:100%}

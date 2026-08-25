@@ -1,0 +1,91 @@
+/* SYSTEM 5 shared visual layer — aligns Online Request System with the common RUS UI */
+.s5-page{max-width:1480px;margin:0 auto;padding-bottom:28px}
+.s5-page .crumb{font-size:12px;color:#667085;margin:0 0 10px}
+.s5-page .pagehead{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin:0 0 18px}
+.s5-page .pagehead>div:first-child{min-width:0}
+.s5-page .pagehead h1{margin:0;color:#173b6d;font-size:30px;line-height:1.22;font-weight:700}
+.s5-page .sub{color:#667085;font-size:14px;line-height:1.55;margin-top:6px}
+
+/* SYSTEM 5 button aliases: old prototype pages use btn-p/btn-s/btn-g/... */
+.s5-page .btn-p,.s5-page a.btn-p,.s5-page button.btn-p{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  min-height:44px;padding:10px 18px;border:1px solid #1f4f91;border-radius:10px;
+  background:#1f4f91!important;color:#fff!important;text-decoration:none!important;
+  font-family:Kanit,Arial,sans-serif;font-size:14px;font-weight:600;line-height:1.2;
+  box-shadow:0 2px 5px rgba(31,79,145,.18);cursor:pointer;white-space:nowrap;
+}
+.s5-page .btn-p:hover{background:#173f79!important;border-color:#173f79;box-shadow:0 4px 10px rgba(31,79,145,.22);transform:translateY(-1px)}
+.s5-page .btn-s,.s5-page a.btn-s,.s5-page button.btn-s{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  min-height:44px;padding:10px 16px;border:1px solid #d9e3f0;border-radius:10px;
+  background:#eef4fb!important;color:#173b6d!important;text-decoration:none!important;
+  font-family:Kanit,Arial,sans-serif;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;
+}
+.s5-page .btn-s:hover{background:#e2ecf8!important;border-color:#bfd0e6}
+.s5-page .btn-g,.s5-page a.btn-g,.s5-page button.btn-g{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 15px;border:1px solid #b7e4d1;border-radius:9px;background:#e8f8f1!important;color:#087a55!important;text-decoration:none!important;font-weight:600;cursor:pointer}
+.s5-page .btn-w,.s5-page a.btn-w,.s5-page button.btn-w{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 15px;border:1px solid #f4d9a4;border-radius:9px;background:#fff4df!important;color:#8a5300!important;text-decoration:none!important;font-weight:600;cursor:pointer}
+.s5-page .btn-d,.s5-page a.btn-d,.s5-page button.btn-d{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 15px;border:1px solid #f1c2bc;border-radius:9px;background:#fff0ee!important;color:#b42318!important;text-decoration:none!important;font-weight:600;cursor:pointer}
+
+/* Make the page-level create action unmistakable and consistent with SYSTEM 1/2/3/4/9 */
+.s5-page .pagehead>.btn-p{
+  min-height:46px;padding:11px 20px;border-radius:10px;font-size:14px;
+  box-shadow:0 3px 8px rgba(31,79,145,.20);align-self:flex-start;margin-top:2px;
+}
+
+.s5-page .panel{background:#fff;border:1px solid #dce5f0;border-radius:14px;padding:16px;margin:14px 0;box-shadow:0 1px 3px rgba(16,42,67,.04)}
+.s5-page .filter{gap:10px;align-items:end}
+.s5-page .field label{display:block;font-size:12px;font-weight:500;color:#344054;margin-bottom:6px}
+.s5-page .field input,.s5-page .field select,.s5-page .field textarea{
+  width:100%;box-sizing:border-box;min-height:44px;border:1px solid #c9d5e5;border-radius:9px;
+  padding:9px 11px;background:#fff;color:#101828;font-family:Kanit,Arial,sans-serif;font-size:14px;outline:none;
+}
+.s5-page .field input:focus,.s5-page .field select:focus,.s5-page .field textarea:focus{border-color:#4d79b7;box-shadow:0 0 0 3px rgba(31,79,145,.10)}
+.s5-page .advanced{border-top:1px dashed #d7e0ec}
+.s5-page .tablewrap,.s5-page .table-wrap{overflow:auto;border-radius:10px}
+.s5-page table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}
+.s5-page thead th{background:#f2f6fb;color:#294b73;font-weight:600;padding:12px 13px;border-bottom:1px solid #dbe4ef;white-space:nowrap}
+.s5-page tbody td{padding:12px 13px;border-bottom:1px solid #e8edf4;vertical-align:middle}
+.s5-page tbody tr:last-child td{border-bottom:0}
+.s5-page tbody tr:hover{background:#fbfdff}
+.s5-page td .btn-p,.s5-page td .btn-s,.s5-page td .btn-g,.s5-page td .btn-w,.s5-page td .btn-d{min-height:36px;padding:7px 12px;border-radius:8px;font-size:13px;box-shadow:none}
+
+@media(max-width:1100px){
+  .s5-page .pagehead{align-items:stretch;flex-wrap:wrap}
+  .s5-page .pagehead>.btn-p{margin-left:auto}
+}
+@media(max-width:760px){
+  .s5-page .pagehead h1{font-size:25px}
+  .s5-page .pagehead>.btn-p{width:100%;margin-left:0}
+}
+
+
+/* v170 — SYSTEM 5 full visual normalization */
+.content{background:#f3f6fb!important}
+.s5-page{max-width:none!important;width:100%!important;margin:0!important;padding:22px 28px 40px!important;box-sizing:border-box}
+.s5-page .crumb{margin:0 0 12px!important;color:#64748b!important;font-size:13px!important}
+.s5-page .pagehead{min-height:62px!important;margin:0 0 16px!important;align-items:center!important}
+.s5-page .pagehead h1{font-size:30px!important;line-height:1.22!important;letter-spacing:-.2px}
+.s5-page .sub{font-size:14px!important;color:#5e6b7d!important;max-width:1000px}
+.s5-page .panel{padding:18px!important;margin:14px 0!important;border-radius:14px!important;border-color:#d9e3ef!important;box-shadow:0 1px 2px rgba(16,42,67,.035)!important}
+.s5-page .grid2{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:16px 18px!important}
+.s5-page h3{font-size:17px!important;color:#173b6d!important;margin:18px 0 10px!important}
+.s5-page .check{display:flex!important;align-items:center!important;gap:9px!important;padding:11px 13px!important;margin:7px 0!important;background:#f8fafc!important;border:1px solid #dfe7f1!important;border-radius:10px!important;font-size:14px}
+.s5-page .check input{width:17px;height:17px;accent-color:#2459a6;flex:0 0 auto}
+.s5-page .flow{display:flex!important;align-items:center!important;gap:8px!important;min-height:58px!important;padding:12px 14px!important;background:#edf4ff!important;border:1px solid #d9e8fb!important;border-radius:11px!important}
+.s5-page .flow span{display:inline-flex!important;align-items:center!important;min-height:36px!important;padding:7px 12px!important;background:#fff!important;border:1px solid #d6e1ef!important;border-radius:8px!important;font-size:13px!important;color:#173b6d!important}
+.s5-page .actions{display:flex!important;justify-content:flex-end!important;align-items:center!important;gap:9px!important;margin-top:18px!important;padding-top:16px!important;border-top:1px solid #e6ecf3!important}
+.s5-page .filter{display:grid!important;grid-template-columns:150px 190px 170px minmax(300px,1fr) auto auto!important;gap:10px!important;align-items:end!important}
+.s5-page .filter>.btn{width:auto!important;min-width:86px!important}
+.s5-page .advanced.open{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important;padding:14px 0 0!important}
+.s5-page table{font-size:13.5px!important;table-layout:auto}
+.s5-page thead th{padding:12px 14px!important;background:#eef3fa!important;color:#254a75!important}
+.s5-page tbody td{padding:12px 14px!important;line-height:1.45!important}
+.s5-page tbody td small{font-size:12.5px!important;color:#475467!important}
+.s5-page .badge{white-space:nowrap}
+.s5-page .create-action{min-width:160px!important}
+.tor-coverage{display:inline-flex;align-items:center;gap:8px;background:#eaf7ef;border:1px solid #bde5ca;color:#167342;padding:8px 12px;border-radius:999px;font-size:13px;font-weight:600;margin:-6px 0 10px}
+.detail-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.summary-item{background:#f8fafc;border:1px solid #e0e7f0;border-radius:10px;padding:13px 14px}.summary-item span{display:block;color:#667085;font-size:12px;margin-bottom:5px}.summary-item b{display:block;color:#173b6d;font-size:14px;line-height:1.5}
+.system-explain{margin:14px 0 0;padding:12px 14px;background:#f0f7ff;border:1px solid #cfe2fa;border-radius:10px;color:#315982;font-size:13px;line-height:1.6}
+@media(max-width:1200px){.s5-page .filter{grid-template-columns:140px 170px 150px minmax(240px,1fr) auto auto!important}.detail-summary-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.s5-page{padding:18px!important}.s5-page .grid2,.s5-page .filter,.s5-page .advanced.open,.detail-summary-grid{grid-template-columns:1fr!important}.s5-page .filter>.btn{width:100%!important}.s5-page .actions{justify-content:stretch!important;flex-wrap:wrap}.s5-page .actions .btn{flex:1 1 auto}.s5-page .pagehead{align-items:flex-start!important}}

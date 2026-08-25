@@ -1,0 +1,9 @@
+/* System 2 Academic Processing r26 */
+.wizard,.reqbar{display:none!important}
+.status-strip{margin:0 0 16px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.status-box{min-height:54px;display:flex;align-items:center;justify-content:center;font-weight:600;text-align:center;padding:8px}
+.nav-parent .ico svg,.nav-parent .chev,.nav-group2 .g-chev{width:20px!important;height:20px!important;max-width:20px!important;max-height:20px!important;flex:0 0 20px!important}
+.sidebar svg{overflow:visible}.sidebar{scrollbar-gutter:stable}
+.alert{line-height:1.55}.head .sub{line-height:1.55}
+@media(max-width:1100px){.grid,.stats,.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.status-strip{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.grid,.stats,.kpi-grid{grid-template-columns:1fr!important}.content{padding-left:16px!important;padding-right:16px!important}.status-strip{grid-template-columns:1fr}}

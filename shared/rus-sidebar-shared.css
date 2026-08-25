@@ -1,0 +1,93 @@
+
+/* RUS Shared Sidebar v53 — authoritative menu layout for every system */
+:root{--rus-sidebar-w:300px;--rus-topbar-h:64px}
+.sidebar{
+  position:fixed!important;top:var(--rus-topbar-h)!important;bottom:0!important;left:0!important;
+  width:var(--rus-sidebar-w)!important;background:#fff!important;border-right:1px solid #dce4ef!important;
+  overflow-y:auto!important;overflow-x:hidden!important;padding:14px 8px 28px!important;z-index:55!important;
+  scrollbar-gutter:stable!important
+}
+.sidebar .nav-section{padding:0 4px!important}
+.sidebar .nav-section .label{font-size:11px!important;color:#8a95a8!important;font-weight:700!important;padding:12px 8px!important}
+#navSystems{width:100%!important}
+#navSystems .nav-parent{
+  display:flex!important;align-items:center!important;gap:10px!important;width:100%!important;min-width:0!important;
+  border:0!important;background:transparent!important;text-align:left!important;padding:10px 10px!important;
+  border-radius:9px!important;color:#42516a!important;font-family:inherit!important;cursor:pointer!important
+}
+#navSystems .nav-parent .ico{width:22px!important;min-width:22px!important;display:flex!important}
+#navSystems .nav-parent .ico svg{width:20px!important;height:20px!important}
+#navSystems .nav-parent .txt{flex:1!important;min-width:0!important;text-align:left!important;white-space:normal!important;overflow-wrap:anywhere!important;line-height:1.35!important}
+#navSystems .nav-parent .chev{width:16px!important;height:16px!important;flex:0 0 16px!important;transition:transform .18s ease!important}
+#navSystems .nav-parent.open .chev{transform:rotate(90deg)!important}
+#navSystems .nav-parent.open,#navSystems .nav-parent.current-sys{background:#eaf3ff!important;color:#123e78!important;font-weight:600!important}
+
+#navSystems .submenu{display:none!important;max-height:none!important;overflow:visible!important;background:#f4f7fc!important;padding:5px 4px 8px!important;border-radius:0 0 9px 9px!important}
+#navSystems .submenu.open{display:block!important}
+#navSystems .nav-group2{
+  position:relative!important;display:flex!important;align-items:flex-start!important;gap:7px!important;
+  width:100%!important;min-width:0!important;border:0!important;background:transparent!important;
+  text-align:left!important;padding:9px 8px!important;border-radius:7px!important;color:#284e7f!important;
+  font-family:inherit!important;font-size:12.5px!important;line-height:1.4!important;cursor:pointer!important
+}
+#navSystems .nav-group2 .g-cn{flex:1!important;min-width:0!important;white-space:normal!important;overflow-wrap:anywhere!important}
+#navSystems .nav-group2 .g-chev{width:16px!important;height:16px!important;flex:0 0 16px!important;margin-top:1px!important;transition:transform .18s ease!important}
+#navSystems .nav-group2.open .g-chev{transform:rotate(90deg)!important}
+#navSystems .nav-group2:hover{background:#eaf1fb!important}
+#navSystems .nav-group2.active-step{background:#fff!important;color:#173d75!important;font-weight:700!important;box-shadow:0 1px 5px rgba(30,60,90,.08)!important;border-left:3px solid #2458a6!important;padding-left:7px!important}
+
+#navSystems .subsub{display:none!important;padding:2px 0 4px 8px!important;margin:0!important}
+#navSystems .subsub.open{display:block!important}
+#navSystems .nav-leaf{
+  display:flex!important;align-items:flex-start!important;gap:8px!important;width:100%!important;min-width:0!important;
+  text-decoration:none!important;color:#31507e!important;font-family:inherit!important;font-size:12px!important;
+  line-height:1.4!important;padding:7px 8px 7px 12px!important;border-radius:7px!important;white-space:normal!important
+}
+#navSystems .nav-leaf .bullet{width:5px!important;height:5px!important;border-radius:50%!important;background:#9fb0c7!important;flex:0 0 5px!important;margin-top:6px!important}
+#navSystems .nav-leaf .cn{flex:1!important;min-width:0!important;overflow-wrap:anywhere!important}
+#navSystems .nav-leaf:hover{background:#edf3fb!important}
+#navSystems .nav-leaf.active{background:#fff!important;color:#173d75!important;font-weight:700!important;border-left:3px solid #2b62b0!important;padding-left:9px!important}
+#navSystems .nav-leaf.active .bullet{background:#2b62b0!important}
+
+@media(min-width:1051px){
+  body:has(.sidebar) .content{margin-left:var(--rus-sidebar-w)!important}
+}
+@media(max-width:1050px) and (min-width:761px){
+  :root{--rus-sidebar-w:270px}
+  body:has(.sidebar) .content{margin-left:var(--rus-sidebar-w)!important}
+}
+@media(max-width:760px){
+  .sidebar{display:none!important}
+  body:has(.sidebar) .content{margin-left:0!important}
+}
+
+
+/* v56: clarify Master ownership and keep System Status out of Master concept */
+#navSystems .nav-group2[data-master-role="shared"],
+#navSystems .nav-group2[data-master-role="system"]{font-weight:800!important}
+
+/* v117 SYSTEM 9 STEP 6: keep the two submenu labels on one line on desktop */
+@media(min-width:1051px){
+  #navSystems .nav-group2.active-step + .subsub .nav-leaf .cn,
+  #navSystems .subsub .nav-leaf .cn{white-space:nowrap!important;overflow-wrap:normal!important;word-break:normal!important;font-size:11.5px!important;}
+  #navSystems .nav-leaf{white-space:nowrap!important;gap:6px!important;padding-right:4px!important;}
+}
+
+
+/* v119 — hamburger works consistently: one click collapses/expands the shared sidebar */
+@media(min-width:981px){
+  .app.collapsed .sidebar{width:72px!important;padding-left:6px!important;padding-right:6px!important;overflow-x:hidden!important;}
+  .app.collapsed .content{margin-left:72px!important;}
+  .app.collapsed .sidebar .nav-section .label,
+  .app.collapsed .sidebar .nav-parent .txt,
+  .app.collapsed .sidebar .nav-parent .chev,
+  .app.collapsed #navSystems .submenu{display:none!important;}
+  .app.collapsed .sidebar .nav-parent{justify-content:center!important;padding-left:8px!important;padding-right:8px!important;}
+  .app.collapsed #navSystems .nav-parent .ico{margin:0!important;}
+}
+@media(max-width:980px){
+  .sidebar{display:block!important;transform:translateX(-105%)!important;width:300px!important;transition:transform .2s ease!important;box-shadow:0 8px 24px rgba(23,61,112,.18)!important;}
+  .app.mobile-open .sidebar{transform:translateX(0)!important;}
+  body:has(.sidebar) .content,.app.collapsed .content{margin-left:0!important;}
+  .app.collapsed .sidebar{width:300px!important;}
+}

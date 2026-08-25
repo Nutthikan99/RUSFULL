@@ -1,0 +1,49 @@
+/* SYSTEM 2 / STEP 1 — typography & controls normalization v64
+   Keeps Thai text consistent across anchors, native buttons and form controls. */
+body,
+.s2-wrap,
+.s2-wrap button,
+.s2-wrap input,
+.s2-wrap select,
+.s2-wrap textarea,
+.s2-wrap a,
+.s2-wrap .s2-btn,
+.s2-wrap .s2-kpi button {
+  font-family: "Kanit", "Leelawadee UI", Tahoma, Arial, sans-serif !important;
+}
+
+.s2-wrap button,
+.s2-wrap input,
+.s2-wrap select,
+.s2-wrap textarea {
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.s2-wrap .s2-btn {
+  font-size: 14px;
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.s2-wrap .s2-btn.sm {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.s2-wrap .s2-kpi button {
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.s2-wrap select,
+.s2-wrap input {
+  font-weight: 400;
+  color: #14233b;
+}
+
+.s2-wrap option {
+  font-family: "Kanit", "Leelawadee UI", Tahoma, Arial, sans-serif;
+}

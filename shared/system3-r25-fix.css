@@ -1,0 +1,7 @@
+/* System 2 Academic Processing r25 */
+.wizard,.reqbar{display:none!important}
+.status-strip{margin:0 0 16px}
+.status-box{min-height:58px;display:flex;align-items:center;justify-content:center;font-weight:600}
+.nav-parent .ico svg,.nav-parent .chev,.nav-group2 .g-chev{width:20px!important;height:20px!important;max-width:20px!important;max-height:20px!important;flex:0 0 20px!important}
+.sidebar svg{overflow:visible}
+@media(max-width:900px){.status-strip{grid-template-columns:repeat(2,1fr)}}
