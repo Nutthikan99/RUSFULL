@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>STEP 12 แจ้งผลคำร้อง — ระบบทะเบียนและประมวลผล มทร.สุวรรณภูมิ</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&amp;family=Saira+Condensed:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="../shared/rus-ui.css" rel="stylesheet"/>
+<link href="../shared/rus-ui-normalize.css" rel="stylesheet"/>
+<link href="../shared/rus-sidebar-shared.css" rel="stylesheet"/>
+<link href="../shared/system5.css" rel="stylesheet"/></head>
+<body>
+<div class="app" id="app">
+<!-- TOP BAR -->
+<header class="topbar">
+<button aria-label="ย่อ/ขยายเมนู" class="menu-toggle" id="menuToggle">
+<svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round"></path></svg>
+</button>
+<div class="brand">
+<div class="mark">RUS</div>
+<div class="titles">
+<div class="th">ระบบทะเบียนและประมวลผล</div>
+<div class="en">Registration System · มทร.สุวรรณภูมิ</div>
+</div>
+</div>
+<div class="spacer"></div>
+<div class="util">
+<button class="icon-btn" title="ค้นหา"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4-4"></path></svg></button>
+<button class="icon-btn" title="แจ้งเตือน"><span class="badge-dot"></span><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+<button class="user-chip">
+<div class="who"><div class="n">นายภักดี รัตนวิจิตรสกุล</div><div class="r">เจ้าหน้าที่ทะเบียน · สวท.</div></div>
+<div class="avatar">ภร</div>
+</button>
+<a class="logout-btn" href="../logout.html" title="ออกจากระบบ"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5M21 12H9"></path></svg><span>ออกจากระบบ</span></a>
+</div>
+</header>
+<!-- SIDEBAR (9 ระบบ) -->
+<aside class="sidebar" id="sidebar">
+<div class="nav-section">
+<div class="label">ภาพรวม</div>
+<button class="nav-parent" data-label="แดชบอร์ด">
+<span class="ico"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><rect height="9" rx="1" width="7" x="3" y="3"></rect><rect height="5" rx="1" width="7" x="14" y="3"></rect><rect height="9" rx="1" width="7" x="14" y="12"></rect><rect height="5" rx="1" width="7" x="3" y="16"></rect></svg></span>
+<span class="txt">แดชบอร์ด</span>
+</button>
+</div>
+<div class="nav-section">
+<div class="label">ระบบงาน (9 ระบบ)</div>
+<!-- เมนูถูกสร้างด้วย JS เพื่อความกระชับ -->
+<div id="navSystems"></div>
+</div>
+<div class="nav-section">
+<div class="label">ตั้งค่า</div>
+<button class="nav-parent" data-label="ผู้ใช้งานและสิทธิ์">
+<span class="ico"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="9" cy="8" r="3.5"></circle><path d="M2 21v-1a6 6 0 0 1 12 0v1M17 11l2 2 4-4"></path></svg></span>
+<span class="txt">ผู้ใช้งานและสิทธิ์</span>
+</button>
+<button class="nav-parent" data-label="ตั้งค่าระบบ">
+<span class="ico"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1A1.6 1.6 0 0 0 6.8 19l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1-2.7H3a2 2 0 0 1 0-4h.1A1.6 1.6 0 0 0 4.6 6.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"></path></svg></span>
+<span class="txt">ตั้งค่าระบบ</span>
+</button>
+</div>
+</aside>
+<div class="backdrop" id="backdrop"></div>
+<!-- CONTENT (ตัวอย่างแดชบอร์ด) -->
+<main class="content">
+<div class="crumb">หน้าแรก › คำร้องออนไลน์ › STEP 12 STEP 12 แจ้งผลคำร้อง › <b>STEP 12 แจ้งผลคำร้อง</b></div>
+<div class="page-head"><div><h1>STEP 12 แจ้งผลคำร้อง</h1><div class="sub">ประวัติคำร้องทั้งหมด ประวัติการอนุมัติ/แก้ไข Workflow และ Audit Log เพื่อตรวจสอบ Compliance</div></div></div>
+<div class="card"><div class="card-head"><div class="ct"><span class="dot"></span><h2>ประวัติคำร้องและกิจกรรม</h2></div><span class="meta" id="resultMeta">—</span></div>
+<div style="padding:16px 18px">
+<div class="toolbar"><div class="search"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4-4"></path></svg><input id="tableSearch" placeholder="ค้นหา"/></div><select id="statusFilter" style="padding:9px 12px;border:1.5px solid var(--border-strong);border-radius:8px;font-family:inherit;font-size:14px"><option value="">ทั้งหมด</option><option>เสร็จสิ้น</option><option>ไม่อนุมัติ</option><option>ยกเลิก</option></select></div>
+<div class="tbl-wrap"><table><thead><tr><th>เลขที่คำร้อง</th><th class="ctr">วันที่</th><th>นักศึกษา</th><th>ประเภท</th><th>ผลลัพธ์</th><th class="ctr">จัดการ</th></tr></thead><tbody id="tableBody"></tbody></table>
+<div class="empty" id="emptyState" style="display:none"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4-4"></path></svg><p>ไม่พบรายการที่ตรงกับเงื่อนไข</p></div>
+</div>
+</div></div>
+<section class="card" style="margin-top:18px"><div class="card-head"><h2>ช่องทางแจ้งผลคำร้อง</h2></div><div class="card-body"><div class="form-grid"><div class="info-banner"><b>Notification Center</b><br/>แจ้งสถานะและผลการพิจารณาภายในระบบแบบ Real-time</div><div class="info-banner"><b>Email</b><br/>ส่งผลการพิจารณาและลิงก์ดาวน์โหลดเอกสารไปยังอีเมลผู้ยื่น</div><div class="info-banner"><b>อัปเดตสถานะคำร้อง</b><br/>แสดงผลใน Timeline และหน้าติดตามสถานะทันที</div><div class="info-banner"><b>ดาวน์โหลดเอกสาร</b><br/>เปิดดาวน์โหลด PDF เมื่อกระบวนการเสร็จสมบูรณ์</div></div></div></section></main>
+</div>
+<script src="../shared/rus-faculty.js"></script>
+<script>window.ACTIVE_LEAF="STEP 12 แจ้งผลคำร้อง";</script>
+<script src="../shared/rus-nav.js"></script>
+<script src="../shared/rus-table.js"></script>
+<script>
+
+var DATA=[
+ {req:'RQ69-0510',date:'30 พ.ค. 69',sid:'1680101005',name:'นาย ชัยวัฒน์ มุ่งมั่น',type:'เปลี่ยนหลักสูตร',result:'อนุมัติ',st:'done'},
+ {req:'RQ69-0518',date:'1 มิ.ย. 69',sid:'1680101005',name:'นาย ชัยวัฒน์ มุ่งมั่น',type:'เปลี่ยนหลักสูตร',result:'ไม่อนุมัติ',st:'reject'},
+ {req:'RQ69-0505',date:'25 พ.ค. 69',sid:'1690402008',name:'นางสาว ศิริพร แจ่มใส',type:'ถอนรายวิชา',result:'ยกเลิกโดยนักศึกษา',st:'cancel'}
+];
+function apply(){var tb=document.getElementById('tableBody'),em=document.getElementById('emptyState'),mt=document.getElementById('resultMeta'),s=document.getElementById('tableSearch');if(!tb)return;var q=(s&&s.value||'').toLowerCase().trim();
+var v_statusFilter=(document.getElementById('statusFilter')||{}).value||'';
+tb.innerHTML=DATA.filter(function(c){return (!v_statusFilter||({done:'เสร็จสิ้น',reject:'ไม่อนุมัติ',cancel:'ยกเลิก'}[c.st])===v_statusFilter)&&(!q||(c.req+' '+c.sid+' '+c.name+' '+c.type).toLowerCase().indexOf(q)>=0);}).map(function(c){var m={done:['var(--ok-bg)','var(--ok)'],reject:['var(--error-bg)','var(--error)'],cancel:['#EEF0F4','var(--text-muted)']}[c.st];return '<tr><td><b>'+c.req+'</b></td><td class="ctr" style="font-size:12.5px">'+c.date+'</td><td style="font-size:13px">'+c.name+'</td><td>'+c.type+'</td><td><span class="status-pill" style="background:'+m[0]+';color:'+m[1]+'">'+c.result+'</span></td><td class="ctr"><a class="btn btn-ghost btn-sm" href="6120_detail.html">Audit Trail</a></td></tr>';}).join('');
+var n=tb.querySelectorAll('tr').length;if(em)em.style.display=n?'none':'block';if(mt)mt.textContent=n+' คำร้อง';}
+(function(){var s=document.getElementById('tableSearch');if(s)s.addEventListener('input',apply);var statusFilter=document.getElementById('statusFilter');if(statusFilter)statusFilter.addEventListener('change',apply);apply();})();
+</script>
+</body>
+</html>
