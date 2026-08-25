@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html lang="th"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>STEP 8 ติดตามผลและรายงาน — ระบบทะเบียนและประมวลผล มทร.สุวรรณภูมิ</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="../shared/system7.css" rel="stylesheet"/><link href="../shared/system7-v196.css" rel="stylesheet"/><link href="../shared/system7-v201-tabs.css" rel="stylesheet"/><link href="../shared/system7-v202.css" rel="stylesheet"/><link href="../shared/rus-ui-normalize.css" rel="stylesheet"/><link href="../shared/rus-sidebar-shared.css" rel="stylesheet"/><link href="../shared/system7-v203.css" rel="stylesheet"/><link href="../shared/system7-v209.css" rel="stylesheet"/><link href="../shared/system7-v210.css" rel="stylesheet"/></head><body><div class="app" id="app"><header class="topbar"><button aria-label="เมนู" class="menu-toggle" id="menuToggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></button><div class="brand"><div class="mark">RUS</div><div class="titles"><div class="th">ระบบทะเบียนและประมวลผล</div><div class="en">Registration System · มทร.สุวรรณภูมิ</div></div></div><div class="spacer"></div><div class="util"><button class="user-chip"><div class="who"><div class="n">นายภักดี รัตนวิจิตรสกุล</div><div class="r">เจ้าหน้าที่สหกิจศึกษา · SYSTEM 7</div></div><div class="avatar">ภร</div></button><a class="logout-btn" href="../logout.html">ออกจากระบบ</a></div></header><aside class="sidebar" id="sidebar"><div class="nav-section"><div class="label">ภาพรวม</div><button class="nav-parent" onclick="location.href='../main.html'"><span class="txt">แดชบอร์ด</span></button></div><div class="nav-section"><div class="label">ระบบงาน (9 ระบบ)</div><div id="navSystems"></div></div><div class="nav-section"><div class="label">ตั้งค่า</div><button class="nav-parent"><span class="txt">ผู้ใช้งานและสิทธิ์</span></button></div></aside><main class="content">
+<div class="s7-dash-wrap">
+<div class="crumb">หน้าแรก › สหกิจศึกษา › <b>STEP 8 ติดตามผลและรายงาน</b></div>
+<div class="page-head"><div><h1>STEP 8 ติดตามผลและรายงาน</h1><p>มุมมองผู้บริหารสำหรับติดตามนักศึกษาสหกิจ ตั้งแต่สมัคร จับคู่ ปฏิบัติงาน ประเมินผล จนถึงปิดสหกิจ</p></div></div>
+<div class="subnav"><a class="active" href="8080.html">แดชบอร์ดและรายงาน</a><a href="8082.html">ประวัติสหกิจศึกษา</a></div>
+
+<div class="s7-dash-filter">
+  <div class="field"><label>รอบสหกิจ</label><select id="dashRound"><option>2569/1</option><option>2568/2</option></select></div>
+  <div class="field"><label>คณะ</label><select id="dashFaculty"><option>ทุกคณะ</option><option>วิศวกรรมศาสตร์ฯ</option><option>วิทยาศาสตร์ฯ</option><option>บริหารธุรกิจฯ</option></select></div>
+  <div class="field"><label>สถานประกอบการ</label><select id="dashCompany"><option>ทุกสถานประกอบการ</option><option>Digital Solution</option><option>Smart Factory</option><option>Logistics Next</option></select></div>
+  <button class="btn btn-secondary" onclick="applyDashboardFilter()">แสดงผล</button>
+</div>
+
+<div class="s7-kpis">
+  <div class="s7-kpi-card"><div class="s7-kpi-top"><span class="s7-kpi-label">นักศึกษาในรอบ</span><span class="s7-kpi-icon">👥</span></div><div class="s7-kpi-value">428</div><div class="s7-kpi-meta">ผ่านคุณสมบัติ <b>396 คน</b></div></div>
+  <div class="s7-kpi-card teal"><div class="s7-kpi-top"><span class="s7-kpi-label">จับคู่สำเร็จ</span><span class="s7-kpi-icon">🤝</span></div><div class="s7-kpi-value">318</div><div class="s7-kpi-meta">คิดเป็น <b>74.3%</b> ของนักศึกษา</div></div>
+  <div class="s7-kpi-card purple"><div class="s7-kpi-top"><span class="s7-kpi-label">กำลังปฏิบัติงาน</span><span class="s7-kpi-icon">💼</span></div><div class="s7-kpi-value">187</div><div class="s7-kpi-meta">นิเทศแล้ว <b>143 คน</b></div></div>
+  <div class="s7-kpi-card warn"><div class="s7-kpi-top"><span class="s7-kpi-label">ต้องติดตาม</span><span class="s7-kpi-icon">!</span></div><div class="s7-kpi-value">24</div><div class="s7-kpi-meta">ประเมิน/เอกสารยังไม่ครบ</div></div>
+  <div class="s7-kpi-card good"><div class="s7-kpi-top"><span class="s7-kpi-label">ปิดสหกิจแล้ว</span><span class="s7-kpi-icon">✓</span></div><div class="s7-kpi-value">121</div><div class="s7-kpi-meta">ผ่าน <b>113 คน</b></div></div>
+</div>
+
+<div class="s7-dash-grid">
+  <section class="s7-dash-panel">
+    <div class="s7-panel-head"><div><h2>สถานะนักศึกษาตามกระบวนการ</h2><p>จำนวนผู้เรียนที่ผ่านแต่ละช่วงของ Workflow ในรอบ 2569/1</p></div><a class="link" href="8060.html">ดู Work Queue →</a></div>
+    <div class="s7-pipeline">
+      <div class="s7-pipeline-row"><span class="label">ผ่านคุณสมบัติ</span><div class="s7-track"><div class="s7-fill" style="width:92.5%"></div></div><b>396</b></div>
+      <div class="s7-pipeline-row"><span class="label">สัมภาษณ์แล้ว</span><div class="s7-track"><div class="s7-fill" style="width:72.2%"></div></div><b>309</b></div>
+      <div class="s7-pipeline-row"><span class="label">จับคู่สำเร็จ</span><div class="s7-track"><div class="s7-fill" style="width:74.3%"></div></div><b>318</b></div>
+      <div class="s7-pipeline-row"><span class="label">กำลังปฏิบัติงาน</span><div class="s7-track"><div class="s7-fill" style="width:43.7%"></div></div><b>187</b></div>
+      <div class="s7-pipeline-row"><span class="label">ปิดสหกิจแล้ว</span><div class="s7-track"><div class="s7-fill" style="width:28.3%"></div></div><b>121</b></div>
+    </div>
+  </section>
+  <section class="s7-dash-panel">
+    <div class="s7-panel-head"><div><h2>ผลสหกิจที่ปิดแล้ว</h2><p>สัดส่วนผลของนักศึกษาที่สรุปและปิดสหกิจแล้ว</p></div><a class="link" href="8071.html">ดูผลสหกิจ →</a></div>
+    <div class="s7-outcome">
+      <div class="s7-outcome-donut-wrap"><div class="s7-outcome-donut"></div><div class="s7-outcome-center"><b>93.4%</b><span>ผ่าน</span></div></div>
+      <div class="s7-legend">
+        <div class="s7-legend-row"><i class="s7-dot good"></i><span>ผ่าน</span><b>113</b></div>
+        <div class="s7-legend-row"><i class="s7-dot bad"></i><span>ไม่ผ่าน / ต้องแก้ไข</span><b>8</b></div>
+        <div class="s7-legend-row"><i class="s7-dot" style="background:#c8d4e4"></i><span>รวมปิดสหกิจ</span><b>121</b></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="s7-dash-grid">
+  <section class="s7-dash-panel">
+    <div class="s7-panel-head"><div><h2>แนวโน้มการจับคู่รายเดือน</h2><p>นักศึกษาที่ได้รับการยืนยันสถานประกอบการในรอบปัจจุบัน</p></div></div>
+    <div class="s7-trend-wrap">
+      <div class="s7-trend-col"><span class="val">28</span><div class="s7-trend-bar" style="height:25%"></div><small>ก.ย.</small></div>
+      <div class="s7-trend-col"><span class="val">46</span><div class="s7-trend-bar" style="height:42%"></div><small>ต.ค.</small></div>
+      <div class="s7-trend-col"><span class="val">79</span><div class="s7-trend-bar" style="height:72%"></div><small>พ.ย.</small></div>
+      <div class="s7-trend-col"><span class="val">88</span><div class="s7-trend-bar" style="height:80%"></div><small>ธ.ค.</small></div>
+      <div class="s7-trend-col"><span class="val">52</span><div class="s7-trend-bar" style="height:47%"></div><small>ม.ค.</small></div>
+      <div class="s7-trend-col"><span class="val">25</span><div class="s7-trend-bar" style="height:23%"></div><small>ก.พ.</small></div>
+    </div>
+  </section>
+  <section class="s7-dash-panel">
+    <div class="s7-panel-head"><div><h2>รายการที่ต้องติดตาม</h2><p>รายการค้างที่ควรดำเนินการก่อนสรุปผล</p></div></div>
+    <div class="s7-attention-list">
+      <div class="s7-attention"><div class="s7-attn-icon">9</div><div><b>สถานประกอบการยังไม่ประเมิน</b><span>6 สถานประกอบการ</span></div><a href="8070.html">เปิดคิว →</a></div>
+      <div class="s7-attention"><div class="s7-attn-icon">6</div><div><b>อาจารย์ที่ปรึกษายังไม่ประเมิน</b><span>นักศึกษา 6 คน</span></div><a href="8070.html">เปิดคิว →</a></div>
+      <div class="s7-attention"><div class="s7-attn-icon">9</div><div><b>Logbook / เอกสารยังไม่ครบ</b><span>ต้องติดตามก่อนประเมินผล</span></div><a href="8060.html">ดูนักศึกษา →</a></div>
+    </div>
+  </section>
+</div>
+
+<section class="s7-dash-panel">
+  <div class="s7-panel-head"><div><h2>สถานประกอบการและการรับนักศึกษา</h2><p>เปรียบเทียบจำนวนประกาศ จำนวนรับจริง และอัตราการจับคู่ของสถานประกอบการ</p></div><a class="link" href="8020.html">ดูสถานประกอบการทั้งหมด →</a></div>
+  <table class="s7-company-table"><thead><tr><th>สถานประกอบการ</th><th>ตำแหน่ง</th><th>จำนวนประกาศ</th><th>รับจริง</th><th>รับเพิ่ม</th><th>อัตรา Matching</th></tr></thead><tbody>
+    <tr><td><b>Digital Solution</b></td><td>3</td><td>7</td><td>9</td><td>+2</td><td class="s7-match">100%</td></tr>
+    <tr><td><b>Smart Factory</b></td><td>2</td><td>8</td><td>6</td><td>0</td><td class="s7-match">75%</td></tr>
+    <tr><td><b>Logistics Next</b></td><td>2</td><td>5</td><td>5</td><td>0</td><td class="s7-match">100%</td></tr>
+  </tbody></table>
+</section>
+
+<div class="s7-section-title"><h2>รายงานที่ใช้บ่อย</h2><a href="8081.html">ดูรายงานทั้งหมด →</a></div>
+<div class="s7-report-strip">
+  <a class="s7-report-tile" href="8081.html"><b>รายงานนักศึกษาสหกิจ</b><span>ติดตามสถานะตั้งแต่สมัคร จับคู่ ปฏิบัติงาน จนถึงปิดสหกิจ</span></a>
+  <a class="s7-report-tile" href="8081.html"><b>รายงานการคัดเลือกและจับคู่</b><span>ผลสัมภาษณ์ ผลคัดเลือก ตำแหน่ง และสถานประกอบการที่จับคู่</span></a>
+  <a class="s7-report-tile" href="8081.html"><b>รายงานผลการประเมิน</b><span>คะแนนสถานประกอบการ คะแนนอาจารย์ ผลรวม และผลสหกิจ</span></a>
+</div>
+</div>
+<script>function applyDashboardFilter(){toast('อัปเดต Dashboard ตามตัวกรองแล้ว')}</script>
+<script>window.ACTIVE_LEAF='แดชบอร์ดและรายงาน';</script>
+</main></div><div class="modal" id="modal"><div class="modal-box"><div class="modal-h"><b id="modalTitle">รายละเอียด</b><button class="x" onclick="closeModal()">×</button></div><div class="modal-b" id="modalBody"></div></div></div><script>window.ACTIVE_LEAF='Dashboard';</script><script src="../shared/rus-nav.js"></script><script src="../shared/system7.js"></script></body></html>
