@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ระบบทะเบียนและประมวลผล | ลงทะเบียนเรียน — มทร.สุวรรณภูมิ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Saira+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/rus-ui.css">
+<style>
+/* ===== เฉพาะหน้า reg-student (ลงทะเบียนฝั่งนักศึกษา) ===== */
+.topbar{position:sticky;top:0;z-index:50;padding:0 20px}
+
+/* SIDEBAR (เวอร์ชันเรียบง่าย + ยืดหด) */
+.shell{display:flex;min-height:calc(100vh - 60px)}
+.sidebar{width:248px;background:var(--surface);border-right:1px solid var(--border);flex-shrink:0;
+  position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto;overflow-x:hidden;padding:14px 0;
+  transition:width .22s cubic-bezier(.4,0,.2,1)}
+.nav-group{padding:6px 12px}
+.nav-group .label{font-size:11px;font-weight:600;color:var(--text-faint);letter-spacing:.6px;text-transform:uppercase;
+  padding:8px 12px 6px;white-space:nowrap;overflow:hidden;transition:opacity .15s}
+.nav-item{display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:8px;color:var(--text-muted);
+  font-size:14px;font-weight:500;transition:.13s;margin-bottom:1px;white-space:nowrap;position:relative}
+.nav-item svg{width:19px;height:19px;flex-shrink:0;opacity:.8}
+.nav-item .txt{overflow:hidden;transition:opacity .15s}
+.nav-item:hover{background:var(--rus-primary-50);color:var(--rus-primary)}
+.nav-item.active{background:var(--rus-primary-light);color:var(--rus-primary-dark);font-weight:600}
+.nav-item.active svg{opacity:1}
+.sidebar.collapsed{width:64px}
+.sidebar.collapsed .nav-group .label{opacity:0;height:0;padding:0;pointer-events:none}
+.sidebar.collapsed .nav-group{padding:6px 10px}
+.sidebar.collapsed .nav-item{justify-content:center;padding:11px 0}
+.sidebar.collapsed .nav-item .txt{opacity:0;width:0}
+.sidebar.collapsed .nav-item::after{content:attr(data-label);position:absolute;left:calc(100% + 10px);top:50%;
+  transform:translateY(-50%);background:var(--rus-primary-deep);color:#fff;font-size:12.5px;font-weight:500;
+  padding:6px 11px;border-radius:7px;white-space:nowrap;opacity:0;pointer-events:none;transition:.15s;z-index:60;box-shadow:var(--shadow)}
+.sidebar.collapsed .nav-item::before{content:"";position:absolute;left:calc(100% + 4px);top:50%;transform:translateY(-50%);
+  border:6px solid transparent;border-right-color:var(--rus-primary-deep);opacity:0;transition:.15s;z-index:60}
+.sidebar.collapsed .nav-item:hover::after,.sidebar.collapsed .nav-item:hover::before{opacity:1}
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+
+/* CONTEXT BAR (สีเหลือง แบบ Vision Net) */
+.context-bar{background:linear-gradient(180deg,#FEF6E0,#FCEFCB);border-bottom:2px solid var(--rus-accent);padding:12px 24px}
+.context-bar .row{display:flex;flex-wrap:wrap;gap:6px 26px;align-items:center}
+.ctx{font-size:13.5px;color:#5C4A1E}
+.ctx b{color:#3D3008;font-weight:600}
+.context-bar .reg-window{margin-top:8px;display:flex;flex-wrap:wrap;gap:8px 22px;font-size:13.5px}
+.reg-window .win{display:flex;align-items:center;gap:7px;color:#3D3008}
+.reg-window .win svg{width:16px;height:16px;color:var(--rus-accent-dark)}
+.reg-window .win b{font-weight:600}
+
+/* PAGE */
+.page{padding:20px 24px 40px;max-width:1180px;width:100%}
+
+/* STEPPER */
+.stepper{display:flex;gap:0;margin-bottom:20px;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:6px;box-shadow:var(--shadow-sm)}
+.step{flex:1;display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:7px;font-size:13.5px;color:var(--text-muted);font-weight:500}
+.step .num{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;font-weight:600;
+  background:var(--border);color:var(--text-muted);flex-shrink:0}
+.step.done .num{background:var(--ok);color:#fff}
+.step.active{background:var(--rus-primary-light);color:var(--rus-primary-dark);font-weight:600}
+.step.active .num{background:var(--rus-primary);color:#fff}
+.step .check{width:14px;height:14px}
+
+/* COURSE TABLE เฉพาะทาง */
+tbody tr.removing{opacity:.4;text-decoration:line-through}
+.course-code{font-weight:600;color:var(--rus-primary-dark);font-variant-numeric:tabular-nums}
+.course-name .th{font-weight:500}
+.course-name .en{font-size:12px;color:var(--text-faint)}
+.sec-pill{display:inline-block;min-width:34px;text-align:center;padding:2px 8px;border-radius:6px;background:var(--rus-primary-light);color:var(--rus-primary-dark);font-weight:600;font-size:12.5px;font-variant-numeric:tabular-nums}
+.tfoot-row{background:var(--rus-primary-deep)!important;color:#fff}
+.tfoot-row td{border:none;font-weight:600;font-size:14px}
+.tfoot-row .num{font-size:15px}
+.row-act{width:30px;height:30px;border-radius:7px;display:inline-grid;place-items:center;transition:.13s;color:var(--text-faint)}
+.row-act:hover{background:var(--error-bg);color:var(--error)}
+.row-act svg{width:17px;height:17px}
+
+/* COST PANEL */
+.split{display:grid;grid-template-columns:1fr 340px;gap:18px;align-items:start}
+@media(max-width:900px){.split{grid-template-columns:1fr}}
+.cost-list{padding:6px 0}
+.cost-row{display:flex;justify-content:space-between;align-items:center;padding:11px 18px;font-size:14px;border-bottom:1px solid #EEF1F5}
+.cost-row .lbl{color:var(--text-muted)}
+.cost-row .val{font-weight:600;font-variant-numeric:tabular-nums}
+.cost-total{display:flex;justify-content:space-between;align-items:center;padding:15px 18px;background:var(--rus-primary-50)}
+.cost-total .lbl{font-weight:600;color:var(--rus-primary-dark)}
+.cost-total .val{font-size:21px;font-weight:700;color:var(--rus-primary-dark);font-variant-numeric:tabular-nums}
+.cost-total .val small{font-size:13px;font-weight:500}
+.action-bar{display:flex;gap:11px;justify-content:flex-end;padding:16px 0 4px;flex-wrap:wrap}
+.hint{display:flex;gap:9px;align-items:flex-start;padding:12px 15px;background:var(--info-bg);border-radius:9px;font-size:13px;color:var(--rus-primary-dark);margin:0 18px 16px}
+.hint svg{width:17px;height:17px;flex-shrink:0;margin-top:1px}
+
+/* SUMMARY BOX (ใน modal) */
+.summary-box{background:var(--rus-primary-50);border-radius:9px;padding:13px 15px;margin-top:14px;font-size:13.5px}
+.summary-box .sr{display:flex;justify-content:space-between;padding:3px 0}
+.summary-box .sr b{color:var(--rus-primary-dark)}
+
+/* override: card margin เฉพาะหน้านี้ */
+.card{margin-bottom:18px}
+.card-body{padding:0}
+</style>
+<link rel="stylesheet" href="shared/rus-ui-normalize.css">
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()" title="ย่อ/ขยายเมนู" aria-label="ย่อ/ขยายเมนู">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round"/></svg>
+  </button>
+  <div class="brand">
+    <div class="mark">RUS</div>
+    <div class="titles">
+      <div class="th">ระบบทะเบียนและประมวลผล</div>
+      <div class="en">Registration System · มทร.สุวรรณภูมิ</div>
+    </div>
+  </div>
+  <div class="spacer"></div>
+  <div class="util">
+    <button class="icon-btn" title="แจ้งเตือน">
+      <span class="badge-dot"></span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="icon-btn" title="ช่วยเหลือ">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="user-chip">
+      <div class="who"><div class="n">น.ส. กานดา สนิทดี</div><div class="r">นักศึกษา · 467999201005</div></div>
+      <div class="avatar">กส</div>
+    </button>
+      <a class="logout-btn" href="logout.html" title="ออกจากระบบ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg><span>ออกจากระบบ</span></a>
+  </div>
+</header>
+
+<div class="shell">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="nav-group">
+      <div class="label">เมนูหลัก</div>
+      <a class="nav-item" data-label="หน้าแรก"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><span class="txt">หน้าแรก</span></a>
+      <a class="nav-item" data-label="ประวัติส่วนตัว"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg><span class="txt">ประวัติส่วนตัว</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="label">ลงทะเบียนเรียน</div>
+      <a class="nav-item active" data-label="ลงทะเบียน"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span class="txt">ลงทะเบียน</span></a>
+      <a class="nav-item" data-label="พิมพ์ใบ Pay-In"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l5 5v15a0 0 0 0 1 0 0H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg><span class="txt">พิมพ์ใบ Pay-In</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="label">ผลการศึกษา</div>
+      <a class="nav-item" data-label="ผลการเรียน / GPA"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-6"/></svg><span class="txt">ผลการเรียน / GPA</span></a>
+      <a class="nav-item" data-label="ตรวจสอบจบ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6 6 .5-4.5 4 1.5 6L12 15l-6 3.5 1.5-6L3 8.5 9 8z"/></svg><span class="txt">ตรวจสอบจบ</span></a>
+    </div>
+    <div class="nav-group">
+      <div class="label">การเงิน</div>
+      <a class="nav-item" data-label="รายการด้านการเงิน"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg><span class="txt">รายการด้านการเงิน</span></a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <!-- CONTEXT BAR -->
+    <div class="context-bar">
+      <div class="row">
+        <span class="ctx"><b>ภาคการศึกษา:</b> 2569/1</span>
+        <span class="ctx"><b>รหัสนักศึกษา:</b> 467999201005</span>
+        <span class="ctx"><b>ชื่อ-สกุล:</b> น.ส. กานดา สนิทดี</span>
+        <span class="ctx"><b>คณะ:</b> บริหารธุรกิจและเทคโนโลยีสารสนเทศ</span>
+        <span class="ctx"><b>ระดับ:</b> ปริญญาตรี ปกติ</span>
+        <span class="ctx"><b>ศูนย์:</b> พระนครศรีอยุธยา หันตรา</span>
+      </div>
+      <div class="reg-window">
+        <span class="win"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>กำหนดการลงทะเบียน: <b>11 พ.ย. 2569 – 25 พ.ย. 2569</b></span>
+        <span class="win"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>กำหนดการชำระเงิน: <b>11 พ.ย. 2569 – 26 พ.ย. 2569</b></span>
+        <span class="win"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>หน่วยกิตสูงสุดที่ลงได้: <b>22 หน่วยกิต</b></span>
+      </div>
+    </div>
+
+    <div class="page">
+      <div class="crumb">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        หน้าแรก <span>›</span> ลงทะเบียนเรียน <span>›</span> <b style="color:var(--text-muted)">ลงทะเบียน</b>
+      </div>
+      <div class="page-head">
+        <div>
+          <h1>ลงทะเบียนเรียน</h1>
+          <div class="sub">เลือกรายวิชาตามแผนการเรียน ตรวจสอบเงื่อนไข แล้วยืนยันการลงทะเบียน</div>
+        </div>
+        <button class="btn btn-ghost btn-sm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4-4"/></svg>
+          จองรายวิชาข้ามศูนย์
+        </button>
+      </div>
+
+      <!-- STEPPER -->
+      <div class="stepper">
+        <div class="step done"><span class="num"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>เลือกรายวิชา</div>
+        <div class="step active"><span class="num">2</span>ตรวจสอบ &amp; ยืนยัน</div>
+        <div class="step"><span class="num">3</span>พิมพ์ใบ Pay-In</div>
+        <div class="step"><span class="num">4</span>ชำระเงิน</div>
+      </div>
+
+      <div class="split">
+        <!-- LEFT: course table -->
+        <div>
+          <div class="card">
+            <div class="card-head">
+              <div class="ct"><span class="dot"></span><h2>รายวิชาที่เลือกลงทะเบียน</h2></div>
+              <span class="meta" id="courseCount">6 รายวิชา</span>
+            </div>
+            <div class="hint">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+              รายวิชาด้านล่างมาจากแผนการเรียนของท่าน หากไม่ต้องการลงรายวิชาใด ให้กดปุ่ม “นำออกจากแผนลงทะเบียน” ท้ายรายการ (ข้อมูลรายวิชาจะไม่ถูกลบ) จากนั้นกด “บันทึกการลงทะเบียน”
+            </div>
+            <div class="tbl-wrap">
+              <table id="courseTable">
+                <thead>
+                  <tr>
+                    <th class="num" style="width:42px">#</th>
+                    <th>รหัสวิชา</th>
+                    <th>ชื่อวิชา</th>
+                    <th class="ctr" style="width:62px">น(ท-ป-อ)</th>
+                    <th class="ctr" style="width:60px">Sec.</th>
+                    <th class="ctr" style="width:90px">นำออก</th>
+                  </tr>
+                </thead>
+                <tbody id="courseBody"></tbody>
+                <tfoot>
+                  <tr class="tfoot-row">
+                    <td colspan="3">รวมหน่วยกิตที่ลงทะเบียน</td>
+                    <td class="num" id="totalCredits">18</td>
+                    <td colspan="2"></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: cost + status -->
+        <div>
+          <div class="card">
+            <div class="card-head"><div class="ct"><span class="dot" style="background:var(--rus-accent)"></span><h2>สรุปค่าใช้จ่าย</h2></div></div>
+            <div class="cost-list">
+              <div class="cost-row"><span class="lbl">ค่าบำรุงการศึกษา (เหมาจ่าย)</span><span class="val">8,000.00</span></div>
+              <div class="cost-row"><span class="lbl">ค่าธรรมเนียมพิเศษ</span><span class="val">0.00</span></div>
+            </div>
+            <div class="cost-total"><span class="lbl">รวมทั้งสิ้น</span><span class="val">8,000.00 <small>บาท</small></span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><div class="ct"><span class="dot" style="background:var(--warn)"></span><h2>สถานะการลงทะเบียน</h2></div></div>
+            <div style="padding:16px 18px">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                <span class="badge warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>รอยืนยันการลงทะเบียน</span>
+              </div>
+              <p style="font-size:13px;color:var(--text-muted);line-height:1.6">เมื่อบันทึกแล้ว ระบบจะส่งให้อาจารย์ที่ปรึกษาอนุมัติ จึงจะสามารถพิมพ์ใบ Pay-In เพื่อชำระเงินได้</p>
+            </div>
+          </div>
+
+          <div class="action-bar">
+            <button class="btn btn-ghost" onclick="resetPlan()">รีเซ็ต</button>
+            <button class="btn btn-primary" onclick="openConfirm()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
+              บันทึกการลงทะเบียน
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="overlay" id="confirmModal">
+  <div class="modal">
+    <div class="m-top">
+      <div class="m-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+      <h3>ยืนยันการลงทะเบียน</h3>
+      <p>กรุณาตรวจสอบรายการก่อนยืนยัน เมื่อยืนยันแล้วระบบจะส่งให้อาจารย์ที่ปรึกษาอนุมัติ</p>
+    </div>
+    <div class="m-body">
+      <div class="summary-box">
+        <div class="sr"><span>จำนวนรายวิชา</span><b id="sumCourses">6 วิชา</b></div>
+        <div class="sr"><span>รวมหน่วยกิต</span><b id="sumCredits">18 หน่วยกิต</b></div>
+        <div class="sr"><span>ยอดชำระ</span><b>8,000.00 บาท</b></div>
+      </div>
+    </div>
+    <div class="m-actions">
+      <button class="btn btn-ghost" onclick="closeConfirm()">ยกเลิก</button>
+      <button class="btn btn-primary" onclick="doConfirm()">ยืนยันการลงทะเบียน</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+  <span id="toastMsg">บันทึกการลงทะเบียนเรียบร้อยแล้ว</span>
+</div>
+
+<script>
+// ---- Sidebar collapse ----
+let sidebarCollapsed=false;
+function toggleSidebar(){
+  sidebarCollapsed=!sidebarCollapsed;
+  document.getElementById('sidebar').classList.toggle('collapsed',sidebarCollapsed);
+}
+// หดอัตโนมัติบนจอแคบ
+function autoCollapse(){
+  if(window.innerWidth<860 && !sidebarCollapsed){
+    sidebarCollapsed=true;
+    document.getElementById('sidebar').classList.add('collapsed');
+  }
+}
+window.addEventListener('resize',autoCollapse);
+autoCollapse();
+
+const courses=[
+ {code:"302-21-05",th:"การเงินธุรกิจ",en:"Business Finance",cr:"3 (3-0-6)",credit:3,sec:"111"},
+ {code:"303-31-06",th:"การวิเคราะห์เชิงปริมาณทางธุรกิจ",en:"Quantitative Analysis in Business",cr:"3 (3-0-6)",credit:3,sec:"442"},
+ {code:"306-12-01",th:"การประยุกต์ใช้คณิตศาสตร์สำหรับสารสนเทศ",en:"Mathematical Applications for Information",cr:"3 (3-0-6)",credit:3,sec:"338"},
+ {code:"400-11-02",th:"กระบวนการคิดทางคณิตศาสตร์",en:"Mathematical Process",cr:"3 (3-0-6)",credit:3,sec:"432"},
+ {code:"602-12-02",th:"มหัศจรรย์แห่งความคิด",en:"Miracle of Thinking",cr:"3 (3-0-6)",credit:3,sec:"444"},
+ {code:"603-12-01",th:"ภาษาอังกฤษในชีวิตประจำวัน",en:"Everyday English",cr:"3 (3-0-6)",credit:3,sec:"222"},
+];
+let state=courses.map(c=>({...c,removed:false}));
+
+function render(){
+  const body=document.getElementById('courseBody');
+  body.innerHTML='';
+  let n=0,total=0;
+  state.forEach((c,i)=>{
+    if(c.removed)return;
+    n++;total+=c.credit;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td class="num">${n}</td>
+      <td><span class="course-code">${c.code}</span></td>
+      <td class="course-name"><div class="th">${c.th}</div><div class="en">${c.en}</div></td>
+      <td class="ctr">${c.cr}</td>
+      <td class="ctr"><span class="sec-pill">${c.sec}</span></td>
+      <td class="ctr"><button class="row-act" title="นำออกจากแผนลงทะเบียน (ไม่ลบ Master รายวิชา)" onclick="removeCourse(${i})">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6"/></svg>
+      </button></td>`;
+    body.appendChild(tr);
+  });
+  if(n===0){
+    body.innerHTML=`<tr><td colspan="6"><div class="empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8"/></svg>
+      <p>ยังไม่มีรายวิชา — กด “จองรายวิชาข้ามศูนย์” เพื่อเพิ่มรายวิชา</p></div></td></tr>`;
+  }
+  document.getElementById('totalCredits').textContent=total;
+  document.getElementById('courseCount').textContent=n+' รายวิชา';
+  document.getElementById('sumCourses').textContent=n+' วิชา';
+  document.getElementById('sumCredits').textContent=total+' หน่วยกิต';
+}
+function removeCourse(i){
+  if(!confirm("ยืนยันนำรายวิชานี้ออกจากแผนลงทะเบียนใช่หรือไม่\nข้อมูล Master รายวิชาจะไม่ถูกลบ")) return;
+  const rows=document.querySelectorAll('#courseBody tr');
+  state[i].removed=true;
+  render();
+}
+function resetPlan(){state=courses.map(c=>({...c,removed:false}));render();}
+function openConfirm(){document.getElementById('confirmModal').classList.add('show');}
+function closeConfirm(){document.getElementById('confirmModal').classList.remove('show');}
+function doConfirm(){
+  closeConfirm();
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+document.getElementById('confirmModal').addEventListener('click',e=>{if(e.target.id==='confirmModal')closeConfirm();});
+render();
+</script>
+<script src="shared/rus-table.js"></script>
+</body>
+</html>
